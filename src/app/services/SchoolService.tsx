@@ -9,7 +9,7 @@ async function uploadResults(id: number, file: File) {
   const formData = new FormData();
   formData.append("File", file);
   const response = await fetch(
-    `${config.apiUrl}/School/UploadResults/${id}`,
+    `${config.apiUrl}/Result/UploadResultRecords/${id}`,
     requestOptions.postForm(formData)
   );
 
@@ -20,7 +20,7 @@ async function uploadResults(id: number, file: File) {
 
 async function downloadTemplate() {
   const response = await fetch(
-    `${config.apiUrl}/School/DownloadResultTemplate`,
+    `${config.apiUrl}/Result/DownloadResultTemplate`,
     requestOptions.get()
   );
 
@@ -31,7 +31,7 @@ async function downloadTemplate() {
 
 async function dispatchFetchResults(schoolId: number) {
   const response = await fetch(
-    `${config.apiUrl}/School/ResultRecords?SchoolId=${schoolId}`,
+    `${config.apiUrl}/Result/All/${schoolId}`,
     requestOptions.get()
   );
   console.log('test-response', response);
@@ -41,7 +41,7 @@ async function dispatchFetchResults(schoolId: number) {
 
 async function dispatchFetchResult(id: number) {
   const response = await fetch(
-    `${config.apiUrl}/School/ResultRecord/${id}`,
+    `${config.apiUrl}/Result/${id}`,
     requestOptions.get()
   );
   const model = await handleResponse(response);

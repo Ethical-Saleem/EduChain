@@ -10,7 +10,7 @@ const currentUserSubject = new BehaviorSubject(currentUser ? JSON.parse(currentU
 
 async function login(email: string, password: string): Promise<any> {
   const response = await fetch(
-    `${config.apiUrl}/account/token`,
+    `${config.apiUrl}/auth/login`,
     requestOptions.post({ email, password })
   );
   const model = await handleResponse(response);

@@ -215,8 +215,8 @@ const Results = () => {
       SchoolService.uploadResults(currentUser.schoolId, file).then(
         (res) => {
           console.log(res);
-          if (res.ids.length > 0) {
-            toast.success(`${res.ids.length} records uploaded successfully`, {
+          if (res.data.length > 0) {
+            toast.success(`${res.data.length} records uploaded successfully`, {
               position: "top-right",
             });
             fetchRecords(currentUser?.schoolId);
