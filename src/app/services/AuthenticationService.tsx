@@ -37,13 +37,24 @@ async function register(input: Demo.NewSchool) {
     }
   });
   const response = await fetch(
-    `${config.apiUrl}/school/AddSchool`,
+    `${config.apiUrl}/School`,
     requestOptions.postForm(formData)
-  );
+  ); 
 
   const model = await handleResponse(response);
 
   return model
+}
+
+async function registerUser(input: Demo.NewUser) {
+  const response = await fetch(
+    `${config.apiUrl}/Users`,
+    requestOptions.post(input)
+  )
+
+  const model = await handleResponse(response);
+
+  return model;
 }
 
 async function logout() {
@@ -55,6 +66,7 @@ export const AuthenticationService = {
   login,
   logout,
   register,
+  registerUser,
   currentUser: currentUserSubject.asObservable(),
   get currentUserValue() {
     return currentUserSubject.value;

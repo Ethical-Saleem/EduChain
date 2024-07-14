@@ -128,7 +128,6 @@ declare namespace Demo {
 
   type NewSchool = {
     Name?: string;
-    Description?: string;
     Address?: string;
     City?: string;
     Region?: string;
@@ -139,8 +138,7 @@ declare namespace Demo {
     Email?: string;
     DateFounded: Date | null | undefined;
     SchoolType?: number;
-    SchoolLogo?: File | null;
-    Password?: string;
+    LogoUrl?: File | null;
     [key: string]: string | number | null | undefined | Date | File
   };
 
@@ -163,10 +161,23 @@ declare namespace Demo {
   }
 
   interface User {
+    id: number;
     name: string | null | undefined;
     schoolId: number;
     email: string | null | undefined;
     telephone: string | null | undefined;
+    hasVerifiedEmail: boolean;
+    userId: string;
+    [key: string]: string | number | null | undefined
+  }
+
+  type NewUser = {
+    name: string;
+    email: string;
+    telephone: string;
+    password: string;
+    schoolId: number;
+    [key: string]: string | number
   }
 
   type Result = {
