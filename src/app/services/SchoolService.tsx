@@ -68,7 +68,7 @@ async function dispatchRemoveRecord(id: number) {
 
 async function dispatchFetchStudentResultRecord(studentNo: string, year: string) {
   const response = await fetch(
-    `${config.apiUrl}/Result/ResultRecordByStudent?StudentNumber=${studentNo}&Year=${year}`,
+    `${config.apiUrl}/Result/ResultRecordByStudent?studentNumber=${studentNo}&year=${year}`,
     await requestOptions.get()
   );
   const model = await handleResponse(response);
