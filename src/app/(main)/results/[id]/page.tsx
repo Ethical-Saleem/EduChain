@@ -160,7 +160,7 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
   return (
     <div className="grid">
       <div className="col-12">
-        <div className="card">
+        <div className="card bg-gray-200 text-gray-700">
           <ToastContainer />
           {fetching ? (
             <ProgressBar
