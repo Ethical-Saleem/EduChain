@@ -4,6 +4,6 @@ import { getCookie } from 'cookies-next'
 import { useEffect } from 'react'
 
 
-export function PrivateOutlet({ children }) {
+export function PrivateOutlet() {
   
 }
