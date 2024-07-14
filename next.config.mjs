@@ -10,6 +10,15 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/login',
+        permanent: true, // This makes the redirect permanent (HTTP 301). Use 'false' for a temporary redirect (HTTP 302).
+      },
+    ];
+  },
 };
 
 export default nextConfig;

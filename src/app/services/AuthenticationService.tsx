@@ -51,7 +51,7 @@ async function register(input: Demo.NewSchool) {
 
 async function registerUser(input: Demo.NewUser) {
   const response = await fetch(
-    `${config.apiUrl}/Users`,
+    `${config.apiUrl}/User`,
     await requestOptions.post(input)
   )
 

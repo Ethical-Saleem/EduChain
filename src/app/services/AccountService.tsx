@@ -3,10 +3,20 @@ import requestOptions from "../helpers/RequestOptions";
 import handleResponse from "../helpers/HandleResponses";
 import { request } from "http";
 
+async function fetchUsers(schoolId: number | undefined) {
+  const response = await fetch(
+    `${config.apiUrl}/User/All/${schoolId}`,
+    requestOptions.get()
+  )
+
+  const model = await handleResponse(response);
+  return model;
+}
+
 async function fetchRoles(schoolId: number) {
   const response = await fetch(
     `${config.apiUrl}/Account/GetRoles?Id=${schoolId}`,
-    await requestOptions.get()
+    requestOptions.get()
   );
   const model = await handleResponse(response);
   return model;
@@ -15,7 +25,7 @@ async function fetchRoles(schoolId: number) {
 async function addRole(schoolId: number, role: string) {
   const response = await fetch(
     `${config.apiUrl}/Account/AddRole/${schoolId}?roleName=${role}`,
-    await requestOptions.post({})
+    requestOptions.post({})
   );
   const model = await handleResponse(response);
   return model;
@@ -24,7 +34,7 @@ async function addRole(schoolId: number, role: string) {
 async function addUserToRole(schoolId: number, userId: string, role: string) {
   const response = await fetch(
     `${config.apiUrl}/Account/AddUserToRole/${schoolId}?userId=${userId}&roleName=${role}`,
-    await requestOptions.post({})
+    requestOptions.post({})
   );
   const model = await handleResponse(response);
   return model;
@@ -33,13 +43,14 @@ async function addUserToRole(schoolId: number, userId: string, role: string) {
 async function removeFromRole(schoolId: number, user: string, role: string) {
   const response = await fetch(
     `${config.apiUrl}/Account/RemoveFromRole/${schoolId}?email=${user}&roleName=${role}`,
-    await requestOptions.post({})
+    requestOptions.post({})
   );
   const model = await handleResponse(response);
   return model;
 }
 
 export const AccountService = {
+  fetchUsers,
   fetchRoles,
   addRole,
   addUserToRole,
