@@ -6,7 +6,7 @@ export default function NavLogo() {
     <div
       className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
     >
-      <GlobeAltIcon className="h-2 w-2 lg:h-3 lg:w-3 rotate-[15deg]" />
+      <GlobeAltIcon className="h-4 w-4 lg:h-6 lg:w-6 rotate-[15deg]" />
       <p className="text-[16px]">EduChain</p>
     </div>
   );
