@@ -48,6 +48,7 @@ const UserSetting = () => {
   }
   const closeDialog = () => {
     setCreateModal(false)
+    console.log(createModal)
   }
 
   const dispatchFetchUsers = (id: number | undefined) => {
