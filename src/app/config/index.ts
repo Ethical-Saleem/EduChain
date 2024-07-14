@@ -1,4 +1,4 @@
 export const config = {
-    apiUrl: process.env.DATABASE_URL,
+    apiUrl: "https://edu-chain-services.onrender.com",
     // apiUrl: "http://localhost:3000"
 }
