@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, Suspense } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { TabMenu } from "primereact/tabmenu";
 
@@ -49,7 +49,7 @@ const Settings = ({ children }: { children: React.ReactNode}) => {
             </div>
             <div className="col-12 md:col-9">
                 <div className="card">
-                        <>{children}</>
+                    <Suspense>{children}</Suspense>
                 </div>
             </div>
         </div>

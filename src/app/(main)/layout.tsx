@@ -1,7 +1,16 @@
-import Layout from '../../../layout/layout';
+import Layout from "../../../layout/layout";
+import React, { Suspense } from "react";
 
-export default function MainLayout({ children }: { children: React.ReactNode }) {
-  return <Layout>{children}</Layout>
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <Suspense>
+      <Layout>{children}</Layout>
+    </Suspense>
+  );
   // return (
   //   <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
   //     <div className="w-full flex-none md:w-64">
