@@ -60,6 +60,8 @@ const ResultCheckPage = () => {
 
     const yearString = convertToISO(year);
 
+    console.log('', studentNo, yearString);
+
     try {
       const result = await SchoolService.dispatchFetchStudentResultRecord(
         studentNo,
