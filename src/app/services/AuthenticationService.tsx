@@ -41,7 +41,7 @@ async function register(input: Demo.NewSchool) {
   });
   const response = await fetch(
     `${config.apiUrl}/School`,
-    await requestOptions.postForm(formData)
+    requestOptions.postForm(formData)
   ); 
 
   const model = await handleResponse(response);
@@ -52,7 +52,7 @@ async function register(input: Demo.NewSchool) {
 async function registerUser(input: Demo.NewUser) {
   const response = await fetch(
     `${config.apiUrl}/User`,
-    await requestOptions.post(input)
+    requestOptions.post(input)
   )
 
   const model = await handleResponse(response);
