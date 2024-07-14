@@ -10,7 +10,7 @@ const handleSignout = () => {
   deleteCookie("isAuthorized");
 };
 
-export function handleErrorResponse(response) {
+export function handleErrorResponse(response: any) {
   console.log('response', response)
   // return response.text().then(text => {
   // const data = text && JSON.parse(text);
