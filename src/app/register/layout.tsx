@@ -1,5 +1,5 @@
 import { inter } from "@/app/ui/fonts";
-import "@/app/ui/global.css"
+import "@/app/ui/global.css";
 
 export default function RootLayout({
   children,
@@ -7,8 +7,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} antialiased overflow-x-hidden md:overflow-y-hidden`}>{children}</body>
-    </html>
+    <main className={`${inter.className} antialiased h-full`}>{children}</main>
   );
 }

@@ -70,7 +70,7 @@ const LoginPage = () => {
       </div>
       <div className="container bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-lg flex flex-col md:flex-row">
         <div className="form-container sign-in-container py-8 px-4 p-md-8 w-full">
-          <form className="flex flex-col items-center">
+          <form onSubmit={login} className="flex flex-col items-center">
             <h1 className="text-2xl font-bold mb-4">Sign in</h1>
             <div className="social-container flex space-x-4 mb-4">
               <a href="#" className="social bg-gray-200 rounded-full p-2">
