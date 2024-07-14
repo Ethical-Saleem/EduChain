@@ -24,6 +24,7 @@ import {
     AppMenuItem
 } from './layout';
 import { Demo, LayoutType, SortOrderType, CustomEvent, ChartDataState, ChartOptionsState, AppMailSidebarItem, AppMailReplyProps, AppMailProps } from './demo';
+import { Session } from 'next-auth';
 
 type ChildContainerProps = {
     children: ReactNode;
@@ -50,6 +51,7 @@ export type {
     AppMenuItemProps,
     ChildContainerProps,
     Demo,
+    Session,
     LayoutType,
     SortOrderType,
     CustomEvent,

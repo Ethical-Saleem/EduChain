@@ -3,6 +3,7 @@ import { EventApi, EventInput } from "@fullcalendar/core";
 
 /* Chart.js Types */
 import { ChartData, ChartOptions } from "chart.js";
+import { StaticImport } from "next/dist/shared/lib/get-img-props";
 
 type InventoryStatus = "INSTOCK" | "LOWSTOCK" | "OUTOFSTOCK";
 
@@ -122,23 +123,23 @@ declare namespace Demo {
     email?: string;
     dateFounded: Date | null;
     schoolType?: number;
-    schoolLogo?: File | null;
-    [key: string]: string | number | null | Date | File
+    logoUrl?: string | StaticImport;
+    [key: string]: string | number | null | Date | StaticImport
   };
 
   type NewSchool = {
-    Name?: string;
-    Address?: string;
-    City?: string;
-    Region?: string;
-    PostalCode?: string;
-    ContactName?: string;
-    Country?: string;
-    Telephone?: string;
-    Email?: string;
-    DateFounded: Date | null | undefined;
-    SchoolType?: number;
-    LogoUrl?: File | null;
+    name?: string;
+    address?: string;
+    city?: string;
+    region?: string;
+    postalCode?: string;
+    contactName?: string;
+    country?: string;
+    telephone?: string;
+    email?: string;
+    dateFounded: Date | null | undefined;
+    // SchoolType?: number;
+    logoUrl?: File | null;
     [key: string]: string | number | null | undefined | Date | File
   };
 

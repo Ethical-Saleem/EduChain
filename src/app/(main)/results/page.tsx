@@ -26,6 +26,7 @@ import { lusitana } from "@/app/ui/fonts";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
+import { getCookie } from "@/app/utils/cookies";
 
 const Results = () => {
   const toastPrime = useRef<Toast>(null);
@@ -40,17 +41,20 @@ const Results = () => {
   const [uploading, setUploading] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const dt = useRef<DataTable<any>>(null);
-  const [currentUser, setCurrentUser] = useState({} as Demo.User);
+  const [currentUser, setCurrentUser] = useState<Demo.TokenModel | null>(null);
 
   useEffect(() => {
-    const user = AuthenticationService.currentUserValue?.user;
-    setCurrentUser(user);
+    const user = getCookie("currentUser");
     if (user) {
-      fetchRecords(user?.schoolId);
+      const parsedUser = JSON.parse(user);
+      if (parsedUser) {
+        setCurrentUser(parsedUser);
+        fetchRecords(parsedUser?.school.id);
+      }
     }
   }, []);
 
-  const fetchRecords = (id: number) => {
+  const fetchRecords = (id: number | undefined) => {
     setLoading(true);
     SchoolService.dispatchFetchResults(id).then(
       (data) => {
@@ -101,7 +105,7 @@ const Results = () => {
         toast.success(
           `Result record for ${resultRecord.studentNumber} deleted successfully`
         );
-        fetchRecords(currentUser?.schoolId);
+        fetchRecords(currentUser?.school.id);
         setDeleteDialog(false);
       }
     } catch (error) {
@@ -212,14 +216,14 @@ const Results = () => {
       const file = event.files[0];
       console.log("file", file);
 
-      SchoolService.uploadResults(currentUser.schoolId, file).then(
+      SchoolService.uploadResults(currentUser?.school.id, file).then(
         (res) => {
           console.log(res);
           if (res.data.length > 0) {
             toast.success(`${res.data.length} records uploaded successfully`, {
               position: "top-right",
             });
-            fetchRecords(currentUser?.schoolId);
+            fetchRecords(currentUser?.school.id);
             closeImportDialog();
             onTemplateClear();
           } else {
@@ -430,7 +434,7 @@ const Results = () => {
   return (
     <div className="grid">
       <div className="col-12">
-        <div className="card">
+        <div className="card bg-gray-200 text-gray-700">
           <Toast />
           <ToastContainer />
           <Toolbar className="mb-4" end={rightToolbarTemplate} />

@@ -15,7 +15,7 @@ const AppMenu = () => {
 
   const logout = async () => {
     await AuthenticationService.logout();
-    router.push("/");
+    router.push("/login");
   };
 
   const model: AppMenuItem[] = [

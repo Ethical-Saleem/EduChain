@@ -1,21 +1,24 @@
+import { setCookie, getCookie, removeCookie } from "../utils/cookies";
 import { BehaviorSubject } from "rxjs";
+import Cookies from "js-cookie";
 import { config } from "../config";
 import requestOptions from "../helpers/RequestOptions";
 import handleResponse from "../helpers/HandleResponses";
 
 import { Demo } from "../../../types";
 
-const currentUser = localStorage.getItem("currentUser");
-const currentUserSubject = new BehaviorSubject(currentUser ? JSON.parse(currentUser) : '');
+const getCurrentUser = () => {
+    const user = Cookies.get("currentUser");
+    return user ? JSON.parse(user) : null;
+};
+const currentUserSubject = new BehaviorSubject<Demo.TokenModel | null>(getCurrentUser());
 
 async function login(email: string, password: string): Promise<any> {
-  const response = await fetch(
-    `${config.apiUrl}/auth/login`,
-    requestOptions.post({ email, password })
-  );
+  const response = await fetch(`${config.apiUrl}/auth/login`, requestOptions.post({ email, password}));
+
   const model = await handleResponse(response);
 
-  localStorage.setItem("currentUser", JSON.stringify(model));
+  Cookies.set("currentUser", JSON.stringify(model));
   currentUserSubject.next(model);
 
   return model;
@@ -38,7 +41,7 @@ async function register(input: Demo.NewSchool) {
   });
   const response = await fetch(
     `${config.apiUrl}/School`,
-    requestOptions.postForm(formData)
+    await requestOptions.postForm(formData)
   ); 
 
   const model = await handleResponse(response);
@@ -49,7 +52,7 @@ async function register(input: Demo.NewSchool) {
 async function registerUser(input: Demo.NewUser) {
   const response = await fetch(
     `${config.apiUrl}/Users`,
-    requestOptions.post(input)
+    await requestOptions.post(input)
   )
 
   const model = await handleResponse(response);
@@ -58,7 +61,7 @@ async function registerUser(input: Demo.NewUser) {
 }
 
 async function logout() {
-  localStorage.removeItem("currentUser");
+  Cookies.remove("currentUser");
   currentUserSubject.next(null);
 }
 

@@ -46,7 +46,7 @@ const ResultCheckPage = () => {
       throw new Error("Invalid Date");
     }
 
-    return date.toLocaleDateString();
+    return date.toISOString();
   };
 
   const formatYear = (date: Date) => {
@@ -85,6 +85,16 @@ const ResultCheckPage = () => {
     );
   };
 
+  const ResultDialogHeader = () => {
+    return (
+      <div className="py-2 px-4 bg-gray-200">
+        <h6 className="text-gray-800">
+          {record ? `${record.surname} ${record.otherNames}` : "Result Record"}
+        </h6>
+      </div>
+    );
+  };
+
   const ErrorDialogFooter = () => {
     return (
       <>
@@ -99,36 +109,44 @@ const ResultCheckPage = () => {
     );
   };
 
+  const dialogStyle = {
+    backgroundImage: `linear-gradient(rgba(6, 26, 43, 0.7), rgba(6, 26, 43, 0.7)), url(${record?.school?.logoUrl})`,
+    backgroundSize: "contain",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+    color: "#ffffff",
+  };
+
   return (
     <main className="flex min-h-screen flex-col px-0 py-2 md:p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
+      <div className="flex h-20 shrink-0 items-end rounded-lg bg-[#245763] p-4 md:h-52">
         <AcmeLogo />
       </div>
       <div className="mt-4 flex grow flex-col gap-4">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-3 py-10 md:px-20">
+        <div className="flex flex-col justify-center gap-6 rounded-lg bg-[#061a2b] px-3 py-10 md:px-20 border border-[#5a5a95]">
           <p
-            className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
+            className={`${lusitana.className} text-xl text-[#ffffff] md:text-3xl md:leading-normal`}
           >
             <strong>Welcome to EduChain.</strong>
           </p>
           <p
-            className={`${lusitana.className} text-xl text-gray-600 md:text-2xl md:leading-normal`}
+            className={`${lusitana.className} text-xl text-[#d1d5db] md:text-2xl md:leading-normal`}
           >
             Please provide the{" "}
-            <strong className="text-blue-700">Student Number</strong> and{" "}
-            <strong className="text-blue-700">Graduation Year</strong> to search
-            for the corresponding result record.
+            <strong className="text-[#5a5a95]">Student Number</strong> and{" "}
+            <strong className="text-[#5a5a95]">Graduation Year</strong> to
+            search for the corresponding result record.
           </p>
         </div>
         <div className="px-3 md:px-20">
           <form onSubmit={searchData}>
             <div className="flex grow flex-col md:flex-row md:gap-4">
               <div className="field lg:w-3/5">
-                <label className="block text-900 text-xl font-medium mb-2">
+                <label className="block text-xl font-medium mb-2 text-grey-400">
                   Student Number
                 </label>
                 <InputText
-                  className="w-full p-2 search-input"
+                  className="w-full p-2 search-input bg-[#5a5a95] text-white border border-[#5a5a95]"
                   required
                   id="studentNo"
                   value={studentNo}
@@ -136,11 +154,11 @@ const ResultCheckPage = () => {
                 />
               </div>
               <div className="field lg:w-1/5">
-                <label className="block text-900 text-xl font-medium mb-2">
+                <label className="block text-xl font-medium mb-2 text-grey-400">
                   Year of Graduation
                 </label>
                 <Calendar
-                  className="w-full date-search-input"
+                  className="w-full date-search-input bg-[#5a5a95] text-white border border-[#5a5a95]"
                   required
                   value={year}
                   onChange={(e) => setYear(e.value)}
@@ -148,21 +166,20 @@ const ResultCheckPage = () => {
                   dateFormat="yy"
                 />
               </div>
-              <div className="field xl:w-1/5">
-                <label className="block md:mb-5"></label>
+              <div className="field xl:w-1/5 flex items-end">
                 <Button
                   label="Search"
                   type="submit"
                   icon="pi pi-fw pi-search"
                   severity="help"
                   loading={loading}
-                  className="search-button w-full"
+                  className="search-button w-full bg-[#5a5a95] text-white border-none"
                 />
               </div>
             </div>
           </form>
         </div>
-        <div className="relative w-0 h-0 border-l-[15px] border-r-[15px] border-b-[26px] border-l-transparent border-r-transparent border-b-black" />
+        <div className="relative w-0 h-0 border-l-[15px] border-r-[15px] border-b-[26px] border-l-transparent border-r-transparent border-b-[#061a2b]" />
       </div>
 
       <Dialog
@@ -170,16 +187,14 @@ const ResultCheckPage = () => {
         modal
         maximizable
         style={{ width: "100vw" }}
-        header={
-          record ? `${record.surname} ${record.otherNames}` : "Result Record"
-        }
+        header={ResultDialogHeader}
         footer={ResultDialogFooter}
         onHide={closeResultDialog}
       >
-        <div className="">
-          <div className="personal border mb-2 p-2">
-            <h6 className="">Personal Details</h6>
-            <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-2 py-3 px-3">
+        <div className="" style={{ ...dialogStyle }}>
+          <div className="personal border mb-2 p-2 bg-opacity-80">
+            <h6 className="text-white">Personal Details</h6>
+            <div className="custom-grid md:grid-cols-3 xl:grid-cols-4 gap-x-4 gap-y-2 py-3 px-3 text-white">
               <div className="col-span-3 md:col-span-1">
                 <span className="text-sm">Student No.:</span>
                 <p className="font-bold">{record.studentNumber}</p>
@@ -222,9 +237,12 @@ const ResultCheckPage = () => {
               </div>
             </div>
           </div>
-          <div className="school border mb-2 p-2">
-            <h6 className="">School Details</h6>
-            <div className="grid md:grid-cols-3 xl:grid-cols-4 p-3">
+          <div
+            className="school border mb-2 p-2 bg-opacity-80"
+            style={{ backgroundColor: "#245763" }}
+          >
+            <h6 className="text-white">School Details</h6>
+            <div className="custom-grid md:grid-cols-3 xl:grid-cols-4 p-3 text-white">
               <div className="col-span-3 md:col-span-1">
                 <span className="text-sm">School Name:</span>
                 <p className="font-bold">
@@ -256,7 +274,7 @@ const ResultCheckPage = () => {
                 </p>
               </div>
             </div>
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4 px-3">
+            <div className="custom-grid md:grid-cols-2 xl:grid-cols-3 gap-4 px-3 text-white">
               <div className="col-span-3 md:col-span-1">
                 <span className="text-sm">Degree:</span>
                 <p className="font-bold">

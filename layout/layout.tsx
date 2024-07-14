@@ -130,7 +130,7 @@ const Layout = ({ children }: ChildContainerProps) => {
                     <AppSidebar />
                 </div>
                 <div className="layout-main-container">
-                    <div className="layout-main">{children}</div>
+                    <div className="layout-main bg-gray-200 text-gray-700">{children}</div>
                     <AppFooter />
                 </div>
                 <AppConfig />

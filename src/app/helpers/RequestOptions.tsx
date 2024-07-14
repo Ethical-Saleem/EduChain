@@ -57,10 +57,10 @@ const requestOptions = {
 };
 
 function headers(form: boolean = false): { headers: HeadersInit } {
-  const currentUser = AuthenticationService.currentUserValue || {};
-  const hostname = document.location.host;
-  const authHeader = currentUser.accessToken ? { Authorization: 'Bearer ' + currentUser.accessToken } : {};
-  
+  const currentUser = AuthenticationService.currentUserValue;
+  const hostname = typeof window !== "undefined" ? document.location.host : '';
+  const authHeader = currentUser?.accessToken ? { Authorization: 'Bearer ' + currentUser.accessToken } : {};
+
   const headers: any = form
     ? {
         Holder: hostname,

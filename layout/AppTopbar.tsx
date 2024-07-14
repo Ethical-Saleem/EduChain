@@ -14,6 +14,8 @@ import { AppTopbarRef } from "../types";
 import { LayoutContext } from "./context/layoutcontext";
 import { AuthenticationService } from "@/app/services/AuthenticationService";
 import { Demo } from "../types";
+import Image from "next/image";
+import DefaultLogo from "@/app/ui/default-logo";
 
 const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
   const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } =
@@ -22,7 +24,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
   const topbarmenuRef = useRef(null);
   const topbarmenubuttonRef = useRef(null);
 
-  const [currentUser, setCurrentUser] = useState({} as Demo.TokenModel);
+  const [currentUser, setCurrentUser] = useState<Demo.TokenModel | null>(null);
 
   useEffect(() => {
     const user = AuthenticationService.currentUserValue;
@@ -38,7 +40,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
 
   return (
     <div className="layout-topbar">
-      <Link href="/" className="layout-topbar-logo">
+      <Link href="/" className="layout-topbar-logo text-white">
         <img
           src={`/layout/images/logo-${
             layoutConfig.colorScheme !== "light" ? "white" : "dark"
@@ -59,9 +61,20 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         <i className="pi pi-bars" />
       </button>
 
-      <div className="px-3">
-        <p className="font-bold text-base sm:text-xl lg:text-2xl">
-            { currentUser?.school?.name }
+      <div className="flex items-center px-3">
+        {currentUser?.school?.logoUrl ? (
+          <Image
+            src={currentUser?.school?.logoUrl}
+            width={60}
+            height={60}
+            className="hidden md:block mr-2"
+            alt="Sch. Logo"
+          />
+        ) : (
+          <DefaultLogo />
+        )}
+        <p className="font-bold text-base sm:text-xl lg:text-2xl hidden md:block">
+          {currentUser?.school?.name}
         </p>
       </div>
 

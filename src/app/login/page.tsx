@@ -56,9 +56,9 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex justify-center items-center bg-blue-100">
+    <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">
       <Toast ref={toast} />
-      <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-pink-500 to-red-500 text-white p-8 items-center justify-center flex-col">
+      <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-[#5a5a95] to-[#245763] text-white p-8 items-center justify-center flex-col">
         <div className="overlay-panel text-center">
           <h1 className="text-2xl font-bold mb-4">
             Welcome to <span className="text-white">EduChain</span>
@@ -71,19 +71,35 @@ const LoginPage = () => {
       <div className="container bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-lg flex flex-col md:flex-row">
         <div className="form-container sign-in-container py-8 px-4 p-md-8 w-full">
           <form onSubmit={login} className="flex flex-col items-center">
-            <h1 className="text-2xl font-bold mb-4">Sign in</h1>
+            <h1
+              className="text-2xl font-bold mb-4"
+              style={{ color: "#245763" }}
+            >
+              Sign in
+            </h1>
             <div className="social-container flex space-x-4 mb-4">
-              <a href="#" className="social bg-gray-200 rounded-full p-2">
+              <a
+                href="#"
+                className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
+              >
                 <i className="fab fa-facebook-f"></i>
               </a>
-              <a href="#" className="social bg-gray-200 rounded-full p-2">
+              <a
+                href="#"
+                className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
+              >
                 <i className="fab fa-google-plus-g"></i>
               </a>
-              <a href="#" className="social bg-gray-200 rounded-full p-2">
+              <a
+                href="#"
+                className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
+              >
                 <i className="fab fa-linkedin-in"></i>
               </a>
             </div>
-            <span className="text-sm mb-4">or use your account</span>
+            <span className="text-sm mb-4 text-[#061a2b]">
+              or use your account
+            </span>
             <InputText
               type="email"
               placeholder="Email"
@@ -101,21 +117,24 @@ const LoginPage = () => {
               inputClassName="w-full p-2 bg-gray-200"
               className="w-full mb-4 bg-gray-200"
             />
-            <a href="#" className="text-sm mb-4">
+            <a
+              href="#"
+              className="text-sm mb-4 text-[#5a5a95] hover:text-[#061a2b]"
+            >
               Forgot your password?
             </a>
             <Button
               label="Sign In"
               type="submit"
               loading={loading}
-              className="w-full bg-red-500 text-white p-3"
+              className="w-full bg-[#245763] text-white p-3 hover:bg-[#061a2b]"
             />
           </form>
           <div className="text-center mt-2">
-            <p className={`${lusitana.className} text-lg`}>
+            <p className={`${lusitana.className} text-lg text-[#061a2b]`}>
               New to the platform? Kindly{" "}
               <Link href="/register">
-                <strong>register</strong>
+                <strong className="text-[#5a5a95]">register</strong>
               </Link>{" "}
               your school.
             </p>
@@ -123,111 +142,6 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-    // <div className={containerClassName}>
-    //   <div className="flex flex-column align-items-center justify-content-center">
-    //     <img
-    //       src={`/layout/images/logo-${
-    //         layoutConfig.colorScheme === "light" ? "dark" : "white"
-    //       }.svg`}
-    //       alt="Edu logo"
-    //       className="mb-5 w-6rem flex-shrink-0"
-    //     />
-    //     <div
-    //       style={{
-    //         borderRadius: "56px",
-    //         padding: "0.3rem",
-    //         background:
-    //           "linear-gradient(180deg, var(--primary-color) 10%, rgba(33, 150, 243, 0) 30%)",
-    //       }}
-    //     >
-    //       <div
-    //         className="w-full surface-card py-8 px-5 sm:px-8"
-    //         style={{ borderRadius: "53px" }}
-    //       >
-    //         <div className="text-center mb-5">
-    //           <img
-    //             src="/demo/images/login/avatar.png"
-    //             alt="Image"
-    //             height="50"
-    //             className="mb-3"
-    //           />
-    //           <div className="text-900 text-3xl font-medium mb-3">Welcome</div>
-    //           <span className="text-600 font-medium">Sign in to continue</span>
-    //         </div>
-
-    //         <form onSubmit={login}>
-    //           <label
-    //             htmlFor="email1"
-    //             className="block text-900 text-xl font-medium mb-2"
-    //           >
-    //             Email
-    //           </label>
-    //           <InputText
-    //             id="email1"
-    //             type="text"
-    //             placeholder="Email address"
-    //             className="w-full md:w-30rem mb-5"
-    //             style={{ padding: "1rem" }}
-    //             value={email}
-    //             required
-    //             onChange={(e) => setEmail(e.target.value)}
-    //           />
-
-    //           <label
-    //             htmlFor="password1"
-    //             className="block text-900 font-medium text-xl mb-2"
-    //           >
-    //             Password
-    //           </label>
-    //           <Password
-    //             inputId="password1"
-    //             value={password}
-    //             onChange={(e) => setPassword(e.target.value)}
-    //             placeholder="Password"
-    //             toggleMask
-    //             required
-    //             className="w-full mb-5"
-    //             inputClassName="w-full p-3 md:w-30rem"
-    //           ></Password>
-
-    //           <div className="flex align-items-center justify-content-between mb-5 gap-5">
-    //             <div className="flex align-items-center">
-    //               <Checkbox
-    //                 inputId="rememberme1"
-    //                 checked={checked}
-    //                 onChange={(e) => setChecked(e.checked ?? false)}
-    //                 className="mr-2"
-    //               ></Checkbox>
-    //               <label htmlFor="rememberme1">Remember me</label>
-    //             </div>
-    //             <a
-    //               className="font-medium no-underline ml-2 text-right cursor-pointer"
-    //               style={{ color: "var(--primary-color)" }}
-    //             >
-    //               Forgot password?
-    //             </a>
-    //           </div>
-    //           <Button
-    //             label="Sign In"
-    //             loading={loading}
-    //             className="w-full p-3 text-xl"
-    //             type="submit"
-    //           ></Button>
-    //           <Toast ref={toast} />
-    //         </form>
-    //         <div className="mt-3 text-center">
-    //           <p className={`${lusitana.className} text-lg`}>
-    //             New to the platform? Kindly{" "}
-    //             <Link href="/register">
-    //               <strong>register</strong>
-    //             </Link>{" "}
-    //             your school.
-    //           </p>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

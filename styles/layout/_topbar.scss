@@ -6,7 +6,9 @@
     top: 0;
     width: 100%;
     padding: 0 2rem;
-    background-color: var(--surface-card);
+    // background-color: var(--surface-card);
+    background-color: #2e2e2e;
+    color: #ffffff;
     transition: left $transitionDuration;
     display: flex;
     align-items: center;

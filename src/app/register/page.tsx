@@ -22,18 +22,17 @@ import { clearPreviewData } from "next/dist/server/api-utils";
 
 const RegisterPage = () => {
   const emptyData: Demo.NewSchool = {
-    Name: "",
-    Address: "",
-    City: "",
-    Region: "",
-    PostalCode: "",
-    ContactName: "",
-    Country: "",
-    Email: "",
-    Telephone: "",
-    DateFounded: null,
-    SchoolType: 0,
-    LogoUrl: null,
+    name: "",
+    address: "",
+    city: "",
+    region: "",
+    postalCode: "",
+    contactName: "",
+    country: "",
+    email: "",
+    telephone: "",
+    dateFounded: null,
+    logoUrl: null,
   };
   const emptyUserData: Demo.NewUser = {
     name: "",
@@ -103,7 +102,7 @@ const RegisterPage = () => {
   const handleFile = (event: any) => {
     setRegisterData((prevData) => ({
       ...prevData,
-      LogoUrl: event.target.files[0],
+      logoUrl: event.target.files[0],
     }));
     setTestFile(event.target.files[0]);
     const file = event.target.files[0];
@@ -122,7 +121,7 @@ const RegisterPage = () => {
         toast.current?.show({
           severity: "success",
           summary: "Success",
-          detail: "Login successful",
+          detail: "School registration successful",
           life: 3000,
         });
 
@@ -157,7 +156,7 @@ const RegisterPage = () => {
         toast.current?.show({
           severity: "success",
           summary: "Success",
-          detail: "Login successful",
+          detail: "User creation successful",
           life: 3000,
         });
 
@@ -176,9 +175,9 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex justify-center items-center bg-blue-100 overflow-hidden">
+    <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">
       <Toast ref={toast} />
-      <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-pink-500 to-red-500 text-white p-4 p-lg-8 items-center justify-center flex-col">
+      <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-[#5a5a95] to-[#245763] text-white p-8 items-center justify-center flex-col">
         <div className="overlay-panel text-center">
           <h1 className="text-2xl font-bold mb-4">
             Welcome to <span className="text-white">EduChain</span>
@@ -212,8 +211,8 @@ const RegisterPage = () => {
                       id="name"
                       placeholder="School Name"
                       className="w-full mb-2 p-2 bg-gray-200"
-                      onChange={(e) => onInputChange(e, "Name")}
-                      value={registerData.Name}
+                      onChange={(e) => onInputChange(e, "name")}
+                      value={registerData.name}
                     />
                   </div>
                   <div className="field col-12">
@@ -227,8 +226,8 @@ const RegisterPage = () => {
                       id="address"
                       placeholder="Address"
                       className="w-full p-2 bg-gray-200 mb-2"
-                      onChange={(e) => onInputChange(e, "Address")}
-                      value={registerData.Address}
+                      onChange={(e) => onInputChange(e, "address")}
+                      value={registerData.address}
                     />
                   </div>
                   <div className="field col-12">
@@ -243,8 +242,8 @@ const RegisterPage = () => {
                       type="text"
                       placeholder="Email address"
                       className="w-full p-2 bg-gray-200 mb-2"
-                      onChange={(e) => onInputChange(e, "Email")}
-                      value={registerData.Email}
+                      onChange={(e) => onInputChange(e, "email")}
+                      value={registerData.email}
                     />
                   </div>
                   <div className="field col-12 md:col-6">
@@ -258,8 +257,8 @@ const RegisterPage = () => {
                       id="contactPerson"
                       placeholder="Contact Person"
                       className="w-full p-2 bg-gray-200 mb-2"
-                      onChange={(e) => onInputChange(e, "ContactName")}
-                      value={registerData.ContactName}
+                      onChange={(e) => onInputChange(e, "contactName")}
+                      value={registerData.contactName}
                     />
                   </div>
                   <div className="field col-12 md:col-6">
@@ -273,8 +272,8 @@ const RegisterPage = () => {
                       id="telephone"
                       placeholder="Telephone"
                       className="w-full p-2 bg-gray-200 mb-2"
-                      onChange={(e) => onInputChange(e, "Telephone")}
-                      value={registerData.Telephone}
+                      onChange={(e) => onInputChange(e, "telephone")}
+                      value={registerData.telephone}
                     />
                   </div>
                   <div className="field col-12 md:col-6">
@@ -288,8 +287,8 @@ const RegisterPage = () => {
                       id="city"
                       placeholder="City"
                       className="w-full p-2 bg-gray-200 mb-2"
-                      onChange={(e) => onInputChange(e, "City")}
-                      value={registerData.City}
+                      onChange={(e) => onInputChange(e, "city")}
+                      value={registerData.city}
                     />
                   </div>
                   <div className="field col-12 md:col-6">
@@ -303,8 +302,8 @@ const RegisterPage = () => {
                       id="region"
                       placeholder="Region/State"
                       className="w-full p-2 bg-gray-200 mb-2"
-                      onChange={(e) => onInputChange(e, "Region")}
-                      value={registerData.Region}
+                      onChange={(e) => onInputChange(e, "region")}
+                      value={registerData.region}
                     />
                   </div>
                   <div className="field col-12 md:col-6">
@@ -318,8 +317,8 @@ const RegisterPage = () => {
                       id="country"
                       placeholder="Country"
                       className="w-full p-2 bg-gray-200 mb-2"
-                      onChange={(e) => onInputChange(e, "Country")}
-                      value={registerData.Country}
+                      onChange={(e) => onInputChange(e, "country")}
+                      value={registerData.country}
                     />
                   </div>
                   <div className="field col-12 md:col-6">
@@ -334,8 +333,8 @@ const RegisterPage = () => {
                       className="w-full p-2 bg-gray-200 mb-2"
                       dateFormat="dd/mm/yy"
                       showIcon
-                      onChange={(e) => onDateChange}
-                      value={registerData.DateFounded}
+                      onChange={(e) => onDateChange(e)}
+                      value={registerData.dateFounded}
                     />
                   </div>
                   <div className="field col-12">
@@ -356,16 +355,16 @@ const RegisterPage = () => {
                 <div className="md:mt-3 text-center">
                   <Button
                     label="Continue"
-                    className="w-full p-2 md:p-3 bg-red-500 text-white"
+                    className="w-full bg-[#245763] text-white p-2 md:p-3 hover:bg-[#061a2b]"
                     loading={loading}
                     type="submit"
                   ></Button>
                   <p
-                    className={`${lusitana.className} text-base md:text-lg mt-2`}
+                    className={`${lusitana.className} text-base md:text-lg mt-2 text-[#061a2b]`}
                   >
                     Already registered? Click{" "}
                     <Link href="/login">
-                      <strong>here</strong>
+                      <strong className="text-[#5a5a95]">here</strong>
                     </Link>{" "}
                     to login.
                   </p>
@@ -448,7 +447,7 @@ const RegisterPage = () => {
                 <div className="md:mt-3 text-center">
                   <Button
                     label="Continue"
-                    className="w-full p-2 md:p-3 bg-red-500 text-white"
+                    className="w-full bg-[#245763] text-white p-2 md:p-3 hover:bg-[#061a2b]"
                     loading={loading}
                     type="submit"
                   ></Button>
