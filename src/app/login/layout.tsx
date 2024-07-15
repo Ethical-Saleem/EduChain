@@ -1,5 +1,6 @@
 import { inter } from "@/app/ui/fonts";
 import "@/app/ui/global.css"
+import React, { Suspense } from "react";
 
 import { Metadata } from "next";
 // import withAuth from "@/hoc/withAuth";
@@ -26,6 +27,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className={`${inter.className} antialiased h-full`}>{children}</main>
+    <main className={`${inter.className} antialiased h-full`}>
+      <Suspense fallback={<div>Loading...</div>}>
+      {children}
+      </Suspense>
+    </main>
   );
 }
