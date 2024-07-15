@@ -123,7 +123,7 @@ declare namespace Demo {
     email?: string;
     dateFounded: Date | null;
     schoolType?: number;
-    logoUrl?: string | StaticImport;
+    logoUrl?: string | StaticImport | SourceObject;
     [key: string]: string | number | null | Date | StaticImport
   };
 

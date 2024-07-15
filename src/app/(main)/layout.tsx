@@ -7,7 +7,6 @@ export const metadata: Metadata = {
   title: "EduChain",
   description: "Access your school record on the go.",
   robots: { index: false, follow: false },
-  viewport: { initialScale: 1, width: "device-width" },
   openGraph: {
     type: "website",
     title: "EduChain",
@@ -25,6 +24,7 @@ interface MainLayoutProps {
 }
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+
   return (
     <Suspense fallback={<div>loading...</div>}>
       <Layout>{children}</Layout>

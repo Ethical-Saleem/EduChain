@@ -14,10 +14,12 @@ import { Button } from "primereact/button";
 import { Dialog } from "primereact/dialog";
 import { SchoolService } from "@/app/services/SchoolService";
 import { Demo } from "../../../types";
+import DownloadPDFButton from "@/components/PDFDownloadButton";
 
 const ResultCheckPage = () => {
   const [studentNo, setStudentNo] = useState("");
   const [year, setYear] = useState<Nullable<Date>>(null);
+  const [parsedYear, setParsedYear] = useState("");
   const [record, setRecord] = useState({} as Demo.Result);
   const [error, setError] = useState("");
   const [resultDialog, setResultDialog] = useState(false);
@@ -59,8 +61,9 @@ const ResultCheckPage = () => {
     setLoading(true);
 
     const yearString = convertToISO(year);
+    setParsedYear(yearString);
 
-    console.log('', studentNo, yearString);
+    console.log("", studentNo, yearString);
 
     try {
       const result = await SchoolService.dispatchFetchStudentResultRecord(
@@ -81,9 +84,10 @@ const ResultCheckPage = () => {
 
   const ResultDialogFooter = () => {
     return (
-      <>
-        <Button label="Close" icon="pi pi-times" onClick={closeResultDialog} />
-      </>
+      <div className="text-right flex mt-4">
+        <DownloadPDFButton studentNo={studentNo} year={parsedYear} />
+        <Button label="Close" icon="pi pi-times" outlined onClick={closeResultDialog} className="ml-4 text-[#5a5a95] p-2 border border-[#5a5a95] hover:border-[#5a5a95]" />
+      </div>
     );
   };
 
@@ -105,6 +109,7 @@ const ResultCheckPage = () => {
           icon="pi pi-times"
           severity="danger"
           text
+          className="text-red-500"
           onClick={hideError}
         />
       </>
@@ -181,6 +186,7 @@ const ResultCheckPage = () => {
             </div>
           </form>
         </div>
+
         <div className="relative w-0 h-0 border-l-[15px] border-r-[15px] border-b-[26px] border-l-transparent border-r-transparent border-b-[#061a2b]" />
       </div>
 
