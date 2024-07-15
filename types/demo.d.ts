@@ -174,11 +174,11 @@ declare namespace Demo {
 
   type NewUser = {
     name: string;
-    email: string;
-    telephone: string;
+    email: string | undefined;
+    telephone: string | undefined;
     password: string;
-    schoolId: number;
-    [key: string]: string | number
+    schoolId: number | undefined;
+    [key: string]: string | number | undefined
   }
 
   type Result = {
