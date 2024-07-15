@@ -2,7 +2,7 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useState, useRef, useEffect, Suspense } from "react";
 import { Toast } from "primereact/toast";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
@@ -61,7 +61,8 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">
+    <Suspense fallback={<div>Loading...</div>}>
+      <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">
       <Toast ref={toast} />
       <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-[#5a5a95] to-[#245763] text-white p-8 items-center justify-center flex-col">
         <div className="overlay-panel text-center">
@@ -147,6 +148,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
+    </Suspense>
   );
 };
 
