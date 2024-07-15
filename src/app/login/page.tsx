@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Toast } from "primereact/toast";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
@@ -19,14 +19,19 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const toast = useRef<Toast>(null);
   const { layoutConfig } = useContext(LayoutContext);
 
   const router = useRouter();
-  const containerClassName = classNames(
-    "surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden",
-    { "p-input-filled": layoutConfig.inputStyle === "filled" }
-  );
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const messageParam = searchParams.get("message");
+    if (messageParam) {
+      setMessage(messageParam);
+    }
+  }, [searchParams])
 
   const login = async (e: React.FormEvent) => {
     e.preventDefault();

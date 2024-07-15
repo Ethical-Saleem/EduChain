@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { config } from "../config";
 import requestOptions from "../helpers/RequestOptions";
 import handleResponse from "../helpers/HandleResponses";
+import api from "../api/api";
 
 import { Demo } from "../../../types";
 
@@ -14,9 +15,8 @@ const getCurrentUser = () => {
 const currentUserSubject = new BehaviorSubject<Demo.TokenModel | null>(getCurrentUser());
 
 async function login(email: string, password: string): Promise<any> {
-  const response = await fetch(`${config.apiUrl}/auth/login`, requestOptions.post({ email, password}));
-
-  const model = await handleResponse(response);
+  const response = await api.post<Demo.TokenModel>('/auth/login', { email, password });
+  const model = response.data;
 
   Cookies.set("currentUser", JSON.stringify(model));
   currentUserSubject.next(model);
@@ -39,23 +39,30 @@ async function register(input: Demo.NewSchool) {
       }
     }
   });
-  const response = await fetch(
-    `${config.apiUrl}/School`,
-    requestOptions.postForm(formData)
-  ); 
-
-  const model = await handleResponse(response);
+  const response = await api.post<Demo.School>('/School', formData);
+  const model = response.data;
 
   return model
 }
 
 async function registerUser(input: Demo.NewUser) {
-  const response = await fetch(
-    `${config.apiUrl}/User`,
-    requestOptions.post(input)
-  )
+  const response = await api.post<Demo.User>('/User', input);
+  const model = response.data;
 
-  const model = await handleResponse(response);
+  return model;
+}
+
+async function refreshToken(): Promise<Demo.TokenModel> {
+  const currentUser = currentUserSubject.value;
+  if (!currentUser) {
+    throw new Error('No current user');
+  }
+
+  const response = await api.post<Demo.TokenModel>('/auth/refresh-token', { refreshToken: currentUser.refreshToken });
+  const model = response.data;
+
+  Cookies.set("currentUser", JSON.stringify(model));
+  currentUserSubject.next(model);
 
   return model;
 }
@@ -70,6 +77,7 @@ export const AuthenticationService = {
   logout,
   register,
   registerUser,
+  refreshToken,
   currentUser: currentUserSubject.asObservable(),
   get currentUserValue() {
     return currentUserSubject.value;
