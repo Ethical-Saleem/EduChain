@@ -16,7 +16,7 @@ interface ResultDocumentProps {
   record: Demo.Result;
 }
 
-Font.register({ family: "Lusitana", src: "http://fonts.gstatic.com/s/lusitana/v4/Q7EtAWlDLyjrIIFdmxKqN_esZW2xOQ-xsNqO47m55DA.ttf" })
+Font.register({ family: "Lusitana", src: "https://fonts.gstatic.com/s/lusitana/v4/Q7EtAWlDLyjrIIFdmxKqN_esZW2xOQ-xsNqO47m55DA.ttf" })
 
 const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
   const formatYear = (date: Date) => {
