@@ -348,7 +348,7 @@ const VerificationPage = () => {
                   onChange={(e) => setToken(e.value?.toString().toUpperCase())}
                   length={6}
                   className="custom-otp-input-sample"
-                  style={{ gap: 0 }}
+                  style={{ gap: 1 }}
                 />
                 <div className="flex justify-content-between mt-5 align-self-stretch">
                   <div className="flex items-center">

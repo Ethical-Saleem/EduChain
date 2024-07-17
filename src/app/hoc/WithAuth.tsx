@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { AuthenticationService } from "../services/AuthenticationService";
+import Loading from "../ui/loading";
 
 type ComponentType = React.ComponentType<any>;
 
@@ -46,7 +47,7 @@ export function withAuth(Component: ComponentType) {
     //     return null;
     // }
     if (loading) {
-      return <div>Loading...</div>;
+      return <Loading />;
     }
 
     return <Component {...props} />;
