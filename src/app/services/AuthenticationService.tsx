@@ -67,6 +67,24 @@ async function refreshToken(): Promise<Demo.TokenModel> {
   return model;
 }
 
+async function sendVerificationMail(email: string) {
+  const response = await api.post('/auth/send-verification-email', { email });
+  const model = response.data;
+  return model;
+}
+
+async function resendVerificationMail(email: string) {
+  const response = await api.post(`/auth/resend-verification-email`, { email });
+  const model = response.data;
+  return model;
+}
+
+async function verifyEmail(email: string, code: string | number | null | undefined) {
+  const response = await api.post('/auth/verify-email', { email, code});
+  const model = response.data;
+  return model;
+}
+
 async function logout() {
   Cookies.remove("currentUser");
   currentUserSubject.next(null);
@@ -78,6 +96,9 @@ export const AuthenticationService = {
   register,
   registerUser,
   refreshToken,
+  sendVerificationMail,
+  resendVerificationMail,
+  verifyEmail,
   currentUser: currentUserSubject.asObservable(),
   get currentUserValue() {
     return currentUserSubject.value;

@@ -60,7 +60,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
             src={currentUser?.school?.logoUrl}
             width={60}
             height={60}
-            className="hidden md:block mr-2"
+            className="mr-2"
             alt="Sch. Logo"
           />
         ) : (

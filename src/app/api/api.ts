@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { AuthenticationService } from "../services/AuthenticationService";
-import Router from "next/router";
 import { Demo } from "../../../types";
 import { config } from "../config";
 
@@ -21,39 +20,81 @@ const api = axios.create({
       return Promise.reject(error);
     }
   );
+
+  const handleClientSideRedirects = async (error: any) => {
+    const originalRequest = error.config;
   
-  // Response interceptor to handle token refresh
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      try {
+        const refreshedTokens = await AuthenticationService.refreshToken();
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + refreshedTokens.accessToken;
+        originalRequest.headers['Authorization'] = 'Bearer ' + refreshedTokens.accessToken;
+        return api(originalRequest);
+      } catch (refreshError) {
+        AuthenticationService.logout();
+        return Promise.reject(refreshError);
+      }
+    }
+  
+    if (error.response?.status === 403) {
+      const Router = (await import('next/router')).default;
+      Router.push('/403');
+    }
+  
+    if (error.response?.status === 404) {
+      const Router = (await import('next/router')).default;
+      Router.push('/404');
+    }
+  
+    return Promise.reject(error);
+  };
+
   api.interceptors.response.use(
     (response: AxiosResponse) => {
       return response;
     },
     async (error) => {
-        const originalRequest = error.config;
-    
-        if (error.response.status === 401 && !originalRequest._retry) {
-          originalRequest._retry = true;
-          try {
-            const refreshedTokens = await AuthenticationService.refreshToken();
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + refreshedTokens.accessToken;
-            originalRequest.headers['Authorization'] = 'Bearer ' + refreshedTokens.accessToken;
-            return api(originalRequest);
-          } catch (refreshError) {
-            AuthenticationService.logout();
-            Router.push('/login');
-            return Promise.reject(refreshError);
-          }
-        }
-    
-        if (error.response.status === 403) {
-          Router.push('/403');
-        }
-    
-        if (error.response.status === 404) {
-          Router.push('/404');
-        }
-    
-        return Promise.reject(error);
+      if (typeof window !== 'undefined') {
+        // Client-side only
+        return await handleClientSideRedirects(error);
       }
+      return Promise.reject(error);
+    }
   );
+  
+  // Response interceptor to handle token refresh
+  // api.interceptors.response.use(
+  //   (response: AxiosResponse) => {
+  //     return response;
+  //   },
+  //   async (error) => {
+  //       const originalRequest = error.config;
+    
+  //       if (!originalRequest._retry) {
+  //         originalRequest._retry = true;
+  //         try {
+  //           const refreshedTokens = await AuthenticationService.refreshToken();
+  //           axios.defaults.headers.common['Authorization'] = 'Bearer ' + refreshedTokens.accessToken;
+  //           originalRequest.headers['Authorization'] = 'Bearer ' + refreshedTokens.accessToken;
+  //           return api(originalRequest);
+  //         } catch (refreshError) {
+  //           AuthenticationService.logout();
+  //           Router.push('/login');
+  //           return Promise.reject(refreshError);
+  //         }
+  //       }
+    
+  //       if (error.response.status === 403) {
+  //         Router.push('/403');
+  //       }
+    
+  //       if (error.response.status === 404) {
+  //         Router.push('/404');
+  //       }
+    
+  //       return Promise.reject(error);
+  //     }
+  // );
   
   export default api;

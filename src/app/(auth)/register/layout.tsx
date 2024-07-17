@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     ttl: 604800,
   },
   icons: {
-    icon: "/educhain-fav.ico",
+    icon: "/favicon.ico",
   },
 };
 

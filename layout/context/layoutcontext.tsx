@@ -2,8 +2,9 @@
 import React, { useState, createContext } from 'react';
 import { LayoutState, ChildContainerProps, LayoutConfig, LayoutContextProps } from '../../types';
 export const LayoutContext = createContext({} as LayoutContextProps);
+// import { withAuth } from '@/app/hoc/WithAuth';
 
-export const LayoutProvider = ({ children }: ChildContainerProps) => {
+const LayoutProvider = ({ children }: ChildContainerProps) => {
     const [layoutConfig, setLayoutConfig] = useState<LayoutConfig>({
         ripple: false,
         inputStyle: 'outlined',
@@ -57,3 +58,5 @@ export const LayoutProvider = ({ children }: ChildContainerProps) => {
 
     return <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>;
 };
+
+export default LayoutProvider;

@@ -13,6 +13,7 @@ import { LayoutContext } from './context/layoutcontext';
 import { PrimeReactContext } from 'primereact/api';
 import { ChildContainerProps, LayoutState, AppTopbarRef } from '../types';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { withAuth } from '@/app/hoc/WithAuth';
 
 const Layout = ({ children }: ChildContainerProps) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
@@ -140,4 +141,4 @@ const Layout = ({ children }: ChildContainerProps) => {
     );
 };
 
-export default Layout;
+export default withAuth(Layout);

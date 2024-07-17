@@ -9,7 +9,7 @@ const AppFooter = () => {
 
     return (
         <div className="layout-footer">
-            <GlobeAltIcon className="h-1 w-1 rotate-[15deg]" mr-2 />
+            <GlobeAltIcon className="h-1 w-1 rotate-[15deg] mr-2" />
             by
             <span className="font-medium ml-2">EduChain</span>
         </div>

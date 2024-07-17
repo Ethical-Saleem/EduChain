@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { PDFDownloadLink, pdf } from "@react-pdf/renderer";
 import ResultDocument from "./PDFDownload";
+import ResultDocumentTwo from "./PDFDownloadTwo";
 import { SchoolService } from "@/app/services/SchoolService";
 import { Demo } from "../../types";
 import { Button } from "primereact/button";

@@ -27,6 +27,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { getCookie } from "@/app/utils/cookies";
+import { withAuth } from "@/app/hoc/WithAuth";
 
 const Results = () => {
   const toastPrime = useRef<Toast>(null);

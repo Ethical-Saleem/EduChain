@@ -11,6 +11,7 @@ import { Calendar } from "primereact/calendar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { withAuth } from "@/app/hoc/WithAuth";
 
 import { inter } from "@/app/ui/fonts";
 import { InputText } from "primereact/inputtext";
@@ -349,4 +350,4 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
   );
 };
 
-export default ResultRecord;
+export default withAuth(ResultRecord);

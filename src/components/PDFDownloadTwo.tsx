@@ -1,12 +1,12 @@
 import React from "react";
 import {
-  Document,
   Page,
   Text,
   View,
+  Document,
   StyleSheet,
-  Image,
   Font,
+  Image,
 } from "@react-pdf/renderer";
 import { Demo } from "../../types";
 
@@ -14,24 +14,26 @@ interface ResultDocumentProps {
   record: Demo.Result;
 }
 
-Font.register({ family: "Lusitana", src: "https://fonts.gstatic.com/s/lusitana/v4/Q7EtAWlDLyjrIIFdmxKqN_esZW2xOQ-xsNqO47m55DA.ttf" })
+// Register font
+Font.register({
+  family: "Lusitana",
+  src: "https://fonts.gstatic.com/s/lusitana/v4/Q7EtAWlDLyjrIIFdmxKqN_esZW2xOQ-xsNqO47m55DA.ttf",
+  fontWeight: "normal",
+  fontStyle: "normal",
+});
 
-const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
-  const formatYear = (date: Date) => {
-    const d = new Date(date);
-    return d.getFullYear();
-  };
-
+const ResultDocumentTwo: React.FC<ResultDocumentProps> = ({ record }) => {
   const styles = StyleSheet.create({
     page: {
       position: "relative",
-      padding: 20,
-      fontSize: 12,
-      fontFamily: "Helvetica",
-      color: "#061a2b",
-      backgroundImage: `linear-gradient(rgba(6, 26, 43, 0.7), rgba(6, 26, 43, 0.7)), url('/educhain-one.jpg)`,
-      backgroundSize: "contain",
-      backgroundPosition: "center",
+      fontFamily: "Lusitana",
+    },
+    backgroundImage: {
+      position: "absolute",
+      width: "100%",
+      height: "100%",
+      opacity: 0.2,
+      zIndex: 0,
     },
     backgroundContainer: {
       position: "absolute",
@@ -41,31 +43,47 @@ const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
       height: "100%",
       zIndex: -1,
     },
-    backgroundImage: {
-      width: "100%",
-      height: "100%",
+    watermarkText: {
+    //   position: "absolute",
+      color: "#5a5a95",
+      fontSize: 20,
+      fontWeight: "bold",
       opacity: 0.1,
+      transform: "rotate(-45deg)",
+      whiteSpace: "nowrap",
     },
     watermarkContainer: {
       position: "absolute",
       width: "100%",
       height: "100%",
-      zIndex: -1,
+      zIndex: 1,
+      display: "flex",
       flexDirection: "row",
-      flexWrap: "nowrap",
+      flexWrap: "wrap",
+      justifyContent: "space-around",
+      alignItems: "center",
+      padding: 50,
     },
-    watermarkText: {
-      transform: "rotate(-45deg)",
+    logoRepeat: {
+      position: "absolute",
+      top: 0,
+      left: 0,
+      width: "100%",
+      height: "100%",
+      zIndex: -1,
+      display: "flex",
+      flexDirection: "row",
+      flexWrap: "wrap",
+    },
+    logoImage: {
+      width: 150,
+      height: 150,
       opacity: 0.2,
-      fontSize: 12,
-      fontWeight: 700,
-      fontFamily: 'Lusitana',
-      color: '#5a5a95',
-    //   position: "absolute",
-      whiteSpace: "nowrap",
+      margin: 20,
     },
     content: {
-      zIndex: 1, // Ensures content is above the background
+      margin: 40,
+      zIndex: 2,
     },
     header: {
       flexDirection: "row",
@@ -117,7 +135,11 @@ const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
     },
   });
 
-    const Watermark: React.FC = () => {
+  const formatYear = (date: Date) => {
+    const d = new Date(date);
+    return !isNaN(d.getTime()) ? d.getFullYear() : "-";
+  };
+  const Watermark: React.FC = () => {
       const watermarkText = "EDUCHAIN RESULT VERIFICATION";
       const repetitions = 20; // Number of times to repeat the text
       const step = 80; // Distance between repetitions
@@ -141,12 +163,58 @@ const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
       );
     };
 
+    const LogoRepeat: React.FC = () => {
+        const repetitionsX = 5; // Number of repetitions in the horizontal direction
+        const repetitionsY = 10; // Number of repetitions in the vertical direction
+        const logoSize = 150; // Size of the logo
+        const gap = 20; // Gap between the logos
+      
+        return (
+          <View style={styles.logoRepeat}>
+            {[...Array(repetitionsY)].map((_, rowIndex) =>
+              [...Array(repetitionsX)].map((_, colIndex) => (
+                <Image
+                  key={`${rowIndex}-${colIndex}`}
+                  src="/educhain-one.jpg"
+                  style={[
+                    styles.logoImage,
+                    {
+                      top: rowIndex * (logoSize + gap),
+                      left: colIndex * (logoSize + gap),
+                    },
+                  ]}
+                />
+              ))
+            )}
+          </View>
+        );
+      };
+
+    // const LogoRepeat: React.FC = () => {
+    //     const repetitions = 5; // Number of repetitions in each direction
+    //     const step = 200; // Distance between repetitions
+      
+    //     return (
+    //       <View style={styles.logoRepeat}>
+    //         {[...Array(repetitions)].map((_, rowIndex) =>
+    //           [...Array(repetitions)].map((_, colIndex) => (
+    //             <Image
+    //               key={`${rowIndex}-${colIndex}`}
+    //               src="/educhain-one.jpg"
+    //               style={[
+    //                 styles.logoImage,
+    //                 { top: rowIndex * step, left: colIndex * step },
+    //               ]}
+    //             />
+    //           ))
+    //         )}
+    //       </View>
+    //     );
+    //   };
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={styles.backgroundContainer}>
-          <Image src="/educhain-one.jpg" style={styles.backgroundImage} />
-        </View>
+        <LogoRepeat />
         <Watermark />
         <View style={styles.content}>
           <View style={styles.header}>
@@ -267,4 +335,4 @@ const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
   );
 };
 
-export default ResultDocument;
+export default ResultDocumentTwo;

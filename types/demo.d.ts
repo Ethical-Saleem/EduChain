@@ -169,7 +169,23 @@ declare namespace Demo {
     telephone: string | null | undefined;
     hasVerifiedEmail: boolean;
     userId: string;
-    [key: string]: string | number | null | undefined
+    roleClaim: RoleClaim;
+    [key: string]: string | number | null | undefined | RoleClaim
+  }
+
+  type Role = {
+    id: number;
+    roleId: string;
+    name: string;
+    roles: RoleClaim[]
+  }
+
+  type RoleClaim = {
+    id: number;
+    roleId: string;
+    userId: string;
+    schoolId: string;
+    role: Role
   }
 
   type NewUser = {
@@ -179,6 +195,11 @@ declare namespace Demo {
     password: string;
     schoolId: number | undefined;
     [key: string]: string | number | undefined
+  }
+
+  type EmailVerifyModel = {
+    email: string;
+    code: string;
   }
 
   type Result = {

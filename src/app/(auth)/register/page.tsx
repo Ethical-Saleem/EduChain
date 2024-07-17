@@ -7,15 +7,15 @@ import { Checkbox } from "primereact/checkbox";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
-import { LayoutContext } from "../../../layout/context/layoutcontext";
+import { LayoutContext } from "../../../../layout/context/layoutcontext";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
 import { FileUpload } from "primereact/fileupload";
 import { classNames } from "primereact/utils";
-import { Demo } from "../../../types";
-import { lusitana } from "../ui/fonts";
+import { Demo } from "../../../../types";
+import { lusitana } from "../../ui/fonts";
 
-import { AuthenticationService } from "../services/AuthenticationService";
+import { AuthenticationService } from "../../services/AuthenticationService";
 import { InputTextarea } from "primereact/inputtextarea";
 import { error } from "console";
 import { clearPreviewData } from "next/dist/server/api-utils";
@@ -160,7 +160,7 @@ const RegisterPage = () => {
           life: 3000,
         });
 
-        router.push("/login");
+        router.replace(`/email-verification?e=${newUserData.email}`);
         setLoading(false);
       }
     } catch (error: any) {

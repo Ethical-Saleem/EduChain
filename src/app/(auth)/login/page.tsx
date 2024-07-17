@@ -2,17 +2,15 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Toast } from "primereact/toast";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
-import { LayoutContext } from "../../../layout/context/layoutcontext";
 import { InputText } from "primereact/inputtext";
-import { classNames } from "primereact/utils";
-import { lusitana } from "../ui/fonts";
+import { lusitana } from "../../ui/fonts";
 
-import { AuthenticationService } from "../services/AuthenticationService";
+import { AuthenticationService } from "../../services/AuthenticationService";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -21,7 +19,6 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const toast = useRef<Toast>(null);
-  const { layoutConfig } = useContext(LayoutContext);
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -30,14 +27,22 @@ const LoginPage = () => {
     const messageParam = searchParams.get("message");
     if (messageParam) {
       setMessage(messageParam);
+      toast.current?.show({
+        severity: "warn",
+        summary: "Authentication Warning",
+        detail: messageParam,
+        life: 3000,
+      });
+      console.log('redirect-message', messageParam);
     }
-  }, [searchParams])
+  }, [searchParams]);
 
   const login = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
       const res = await AuthenticationService.login(email, password);
+      const redirectUrl = searchParams.get("redirect");
       if (res) {
         console.log("res", res);
         toast.current?.show({
@@ -47,14 +52,21 @@ const LoginPage = () => {
           life: 3000,
         });
         setLoading(false);
-        router.push("/dashboard");
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        }
+        if (!res.hasVerifiedEmail) {
+          router.replace(`/email-verification?e=${email}`);
+        } else {
+          router.push("/dashboard");
+        }
       }
     } catch (error: any) {
       setLoading(false);
       toast.current?.show({
         severity: "error",
         summary: "Error",
-        detail: error,
+        detail: error.message,
         life: 3000,
       });
     }
@@ -136,7 +148,7 @@ const LoginPage = () => {
             />
           </form>
           <div className="text-center mt-2">
-            <p className={`${lusitana.className} text-lg text-[#061a2b]`}>
+            <p className={`${lusitana.className} text-sm md:text-lg text-[#061a2b]`}>
               New to the platform? Kindly{" "}
               <Link href="/register">
                 <strong className="text-[#5a5a95]">register</strong>

@@ -1,24 +1,18 @@
 import { config } from "../config";
 import requestOptions from "../helpers/RequestOptions";
 import handleResponse from "../helpers/HandleResponses";
-import { request } from "http";
+import api from "../api/api";
+import { Demo } from "../../../types";
 
 async function fetchUsers(schoolId: number | undefined) {
-  const response = await fetch(
-    `${config.apiUrl}/User/All/${schoolId}`,
-    requestOptions.get()
-  )
-
-  const model = await handleResponse(response);
+  const response = await api.get(`/User/All/${schoolId}`);
+  const model = response.data;
   return model;
 }
 
-async function fetchRoles(schoolId: number) {
-  const response = await fetch(
-    `${config.apiUrl}/Account/GetRoles?Id=${schoolId}`,
-    requestOptions.get()
-  );
-  const model = await handleResponse(response);
+async function fetchRoles() {
+  const response = await api.get<Demo.Role[]>('/User/Role/All');
+  const model = response.data;
   return model;
 }
 
@@ -31,21 +25,15 @@ async function addRole(schoolId: number, role: string) {
   return model;
 }
 
-async function addUserToRole(schoolId: number, userId: string, role: string) {
-  const response = await fetch(
-    `${config.apiUrl}/Account/AddUserToRole/${schoolId}?userId=${userId}&roleName=${role}`,
-    requestOptions.post({})
-  );
-  const model = await handleResponse(response);
+async function addUserToRole(roleId: string, userId: string | undefined) {
+  const response = await api.post('/User/Role/AssignRole', { roleId, userId });
+  const model = response.data;
   return model;
 }
 
-async function removeFromRole(schoolId: number, user: string, role: string) {
-  const response = await fetch(
-    `${config.apiUrl}/Account/RemoveFromRole/${schoolId}?email=${user}&roleName=${role}`,
-    requestOptions.post({})
-  );
-  const model = await handleResponse(response);
+async function removeFromRole(roleId: string, userId: string) {
+  const response = await api.post(`/User/Role/RemoveFromRole?userId=${userId}&roleId=${roleId}`)
+  const model = response.data;
   return model;
 }
 

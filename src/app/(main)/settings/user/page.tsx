@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
 import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { DataTable } from "primereact/datatable";
 import { InputText } from "primereact/inputtext";
 import { getCookie } from "@/app/utils/cookies";
@@ -13,6 +14,8 @@ import { AuthenticationService } from "@/app/services/AuthenticationService";
 import { Column } from "primereact/column";
 import { Dialog } from "primereact/dialog";
 import { Password } from "primereact/password";
+import { Menu } from "primereact/menu";
+import { Dropdown } from "primereact/dropdown";
 
 const UserSetting = () => {
   const emptyUserData: Demo.NewUser = {
@@ -24,13 +27,19 @@ const UserSetting = () => {
   };
   const [users, setUsers] = useState([] as Demo.User[]);
   const [newUserData, setNewUserData] = useState<Demo.NewUser>(emptyUserData);
+  const [selectedUser, setSelectedUser] = useState<Demo.User | null>(null);
   const [currentUser, setCurrentUser] = useState<Demo.TokenModel | null>(null);
+  const [roles, setRoles] = useState([] as Demo.Role[]);
+  const [newRole, setNewRole] = useState("");
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [globalFilter, setGlobalFilter] = useState("");
-  const [newUser, setNewUser] = useState({} as Demo.NewUser);
   const [createModal, setCreateModal] = useState(false);
+  const [assignModal, setAssignModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const dt = useRef<DataTable<any>>(null);
+  const menu = useRef<Menu>(null);
   const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
     const user = getCookie("currentUser");
@@ -41,25 +50,50 @@ const UserSetting = () => {
         dispatchFetchUsers(parsedUser?.school.id);
       }
     }
+    const dispatchFetchRoles = async () => {
+      const result = await AccountService.fetchRoles();
+      setRoles(result);
+    };
+
+    dispatchFetchRoles();
   }, []);
 
   const openDialog = () => {
-    setCreateModal(true)
-  }
+    setCreateModal(true);
+  };
   const closeDialog = () => {
-    setCreateModal(false)
-    console.log(createModal)
-  }
+    setCreateModal(false);
+    setNewUserData(emptyUserData);
+  };
 
-  const dispatchFetchUsers = (id: number | undefined) => {
-    setLoading(true);
+  const openAssignModal = (data: Demo.User) => {
+    setSelectedUser(data);
+    setNewRole(data.roleClaim.roleId);
+    setAssignModal(true);
+  };
+  const closeAssignModal = () => {
+    setAssignModal(false);
+    setSelectedUser(null);
+  };
+
+  const openDeleteModal = (data: Demo.User) => {
+    setSelectedUser(data);
+    setDeleteModal(true);
+  };
+  const closeDeleteModal = () => {
+    setDeleteModal(false);
+    setSelectedUser(null);
+  };
+
+  const dispatchFetchUsers = (id: number | undefined): any => {
+    setFetching(true);
     AccountService.fetchUsers(id).then(
       (data) => {
         setUsers(data);
-        setLoading(false);
+        setFetching(false);
       },
       (error) => {
-        setLoading(false);
+        setFetching(false);
         console.log("fetch-error", error);
       }
     );
@@ -68,6 +102,7 @@ const UserSetting = () => {
   const createUser = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    newUserData.schoolId = currentUser?.school.id;
     try {
       const res = await AuthenticationService.registerUser(newUserData);
       console.log(res);
@@ -76,9 +111,27 @@ const UserSetting = () => {
 
         dispatchFetchUsers(currentUser?.school.id);
         setLoading(false);
+        closeDialog();
       }
     } catch (error: any) {
       setLoading(false);
+      toast.error(`Error: ${error}`);
+    }
+  };
+
+  const assingUserToRole = async () => {
+    setLoading(true);
+    try {
+      const res = await AccountService.addUserToRole(
+        newRole,
+        selectedUser?.userId
+      );
+      if (res) {
+        toast.success(`User, ${selectedUser?.name} assigned to a new role`);
+      }
+    } catch (error: any) {
+      setLoading(false);
+      console.log(error);
       toast.error(`Error: ${error}`);
     }
   };
@@ -107,6 +160,67 @@ const UserSetting = () => {
           />
         </div>
       </React.Fragment>
+    );
+  };
+
+  const TableActionsTemplate = (rowData: Demo.User) => {
+    return (
+      <>
+        <Button
+          type="button"
+          icon="pi pi-ellipsis-v"
+          rounded
+          text
+          className="p-button-plain"
+          onClick={(event) => menu.current?.toggle(event)}
+        />
+        <Menu
+          ref={menu}
+          popup
+          model={[
+            {
+              label: "Assign to new role",
+              icon: "pi pi-fw pi-arrow-down-left-and-arrow-up-right-to-center",
+              command: () => openAssignModal(rowData),
+            },
+            { label: "Remove", icon: "pi pi-fw pi-trash" },
+          ]}
+        />
+      </>
+    );
+  };
+
+  const EmailverifiedTemplate = (rowData: Demo.User) => {
+    return (
+      <>
+        {rowData.hasVerifiedEmail ? (
+          <span className="text-green-400">TRUE</span>
+        ) : (
+          <span className="text-red-400">FALSE</span>
+        )}
+      </>
+    );
+  };
+
+  const RoleClaimTemplate = (rowData: Demo.User) => {
+    return (
+      <>
+        <span>{rowData.roleClaim.role.name}</span>
+      </>
+    );
+  };
+
+  const AssignModalFooter = () => {
+    return (
+      <>
+        <Button
+          label="Submit"
+          icon="pi pi-check"
+          loading={loading}
+          onClick={assingUserToRole}
+        />
+        <Button label="Cancel" icon="pi pi-times" onClick={closeAssignModal} />
+      </>
     );
   };
 
@@ -141,11 +255,11 @@ const UserSetting = () => {
           rowsPerPageOptions={[5, 10, 25]}
           className="datatable-responsive"
           paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Records"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Users"
           globalFilter={globalFilter}
           emptyMessage="No records found."
           header={header}
-          loading={loading}
+          loading={fetching}
           responsiveLayout="scroll"
         >
           <Column
@@ -166,6 +280,24 @@ const UserSetting = () => {
             sortable
             headerStyle={{ minWidth: "15rem" }}
           ></Column>
+          <Column
+            field="hasVerifiedEmail"
+            header="EMAIL VERIFIED"
+            sortable
+            body={EmailverifiedTemplate}
+            headerStyle={{ minWidth: "15rem" }}
+          ></Column>
+          <Column
+            field="roleClaim"
+            header="ROLE"
+            sortable
+            body={RoleClaimTemplate}
+            headerStyle={{ minWidth: "15rem" }}
+          ></Column>
+          <Column
+            headerStyle={{ minWidth: "15rem" }}
+            body={TableActionsTemplate}
+          ></Column>
         </DataTable>
 
         <Dialog
@@ -175,8 +307,8 @@ const UserSetting = () => {
           header="New User Creation"
           onHide={closeDialog}
         >
-          <form onSubmit={createUser} className="flex flex-col">
-            <div className="formgrid grid form-inputs md:overflow-y-auto md:max-h-[50vh] mb-2">
+          <form onSubmit={createUser} className="">
+            <div className="formgrid grid mb-2">
               <div className="field col-12">
                 <label
                   htmlFor="name"
@@ -208,7 +340,7 @@ const UserSetting = () => {
                   value={newUserData.email}
                 />
               </div>
-              <div className="field col-12 md:col-6">
+              <div className="field col-12">
                 <label
                   htmlFor="name"
                   className="block text-900 text-basebase font-medium mb-2"
@@ -250,6 +382,43 @@ const UserSetting = () => {
               ></Button>
             </div>
           </form>
+        </Dialog>
+
+        <Dialog
+          visible={assignModal}
+          style={{ width: "450px" }}
+          modal
+          header="Assign User To New Role"
+          onHide={closeAssignModal}
+          footer={AssignModalFooter}
+        >
+          <div>
+            <div className="field mb-2">
+              <label htmlFor="currentRole" className="block">
+                Current Role
+              </label>
+              <InputText
+                id="currentRole"
+                value={selectedUser?.roleClaim.role.name}
+                disabled
+                className="w-full"
+              />
+            </div>
+            <div className="field mb-2">
+              <label htmlFor="newRole" className="block">
+                New Role
+              </label>
+              <Dropdown
+                value={newRole}
+                onChange={(e) => setNewRole(e.value)}
+                options={roles}
+                optionLabel="name"
+                optionValue="roleId"
+                placeholder="-- Select --"
+                className="w-full"
+              ></Dropdown>
+            </div>
+          </div>
         </Dialog>
       </div>
     </div>
