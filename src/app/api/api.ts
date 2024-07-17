@@ -24,7 +24,7 @@ const api = axios.create({
   const handleClientSideRedirects = async (error: any) => {
     const originalRequest = error.config;
   
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (!originalRequest._retry) {
       originalRequest._retry = true;
       try {
         const refreshedTokens = await AuthenticationService.refreshToken();
