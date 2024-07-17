@@ -347,7 +347,7 @@ const VerificationPage = () => {
                   value={token}
                   onChange={(e) => setToken(e.value?.toString().toUpperCase())}
                   length={6}
-                  inputTemplate={customInput}
+                  className="custom-otp-input-sample"
                   style={{ gap: 0 }}
                 />
                 <div className="flex justify-content-between mt-5 align-self-stretch">
