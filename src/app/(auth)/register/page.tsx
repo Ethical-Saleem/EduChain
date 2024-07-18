@@ -129,8 +129,8 @@ const RegisterPage = () => {
           ...prevData,
           email: res.email,
           telephone: res.telephone,
-          schoolId: res.id
-        }))
+          schoolId: res.id,
+        }));
 
         setIsSchoolCreated(true);
         setLoading(false);
@@ -182,12 +182,21 @@ const RegisterPage = () => {
           <h1 className="text-2xl font-bold mb-4">
             Welcome to <span className="text-white">EduChain</span>
           </h1>
-          {!isSchoolCreated && <p className="text-sm mb-8">
-            Please fill in the spaces to register your school
-          </p>}
-          {isSchoolCreated && <p className="text-sm mb-8">
-            Please create a super user to login into your dashboard
-          </p>}
+          {!isSchoolCreated && (
+            <>
+              <p className="text-sm mb-2">
+                Please fill in the spaces to register your school
+              </p>
+              <p className="text-sm">
+                Marked <span className="text-rose-600 text-bold">( * )</span> inputs are required
+              </p>
+            </>
+          )}
+          {isSchoolCreated && (
+            <p className="text-sm mb-8">
+              Please create a super user to login into your dashboard
+            </p>
+          )}
         </div>
       </div>
       <div className="container bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md">
@@ -206,10 +215,12 @@ const RegisterPage = () => {
                       className="block text-900 text-base font-medium mb-2"
                     >
                       School Name
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
                       id="name"
                       placeholder="School Name"
+                      required
                       className="w-full mb-2 p-2 bg-gray-200"
                       onChange={(e) => onInputChange(e, "name")}
                       value={registerData.name}
@@ -221,10 +232,12 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       Address
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputTextarea
                       id="address"
                       placeholder="Address"
+                      required
                       className="w-full p-2 bg-gray-200 mb-2"
                       onChange={(e) => onInputChange(e, "address")}
                       value={registerData.address}
@@ -236,10 +249,12 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       Email
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
                       id="email1"
                       type="text"
+                      required
                       placeholder="Email address"
                       className="w-full p-2 bg-gray-200 mb-2"
                       onChange={(e) => onInputChange(e, "email")}
@@ -267,10 +282,12 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       Telephone
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
                       id="telephone"
                       placeholder="Telephone"
+                      required
                       className="w-full p-2 bg-gray-200 mb-2"
                       onChange={(e) => onInputChange(e, "telephone")}
                       value={registerData.telephone}
@@ -282,10 +299,12 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       City
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
                       id="city"
                       placeholder="City"
+                      required
                       className="w-full p-2 bg-gray-200 mb-2"
                       onChange={(e) => onInputChange(e, "city")}
                       value={registerData.city}
@@ -297,10 +316,12 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       Region/State
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
                       id="region"
                       placeholder="Region/State"
+                      required
                       className="w-full p-2 bg-gray-200 mb-2"
                       onChange={(e) => onInputChange(e, "region")}
                       value={registerData.region}
@@ -312,10 +333,12 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       Country
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
                       id="country"
                       placeholder="Country"
+                      required
                       className="w-full p-2 bg-gray-200 mb-2"
                       onChange={(e) => onInputChange(e, "country")}
                       value={registerData.country}
@@ -327,12 +350,14 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       Date Founded
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <Calendar
                       id="date"
                       className="w-full p-2 bg-gray-200 mb-2"
                       dateFormat="dd/mm/yy"
                       showIcon
+                      required
                       onChange={(e) => onDateChange(e)}
                       value={registerData.dateFounded}
                     />
@@ -343,10 +368,12 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       School Logo
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <input
                       type="file"
                       className="fileform-input"
+                      required
                       accept="image/*"
                       onChange={(e) => handleFile(e)}
                     />
@@ -386,10 +413,12 @@ const RegisterPage = () => {
                       className="block text-900 text-base font-medium mb-2"
                     >
                       UserName
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
                       id="name"
                       placeholder="School Name"
+                      required
                       className="w-full mb-2 p-2 bg-gray-200"
                       onChange={(e) => onInputUserChange(e, "name")}
                       value={newUserData.name}
@@ -401,10 +430,12 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       Email
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
                       id="email1"
                       type="text"
+                      required
                       placeholder="Email address"
                       className="w-full p-2 bg-gray-200 mb-2"
                       onChange={(e) => onInputUserChange(e, "email")}
@@ -417,10 +448,12 @@ const RegisterPage = () => {
                       className="block text-900 text-basebase font-medium mb-2"
                     >
                       Telephone
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
                       id="telephone"
                       placeholder="Telephone"
+                      required
                       className="w-full p-2 bg-gray-200 mb-2"
                       onChange={(e) => onInputUserChange(e, "telephone")}
                       value={newUserData.telephone}
@@ -432,10 +465,12 @@ const RegisterPage = () => {
                       className="block text-900 font-medium text-basebase mb-2"
                     >
                       Default Password
+                      <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <Password
                       inputId="password1"
                       value={newUserData.password}
+                      required
                       onChange={(e) => onInputUserChange(e, "password")}
                       placeholder="Password"
                       toggleMask

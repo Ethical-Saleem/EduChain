@@ -1,7 +1,7 @@
 import { inter } from "@/app/ui/fonts";
 import "@/app/ui/global.css"
 import React, { Suspense } from "react";
-import Loading from "../ui/loading";
+import Loading from "../(main)/loading";
 
 import { Metadata } from "next";
 // import withAuth from "@/hoc/withAuth";

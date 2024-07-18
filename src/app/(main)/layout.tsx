@@ -1,6 +1,7 @@
 import Layout from "../../../layout/layout";
 import React, { Suspense } from "react";
 import { Metadata } from "next";
+import Loading from "./loading";
 // import withAuth from "@/hoc/withAuth";
 
 export const metadata: Metadata = {
@@ -26,9 +27,9 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
-    <Suspense fallback={<div>loading...</div>}>
+    // <Suspense fallback={<Loading />}>
       <Layout>{children}</Layout>
-    </Suspense>
+    // </Suspense>
   );
 };
 

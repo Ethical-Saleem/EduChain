@@ -59,6 +59,7 @@ async function refreshToken(): Promise<Demo.TokenModel> {
   }
 
   const response = await api.post<Demo.TokenModel>('/auth/refresh-token', { refreshToken: currentUser.refreshToken });
+  console.log('currentUser-refresh', currentUser);
   const model = response.data;
 
   Cookies.set("currentUser", JSON.stringify(model));

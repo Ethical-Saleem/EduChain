@@ -55,18 +55,20 @@ const LoginPage = () => {
         if (redirectUrl) {
           router.push(redirectUrl);
         }
-        if (!res.hasVerifiedEmail) {
-          router.replace(`/email-verification?e=${email}`);
-        } else {
-          router.push("/dashboard");
-        }
+        // if (!res.hasVerifiedEmail) {
+        //   router.replace(`/email-verification?e=${email}`);
+        // } else {
+        //   router.push("/dashboard");
+        // }
+        router.push("/dashboard");
       }
     } catch (error: any) {
       setLoading(false);
+      console.log("login-error", error);
       toast.current?.show({
         severity: "error",
         summary: "Error",
-        detail: error.message,
+        detail: error.response.data.message,
         life: 3000,
       });
     }

@@ -28,16 +28,25 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { getCookie } from "@/app/utils/cookies";
 import { withAuth } from "@/app/hoc/WithAuth";
+import Loading from "../loading";
+
+interface UploadError {
+  row: number;
+  error: string;
+}
 
 const Results = () => {
   const toastPrime = useRef<Toast>(null);
   const [results, setResults] = useState([] as Demo.Result[]);
   const [resultRecord, setResult] = useState({} as Demo.Result);
   const [selectedResults, setSelectedResults] = useState([]);
+  const [uploadErrors, setUploadErrors] = useState([] as UploadError[]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [importDialog, setImportDialog] = useState(false);
   const [downloadDialog, setDownloadDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
+  const [errorDialog, setErrorDialog] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [downloading, setDownloading] = useState(false);
@@ -55,15 +64,15 @@ const Results = () => {
     }
   }, []);
 
-  const fetchRecords = (id: number | undefined) => {
-    setLoading(true);
-    SchoolService.dispatchFetchResults(id).then(
+  const fetchRecords = async (id: number | undefined) => {
+    setFetching(true);
+    await SchoolService.dispatchFetchResults(id).then(
       (data) => {
         setResults(data);
-        setLoading(false);
+        setFetching(false);
       },
       (error) => {
-        setLoading(false);
+        setFetching(false);
         console.log("fetch-error", error);
       }
     );
@@ -138,6 +147,15 @@ const Results = () => {
     setDeleteDialog(false);
   };
 
+  const openErrorDialog = (data: any) => {
+    setUploadErrors(data);
+    setErrorDialog(true);
+  };
+  const closeErrorDialog = () => {
+    setErrorDialog(false);
+    setUploadErrors([] as UploadError[]);
+  };
+
   const formatYear = (date: Date) => {
     const d = new Date(date);
     return d.getFullYear();
@@ -198,6 +216,20 @@ const Results = () => {
     );
   };
 
+  const ErrorDialogFooter = () => {
+    return (
+      <>
+        <Button
+          label="Dismiss"
+          icon="pi pi-times"
+          text
+          severity="danger"
+          onClick={closeErrorDialog}
+        />
+      </>
+    );
+  };
+
   const UploadTemplate = () => {
     const [totalSize, setTotalSize] = useState(0);
     const fileUploadRef = useRef<FileUpload>(null);
@@ -233,6 +265,14 @@ const Results = () => {
         },
         (error) => {
           console.log(error);
+          if (error.response) {
+            if (error.response.data.errors) {
+              console.log(error.response.data.errors);
+              openErrorDialog(error.response.data.errors);
+            } else {
+              toast.error(`${error.response.data.message}`);
+            }
+          }
         }
       );
     };
@@ -433,145 +473,169 @@ const Results = () => {
   );
 
   return (
-    <div className="grid">
-      <div className="col-12">
-        <div className="card bg-gray-200 text-gray-700">
-          <Toast />
-          <ToastContainer />
-          <Toolbar className="mb-4" end={rightToolbarTemplate} />
-          <DataTable
-            ref={dt}
-            value={results}
-            selection={selectedResults}
-            onSelectionChange={(e) => setSelectedResults(e.value as any)}
-            dataKey="id"
-            paginator
-            rows={10}
-            rowsPerPageOptions={[5, 10, 25]}
-            className="datatable-responsive"
-            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Records"
-            globalFilter={globalFilter}
-            emptyMessage="No records found."
-            header={header}
-            loading={loading}
-            responsiveLayout="scroll"
-          >
-            <Column
-              selectionMode="multiple"
-              headerStyle={{ width: "4rem" }}
-            ></Column>
-            <Column
-              field="studentNumber"
-              sortable
-              header="STUDENT NUNMBER"
-              body={studentNumberTemplate}
-              headerStyle={{ minWidth: "15rem" }}
-            ></Column>
-            <Column
-              field="surname"
-              sortable
-              header="SURNAME"
-              body={SurnameBodyTemplate}
-              headerStyle={{ minWidth: "15rem" }}
-            ></Column>
-            <Column
-              field="otherNames"
-              sortable
-              header="OTHER NAMES"
-              headerStyle={{ minWidth: "15rem" }}
-            ></Column>
-            <Column
-              field="email"
-              sortable
-              header="EMAIL"
-              headerStyle={{ minWidth: "15rem" }}
-            ></Column>
-            <Column
-              field="phoneNumberOne"
-              sortable
-              header="PHONE NUMBER"
-              headerStyle={{ minWidth: "15rem" }}
-            ></Column>
-            <Column
-              field="grade"
-              sortable
-              header="GRADE"
-              headerStyle={{ minWidth: "15rem" }}
-            ></Column>
-            <Column
-              field="yearOfGrad"
-              sortable
-              header="YEAR OF GRADUATION"
-              body={YearOfGradTemplate}
-              headerStyle={{ minWidth: "15rem" }}
-            ></Column>
-            <Column
-              headerStyle={{ minWidth: "15rem" }}
-              body={tableActionsTemplate}
-            />
-          </DataTable>
-
-          <Dialog
-            visible={downloadDialog}
-            style={{ width: "450px" }}
-            header="Result Upload Template"
-            modal
-            className="p-fluid"
-            onHide={closeDownloadDialog}
-          >
-            <div className="">
-              <p className={`${lusitana.className}`}>
-                Download the upload template and fill in the respective fields
-              </p>
-              <Button
-                label="Download"
-                className="w-full"
-                severity="success"
-                loading={downloading}
-                onClick={downloadTemplate}
+    <>
+      {fetching && <Loading />}
+      <div className="grid">
+        <div className="col-12">
+          <div className="card bg-gray-200 text-gray-700">
+            <Toast />
+            <ToastContainer />
+            <Toolbar className="mb-4" end={rightToolbarTemplate} />
+            <DataTable
+              ref={dt}
+              value={results}
+              selection={selectedResults}
+              onSelectionChange={(e) => setSelectedResults(e.value as any)}
+              dataKey="id"
+              paginator
+              rows={10}
+              rowsPerPageOptions={[5, 10, 25]}
+              className="datatable-responsive"
+              paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Records"
+              globalFilter={globalFilter}
+              emptyMessage="No records found."
+              header={header}
+              loading={fetching}
+              responsiveLayout="scroll"
+            >
+              <Column
+                selectionMode="multiple"
+                headerStyle={{ width: "4rem" }}
+              ></Column>
+              <Column
+                field="studentNumber"
+                sortable
+                header="STUDENT NUNMBER"
+                body={studentNumberTemplate}
+                headerStyle={{ minWidth: "15rem" }}
+              ></Column>
+              <Column
+                field="surname"
+                sortable
+                header="SURNAME"
+                body={SurnameBodyTemplate}
+                headerStyle={{ minWidth: "15rem" }}
+              ></Column>
+              <Column
+                field="otherNames"
+                sortable
+                header="OTHER NAMES"
+                headerStyle={{ minWidth: "15rem" }}
+              ></Column>
+              <Column
+                field="email"
+                sortable
+                header="EMAIL"
+                headerStyle={{ minWidth: "15rem" }}
+              ></Column>
+              <Column
+                field="phoneNumberOne"
+                sortable
+                header="PHONE NUMBER"
+                headerStyle={{ minWidth: "15rem" }}
+              ></Column>
+              <Column
+                field="grade"
+                sortable
+                header="GRADE"
+                headerStyle={{ minWidth: "15rem" }}
+              ></Column>
+              <Column
+                field="yearOfGrad"
+                sortable
+                header="YEAR OF GRADUATION"
+                body={YearOfGradTemplate}
+                headerStyle={{ minWidth: "15rem" }}
+              ></Column>
+              <Column
+                headerStyle={{ minWidth: "15rem" }}
+                body={tableActionsTemplate}
               />
-            </div>
-          </Dialog>
+            </DataTable>
 
-          <Dialog
-            visible={importDialog}
-            style={{ width: "700px" }}
-            header="Result Upload"
-            modal
-            className="p-fluid"
-            footer={ImportDialogFooter}
-            onHide={closeImportDialog}
-          >
-            <div className="">
-              <UploadTemplate />
-            </div>
-          </Dialog>
+            <Dialog
+              visible={downloadDialog}
+              style={{ width: "450px" }}
+              header="Result Upload Template"
+              modal
+              className="p-fluid"
+              onHide={closeDownloadDialog}
+            >
+              <div className="">
+                <p className={`${lusitana.className}`}>
+                  Download the upload template and fill in the respective fields
+                </p>
+                <Button
+                  label="Download"
+                  className="w-full"
+                  severity="success"
+                  loading={downloading}
+                  onClick={downloadTemplate}
+                />
+              </div>
+            </Dialog>
 
-          <Dialog
-            visible={deleteDialog}
-            style={{ width: "450px" }}
-            header="Confirm"
-            modal
-            footer={DeleteDialogFooter}
-            onHide={closeDeleteDialog}
-          >
-            <div className="flex align-items-center justify-content-center">
-              <i
-                className="pi pi-exclamation-triangle mr-3"
-                style={{ fontSize: "2rem" }}
-              />
-              {resultRecord && (
-                <span>
-                  Are you sure you want to delete{" "}
-                  <b>{resultRecord.studentNumber}</b>?
-                </span>
-              )}
-            </div>
-          </Dialog>
+            <Dialog
+              visible={importDialog}
+              style={{ width: "700px" }}
+              header="Result Upload"
+              modal
+              className="p-fluid"
+              footer={ImportDialogFooter}
+              onHide={closeImportDialog}
+            >
+              <div className="">
+                <UploadTemplate />
+              </div>
+            </Dialog>
+
+            <Dialog
+              visible={deleteDialog}
+              style={{ width: "450px" }}
+              header="Confirm"
+              modal
+              footer={DeleteDialogFooter}
+              onHide={closeDeleteDialog}
+            >
+              <div className="flex align-items-center justify-content-center">
+                <i
+                  className="pi pi-exclamation-triangle mr-3"
+                  style={{ fontSize: "2rem" }}
+                />
+                {resultRecord && (
+                  <span>
+                    Are you sure you want to delete{" "}
+                    <b>{resultRecord.studentNumber}</b>?
+                  </span>
+                )}
+              </div>
+            </Dialog>
+
+            <Dialog
+              visible={errorDialog}
+              style={{ width: "450px" }}
+              header="Upload Error(s)"
+              modal
+              footer={ErrorDialogFooter}
+              onHide={closeErrorDialog}
+            >
+              <div className="">
+                <p className="text-red-400">The following error(s) occured while validating the uploaded document:</p>
+                <ul className="unstyled">
+                  {uploadErrors.map((i, key) => (
+                    <li className="flex mb-2" key={key}>
+                      <span className="text-base">{`Row ${i.row}:`}</span>
+                      <span className="text-rose-400 font-bold ml-3">{i.error}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </Dialog>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

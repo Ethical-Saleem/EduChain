@@ -10,6 +10,18 @@ async function fetchUsers(schoolId: number | undefined) {
   return model;
 }
 
+async function updateUser(id: number | undefined, input: Demo.User) {
+  const response = await api.put(`/User/${id}`, input);
+  const model = response.data;
+  return model;
+}
+
+async function deleteUser(id: number | undefined) {
+  const response = await api.delete(`/User/${id}`);
+  const model = response.data;
+  return model;
+}
+
 async function fetchRoles() {
   const response = await api.get<Demo.Role[]>('/User/Role/All');
   const model = response.data;
@@ -39,6 +51,8 @@ async function removeFromRole(roleId: string, userId: string) {
 
 export const AccountService = {
   fetchUsers,
+  updateUser,
+  deleteUser,
   fetchRoles,
   addRole,
   addUserToRole,

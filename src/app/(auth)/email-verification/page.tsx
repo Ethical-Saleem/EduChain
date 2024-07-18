@@ -12,10 +12,9 @@ import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
 import { InputOtp } from "primereact/inputotp";
-import { lusitana } from "@/app/ui/fonts";
 import Image from "next/image";
 
-import { AuthenticationService } from "@/app/services/AuthenticationService";
+import { AuthenticationService } from "../../services/AuthenticationService";
 import { Demo } from "../../../../types";
 
 interface CustomInputProps extends InputHTMLAttributes<HTMLInputElement> {

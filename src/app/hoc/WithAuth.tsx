@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { AuthenticationService } from "../services/AuthenticationService";
-import Loading from "../ui/loading";
+import Loading from "../(main)/loading";
 
 type ComponentType = React.ComponentType<any>;
 
@@ -38,14 +38,8 @@ export function withAuth(Component: ComponentType) {
       };
 
       checkAuth();
-    }, [currentUserValue]);
+    }, []);
 
-    console.log("current-path", pathName);
-
-    // if (!currentUserValue) {
-    //     router.push('/login')
-    //     return null;
-    // }
     if (loading) {
       return <Loading />;
     }

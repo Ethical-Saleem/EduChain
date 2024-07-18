@@ -12,6 +12,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { withAuth } from "@/app/hoc/WithAuth";
+import Loading from "./loading";
 
 import { inter } from "@/app/ui/fonts";
 import { InputText } from "primereact/inputtext";
@@ -20,9 +21,11 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
   const router = useRouter();
 
   const [record, setRecord] = useState({} as Demo.Result);
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [loading, setLoading] = useState(false);
   const [recordDialog, setRecordDialog] = useState(false);
+
+  const keysToExcludeForUpdate = ['createdAt', 'lastMofidiedOn', 'school'];
 
   useEffect(() => {
     fetchData();
@@ -49,6 +52,15 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
   };
   const closeRecordDialog = () => {
     setRecordDialog(false);
+  };
+
+  const excludeKeys = (obj: Demo.Result, keysToExclude: string[]): Partial<Demo.Result> => {
+    return Object.keys(obj)
+      .filter(key => !keysToExclude.includes(key))
+      .reduce((acc, key) => {
+        acc[key] = obj[key];
+        return acc;
+      }, {} as Partial<Demo.Result>);
   };
 
   const formatYear = (date: Date) => {
@@ -87,11 +99,15 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
     setLoading(true);
 
     try {
-        // record.yearOfGrad = convertToISO(record.yearOfGrad)
-      const result = await SchoolService.dispatchUpdateRecord(record);
+      const sanitizedRecord = excludeKeys(record, keysToExcludeForUpdate);
+      const updateRecord: Demo.Result = {
+        id: record.id,
+        ...sanitizedRecord
+      };
+      const result = await SchoolService.dispatchUpdateRecord(updateRecord);
       if (result) {
         setLoading(false);
-        toast.success("Record update successfully");
+        toast.success("Record updated successfully");
         closeRecordDialog();
         fetchData();
       }
@@ -159,6 +175,8 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
   };
 
   return (
+    <>
+    {fetching && <Loading />}
     <div className="grid">
       <div className="col-12">
         <div className="card bg-gray-200 text-gray-700">
@@ -347,6 +365,7 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
