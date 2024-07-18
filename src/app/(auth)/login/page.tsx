@@ -60,6 +60,7 @@ const LoginPage = () => {
          } else {
            router.push("/dashboard");
          }
+       }
     } catch (error: any) {
       setLoading(false);
       console.log("login-error", error);
