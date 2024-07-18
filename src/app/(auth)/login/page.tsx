@@ -55,13 +55,11 @@ const LoginPage = () => {
         if (redirectUrl) {
           router.push(redirectUrl);
         }
-        // if (!res.hasVerifiedEmail) {
-        //   router.replace(`/email-verification?e=${email}`);
-        // } else {
-        //   router.push("/dashboard");
-        // }
-        router.push("/dashboard");
-      }
+         if (!res.hasVerifiedEmail) {
+           router.replace(`/email-verification?e=${email}`);
+         } else {
+           router.push("/dashboard");
+         }
     } catch (error: any) {
       setLoading(false);
       console.log("login-error", error);
