@@ -27,9 +27,9 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
-    // <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading />}>
       <Layout>{children}</Layout>
-    // </Suspense>
+    </Suspense>
   );
 };
 
