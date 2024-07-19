@@ -497,7 +497,7 @@ const Results = () => {
   return (
     <>
       {fetching && <Loading />}
-      <div className="grid">
+      {!fetching && (<div className="grid">
         <div className="col-12">
           <div className="card bg-gray-200 text-gray-700">
             <Toast />
@@ -656,7 +656,7 @@ const Results = () => {
             </Dialog>
           </div>
         </div>
-      </div>
+      </div>}
     </>
   );
 };
