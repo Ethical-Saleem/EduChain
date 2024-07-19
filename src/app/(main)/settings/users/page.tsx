@@ -321,7 +321,7 @@ const UserSetting = () => {
   return (
     <>
       {fetching && <Loading />}
-      <div className="grid">
+      {!fetching && (<div className="grid">
         <div className="col-12">
           <div className="card">
             <ToastContainer />
@@ -526,7 +526,7 @@ const UserSetting = () => {
             </Dialog>
           </div>
         </div>
-      </div>
+      </div>)}
     </>
   );
 };
