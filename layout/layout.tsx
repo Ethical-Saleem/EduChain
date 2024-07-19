@@ -146,4 +146,4 @@ const Layout = ({ children }: ChildContainerProps) => {
     );
 };
 
-export default Layout;
+export default withAuth(Layout);

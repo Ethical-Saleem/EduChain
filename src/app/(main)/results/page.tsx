@@ -71,9 +71,15 @@ const Results = () => {
         setResults(data);
         setFetching(false);
       },
-      (error) => {
+      (error: any) => {
         setFetching(false);
-        console.log("fetch-error", error);
+        if (error.response) {
+          toast.error(`Error: ${error.response.data.message}`)
+        } else if (error.message) {
+          toast.error(`Error: ${error.message}`)
+        } else {
+          toast.error(`Error: ${error}`)
+        }
       }
     );
   };
@@ -100,9 +106,15 @@ const Results = () => {
       }
       setDownloading(false);
       setDownloadDialog(false);
-    } catch (error) {
+    } catch (error: any) {
       setDownloading(false);
-      toast.error(`Error ${error}`);
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.message}`)
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
     }
   };
 
@@ -118,10 +130,16 @@ const Results = () => {
         fetchRecords(currentUser?.school.id);
         setDeleteDialog(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       setLoading(false);
       console.log("delete-error", error);
-      toast.error(`Error: ${error}`);
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.message}`)
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
     }
   };
 
@@ -272,6 +290,10 @@ const Results = () => {
             } else {
               toast.error(`${error.response.data.message}`);
             }
+          } else if (error.message) {
+            toast.error(`Error: ${error.message}`)
+          } else {
+            toast.error(`Error: ${error}`)
           }
         }
       );
@@ -639,4 +661,4 @@ const Results = () => {
   );
 };
 
-export default Results;
+export default withAuth(Results);

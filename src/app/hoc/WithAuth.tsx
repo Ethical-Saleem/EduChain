@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { AuthenticationService } from "../services/AuthenticationService";
-import Loading from "../(main)/loading";
+import Loading from "../(auth)/loading";
 
 type ComponentType = React.ComponentType<any>;
 
@@ -38,7 +38,7 @@ export function withAuth(Component: ComponentType) {
       };
 
       checkAuth();
-    }, []);
+    }, [currentUserValue, message, pathName, router]);
 
     if (loading) {
       return <Loading />;

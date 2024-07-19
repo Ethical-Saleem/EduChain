@@ -25,7 +25,7 @@ export default function Loading () {
       aria-label="Loading Spinner"
       data-testid="loader"
       />
-      <p className="mt-4">Please wait while we fetch data...</p>
+      <p className="mt-4">Please wait while we check authentication status...</p>
     </div>
   )
 }

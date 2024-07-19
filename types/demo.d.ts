@@ -194,7 +194,8 @@ declare namespace Demo {
     telephone: string | undefined;
     password: string;
     schoolId: number | undefined;
-    [key: string]: string | number | undefined
+    isNewSuper: boolean;
+    [key: string]: string | number | boolean | undefined
   }
 
   type EmailVerifyModel = {

@@ -86,12 +86,28 @@ const VerificationPage = () => {
       }
     } catch (error: any) {
       console.log("send-mail-error", error);
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: error.response.data.message,
-        life: 3000,
-      });
+      if (error.response) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.response.data.message,
+          life: 3000,
+        });
+      } else if (error.message) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+          life: 3000,
+        });
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error,
+          life: 3000,
+        });
+      }
       setLoading(false);
     }
   };
@@ -115,12 +131,28 @@ const VerificationPage = () => {
       }
     } catch (error: any) {
       console.log("send-mail-error", error);
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: error.response.data.message,
-        life: 3000,
-      });
+      if (error.response) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.response.data.message,
+          life: 3000,
+        });
+      } else if (error.message) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+          life: 3000,
+        });
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error,
+          life: 3000,
+        });
+      }
       setResending(false);
     }
   };
@@ -142,12 +174,28 @@ const VerificationPage = () => {
       }
     } catch (error: any) {
       console.log("verify-email-error", error);
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: error.response.data.message,
-        life: 3000,
-      });
+      if (error.response) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.response.data.message,
+          life: 3000,
+        });
+      } else if (error.message) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+          life: 3000,
+        });
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error,
+          life: 3000,
+        });
+      }
       setLoading(false);
     }
   };

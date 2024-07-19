@@ -1,4 +1,4 @@
-import { CSSProperties } from "react";
+import React, { CSSProperties } from "react";
 import RingLoader from "react-spinners/RingLoader";
 
 const override: CSSProperties = {

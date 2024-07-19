@@ -43,7 +43,13 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
     } catch (error: any) {
       console.log("fetch-error", error);
       setFetching(false);
-      toast.error(`Error: ${error}`);
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.message}`)
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
     }
   };
 
@@ -113,7 +119,13 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
       }
     } catch (error: any) {
       console.log("update-error", error);
-      toast.error(`Error: ${error}`);
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.message}`)
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
       setLoading(false);
     }
   };

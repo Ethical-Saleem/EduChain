@@ -65,12 +65,28 @@ const LoginPage = () => {
     } catch (error: any) {
       setLoading(false);
       console.log("login-error", error);
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: error.response.data.message,
-        life: 3000,
-      });
+      if (error.response) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.response.data.message,
+          life: 3000,
+        });
+      } else if (error.message) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+          life: 3000,
+        });
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error,
+          life: 3000,
+        });
+      }
     }
   };
 

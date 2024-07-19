@@ -18,6 +18,7 @@ import { Menu } from "primereact/menu";
 import { Dropdown } from "primereact/dropdown";
 import { useRouter } from "next/navigation";
 import Loading from "../../loading";
+import { withAuth } from "@/app/hoc/WithAuth";
 
 const UserSetting = () => {
   const emptyUserData: Demo.NewUser = {
@@ -26,6 +27,7 @@ const UserSetting = () => {
     telephone: "",
     password: "",
     schoolId: 0,
+    isNewSuper: false,
   };
   const [users, setUsers] = useState([] as Demo.User[]);
   const [newUserData, setNewUserData] = useState<Demo.NewUser>(emptyUserData);
@@ -99,7 +101,13 @@ const UserSetting = () => {
         if (error.response) {
           if (error.response?.status === 403) {
             router.push("/403");
+          } else {
+            toast.error(`Error: ${error.response.data.message}`)
           }
+        } else if (error.message) {
+          toast.error(`Error: ${error.message}`)
+        } else {
+          toast.error(`Error: ${error}`)
         }
         setFetching(false);
         toast.error(error);
@@ -124,7 +132,13 @@ const UserSetting = () => {
       }
     } catch (error: any) {
       setLoading(false);
-      toast.error(`Error: ${error}`);
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.message}`)
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
     }
   };
 
@@ -144,7 +158,13 @@ const UserSetting = () => {
     } catch (error: any) {
       setLoading(false);
       console.log(error);
-      toast.error(`Error: ${error.response.data.message}`);
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.message}`)
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
     }
   };
 
@@ -161,7 +181,13 @@ const UserSetting = () => {
     } catch (error: any) {
       setLoading(false);
       console.log("delete-error", error);
-      toast.error(`${error.response.data.message}`);
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.message}`)
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
     }
   };
 
@@ -505,4 +531,4 @@ const UserSetting = () => {
   );
 };
 
-export default UserSetting;
+export default withAuth(UserSetting);

@@ -9,13 +9,12 @@ const override: CSSProperties = {
 
 const containerStyle: CSSProperties = {
   display: "flex",
-  flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
   height: "100vh",
-};
+}
 
-export default function Loading () {
+export default function Loader () {
   return (
     <div style={containerStyle}>
       <RingLoader
@@ -25,7 +24,6 @@ export default function Loading () {
       aria-label="Loading Spinner"
       data-testid="loader"
       />
-      <p className="mt-4">Please wait while we fetch data...</p>
     </div>
   )
 }

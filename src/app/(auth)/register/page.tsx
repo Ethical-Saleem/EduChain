@@ -40,6 +40,7 @@ const RegisterPage = () => {
     telephone: "",
     password: "",
     schoolId: 0,
+    isNewSuper: true,
   };
   const [registerData, setRegisterData] = useState<Demo.NewSchool>(emptyData);
   const [newUserData, setNewUserData] = useState<Demo.NewUser>(emptyUserData);
@@ -137,12 +138,28 @@ const RegisterPage = () => {
       }
     } catch (error: any) {
       setLoading(false);
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: error,
-        life: 3000,
-      });
+      if (error.response) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.response.data.message,
+          life: 3000,
+        });
+      } else if (error.message) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+          life: 3000,
+        });
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error,
+          life: 3000,
+        });
+      }
     }
   };
 
@@ -165,12 +182,28 @@ const RegisterPage = () => {
       }
     } catch (error: any) {
       setLoading(false);
-      toast.current?.show({
-        severity: "error",
-        summary: "Error",
-        detail: error,
-        life: 3000,
-      });
+      if (error.response) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.response.data.message,
+          life: 3000,
+        });
+      } else if (error.message) {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error.message,
+          life: 3000,
+        });
+      } else {
+        toast.current?.show({
+          severity: "error",
+          summary: "Error",
+          detail: error,
+          life: 3000,
+        });
+      }
     }
   };
 
@@ -179,23 +212,29 @@ const RegisterPage = () => {
       <Toast ref={toast} />
       <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-[#5a5a95] to-[#245763] text-white p-8 items-center justify-center flex-col">
         <div className="overlay-panel text-center">
-          <h1 className="text-2xl font-bold mb-4">
-            Welcome to <span className="text-white">EduChain</span>
-          </h1>
           {!isSchoolCreated && (
             <>
+              <h1 className="text-2xl font-bold mb-4">
+                Welcome to <span className="text-white">EduChain</span>
+              </h1>
               <p className="text-sm mb-2">
                 Please fill in the spaces to register your school
               </p>
               <p className="text-sm">
-                Marked <span className="text-rose-600 text-bold">( * )</span> inputs are required
+                Marked <span className="text-rose-600 text-bold">( * )</span>{" "}
+                inputs are required
               </p>
             </>
           )}
           {isSchoolCreated && (
+            <>
+            <h1 className="text-2xl font-bold mb-4">
+            Thank you for creating an account with us.
+          </h1>
             <p className="text-sm mb-8">
-              Please create a super user to login into your dashboard
+              Please create an Admin user to login into your dashboard
             </p>
+            </>
           )}
         </div>
       </div>
@@ -412,7 +451,7 @@ const RegisterPage = () => {
                       htmlFor="name"
                       className="block text-900 text-base font-medium mb-2"
                     >
-                      UserName
+                      Username
                       <span className="ml-1 text-rose-400">*</span>
                     </label>
                     <InputText
