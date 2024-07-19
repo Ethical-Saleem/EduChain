@@ -656,7 +656,7 @@ const Results = () => {
             </Dialog>
           </div>
         </div>
-      </div>}
+      </div>)}
     </>
   );
 };
