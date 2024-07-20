@@ -13,20 +13,30 @@ import { Metadata } from "next";
 // import withAuth from "@/hoc/withAuth";
 
 export const metadata: Metadata = {
-  title: "EduChain",
+  title: {
+    template: "%s | EduChain",
+    default: "EduChain"
+  },
   description: "Access your school record on the go.",
   robots: { index: false, follow: false },
-  viewport: { initialScale: 1, width: "device-width" },
   openGraph: {
     type: "website",
-    title: "EduChain",
-    url: "https://edu-chain-one.vercel.app/login",
+    title: {
+      template: "%s | EduChain",
+      default: "EduChain"
+    },
+    url: "https://edu-chain-one.vercel.app",
     description: "Access your past school record on the go with relative ease.",
     ttl: 604800,
   },
   icons: {
-    icon: "/educhain-fav.ico",
+    icon: "/favicon.ico",
   },
+};
+
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 

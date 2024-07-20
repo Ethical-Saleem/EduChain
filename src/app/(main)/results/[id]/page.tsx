@@ -10,7 +10,7 @@ import { Dialog } from "primereact/dialog";
 import { Calendar } from "primereact/calendar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { withAuth } from "@/app/hoc/WithAuth";
 import Loading from "./loading";
 
@@ -19,6 +19,7 @@ import { InputText } from "primereact/inputtext";
 
 const ResultRecord = ({ params }: { params: { id: number } }) => {
   const router = useRouter();
+  const pathName = usePathname();
 
   const [record, setRecord] = useState({} as Demo.Result);
   const [fetching, setFetching] = useState(true);
@@ -120,7 +121,14 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
     } catch (error: any) {
       console.log("update-error", error);
       if (error.response) {
-        toast.error(`Error: ${error.response.data.message}`)
+        if (error.response?.status === 401) {
+          router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+        }
+        if (error.response?.status === 403) {
+          router.push("/403");
+        } else {
+          toast.error(`Error: ${error.response.data.message}`)
+        }
       } else if (error.message) {
         toast.error(`Error: ${error.message}`)
       } else {

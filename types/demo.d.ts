@@ -128,29 +128,51 @@ declare namespace Demo {
   };
 
   type NewSchool = {
-    name?: string;
-    address?: string;
-    city?: string;
-    region?: string;
+    name: string;
+    address: string;
+    city: string;
+    region: string;
     postalCode?: string;
     contactName?: string;
-    country?: string;
-    telephone?: string;
-    email?: string;
+    country: string;
+    telephone: string;
+    email: string;
     dateFounded: Date | null | undefined;
     // SchoolType?: number;
-    logoUrl?: File | null;
+    logoUrl: File | null;
     [key: string]: string | number | null | undefined | Date | File
   };
 
   type TokenModel = {
     accessToken: string;
     hasVerifiedEmail: boolean;
-    roles: [string];
+    role: RoleClaim;
     school: School;
     user: User;
     userId: string;
-    [key: string]: string | boolean | School | User
+    [key: string]: string | boolean | School | User | RoleClaim
+  }
+
+  interface ResetPassword {
+    email: string;
+    code: string;
+    newPassword: string;
+    confirmPassword: string;
+    [key: string]
+  }
+
+  interface TokenResetPassword {
+    token: string;
+    newPassword: string;
+    confirmPassword: string;
+    [key: string]: string
+  }
+
+  interface ChangePasswordModel {
+    userId: string;
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
   }
 
   type FileDetail = {
@@ -190,12 +212,12 @@ declare namespace Demo {
 
   type NewUser = {
     name: string;
-    email: string | undefined;
-    telephone: string | undefined;
+    email: string;
+    telephone: string;
     password: string;
-    schoolId: number | undefined;
+    schoolId?: number | null;
     isNewSuper: boolean;
-    [key: string]: string | number | boolean | undefined
+    [key: string]: string | number | boolean | undefined | null
   }
 
   type EmailVerifyModel = {

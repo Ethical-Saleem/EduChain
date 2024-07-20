@@ -205,29 +205,6 @@ const VerificationPage = () => {
     setResendEnabled(false);
   };
 
-  const customInput: FunctionComponent<CustomInputProps> = ({
-    events,
-    props,
-  }) => {
-    const { key, ...restProps } = props;
-    return (
-      <>
-        <input
-          key={key}
-          {...events}
-          {...restProps}
-          type="text"
-          className="custom-otp-input-sample"
-        />
-        {props?.id === 2 && (
-          <div className="px-3">
-            <i className="pi pi-minus" />
-          </div>
-        )}
-      </>
-    );
-  };
-
   return (
     <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">
       <Toast ref={toast} />
@@ -328,61 +305,6 @@ const VerificationPage = () => {
           )}
           {activeViewIndex === 1 && (
             <div className="card flex justify-content-center">
-              <style scoped>
-                {`
-                    .custom-otp-input-sample {
-                        width: 48px;
-                        height: 48px;
-                        font-size: 24px;
-                        appearance: none;
-                        text-align: center;
-                        transition: all 0.2s;
-                        border-radius: 0;
-                        border: 1px solid var(--surface-400);
-                        background: transparent;
-                        outline-offset: -2px;
-                        outline-color: transparent;
-                        border-right: 0 none;
-                        transition: outline-color 0.3s;
-                        color: var(--text-color);
-                    }
-
-                    .custom-otp-input-sample:focus {
-                        outline: 2px solid var(--primary-color);
-                    }
-
-                    .custom-otp-input-sample:first-child,
-                    .custom-otp-input-sample:nth-child(5) {
-                        border-top-left-radius: 12px;
-                        border-bottom-left-radius: 12px;
-                    }
-
-                    .custom-otp-input-sample:nth-child(3),
-                    .custom-otp-input-sample:last-child {
-                        border-top-right-radius: 12px;
-                        border-bottom-right-radius: 12px;
-                        border-right-width: 1px;
-                        border-right-style: solid;
-                        border-color: var(--surface-400);
-                    }
-
-                    @media (max-width: 768px) {
-                      .custom-otp-input-sample {
-                        width: 36px;
-                        height: 36px;
-                        font-size: 20px;
-                      }
-
-                      .text-xl {
-                        font-size: 1.25rem;
-                      }
-
-                      .p-3 {
-                        padding: 0.75rem;
-                      }
-                    }
-                `}
-              </style>
               <div className="flex flex-column align-items-center">
                 <p className="font-bold md:text-xl mb-2 md:mb-5">
                   Authenticate Your Account
@@ -398,7 +320,7 @@ const VerificationPage = () => {
                   style={{ gap: 1 }}
                 />
                 <div className="flex justify-content-between mt-5 align-self-stretch">
-                  <div className="flex items-center">
+                  <div className="flex items-center px-2">
                     <Button
                       label="Resend Code"
                       icon="pi pi-refresh"

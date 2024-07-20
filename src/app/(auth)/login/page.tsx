@@ -33,7 +33,7 @@ const LoginPage = () => {
         detail: messageParam,
         life: 3000,
       });
-      console.log('redirect-message', messageParam);
+      console.log("redirect-message", messageParam);
     }
   }, [searchParams]);
 
@@ -55,12 +55,12 @@ const LoginPage = () => {
         if (redirectUrl) {
           router.push(redirectUrl);
         }
-         if (!res.hasVerifiedEmail) {
-           router.replace(`/email-verification?e=${email}`);
-         } else {
-           router.push("/dashboard");
-         }
-       }
+        if (!res.hasVerifiedEmail) {
+          router.replace(`/email-verification?e=${email}`);
+        } else {
+          router.push("/dashboard");
+        }
+      }
     } catch (error: any) {
       setLoading(false);
       console.log("login-error", error);
@@ -151,12 +151,14 @@ const LoginPage = () => {
               inputClassName="w-full p-2 bg-gray-200"
               className="w-full mb-4 bg-gray-200"
             />
-            <a
-              href="#"
-              className="text-sm mb-4 text-[#5a5a95] hover:text-[#061a2b]"
-            >
-              Forgot your password?
-            </a>
+            <div className="w-full text-right mb-4">
+              <Link
+                href="/forgot-password"
+                className="text-sm text-[#5a5a95] hover:text-[#061a2b]"
+              >
+                Forgot your password?
+              </Link>
+            </div>
             <Button
               label="Sign In"
               type="submit"
@@ -165,7 +167,9 @@ const LoginPage = () => {
             />
           </form>
           <div className="text-center mt-2">
-            <p className={`${lusitana.className} text-sm md:text-lg text-[#061a2b]`}>
+            <p
+              className={`${lusitana.className} text-sm md:text-lg text-[#061a2b]`}
+            >
               New to the platform? Kindly{" "}
               <Link href="/register">
                 <strong className="text-[#5a5a95]">register</strong>

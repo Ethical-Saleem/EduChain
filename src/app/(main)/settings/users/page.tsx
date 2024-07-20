@@ -16,7 +16,7 @@ import { Dialog } from "primereact/dialog";
 import { Password } from "primereact/password";
 import { Menu } from "primereact/menu";
 import { Dropdown } from "primereact/dropdown";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import Loading from "../../loading";
 import { withAuth } from "@/app/hoc/WithAuth";
 
@@ -40,12 +40,14 @@ const UserSetting = () => {
   const [createModal, setCreateModal] = useState(false);
   const [assignModal, setAssignModal] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [menuVisible, setMenuVisible] = useState<number | null>(null);
   const dt = useRef<DataTable<any>>(null);
-  const menu = useRef<Menu>(null);
+  const menuRefs = useRef(new Map<number, Menu | null>());
   const [loading, setLoading] = useState(false);
   const [fetching, setFetching] = useState(true);
 
   const router = useRouter();
+  const pathName = usePathname();
 
   useEffect(() => {
     const user = getCookie("currentUser");
@@ -74,6 +76,7 @@ const UserSetting = () => {
 
   const openAssignModal = (data: Demo.User) => {
     setSelectedUser(data);
+    console.log('selected-user', data);
     setAssignModal(true);
   };
   const closeAssignModal = () => {
@@ -90,6 +93,14 @@ const UserSetting = () => {
     setSelectedUser(null);
   };
 
+  const toggleTableMenu = (e: React.MouseEvent, id: number) => {
+    setMenuVisible(menuVisible === id ? null : id);
+    const menu = menuRefs.current.get(id);
+    if (menu) {
+      menu.toggle(e);
+    }
+  }
+
   const dispatchFetchUsers = (id: number | undefined): any => {
     setFetching(true);
     AccountService.fetchUsers(id).then(
@@ -99,6 +110,9 @@ const UserSetting = () => {
       },
       (error: any) => {
         if (error.response) {
+          if (error.response?.status === 401) {
+            router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+          }
           if (error.response?.status === 403) {
             router.push("/403");
           } else {
@@ -227,10 +241,16 @@ const UserSetting = () => {
           rounded
           text
           className="p-button-plain"
-          onClick={(event) => menu.current?.toggle(event)}
+          onClick={(event) => toggleTableMenu(event, rowData.id)}
         />
         <Menu
-          ref={menu}
+          ref={(el) => {
+            if (el) {
+              menuRefs.current.set(rowData.id, el)
+            } else {
+              menuRefs.current.delete(rowData.id)
+            }
+          }}
           popup
           model={[
             {
@@ -275,6 +295,7 @@ const UserSetting = () => {
         <Button
           label="Submit"
           icon="pi pi-check"
+          severity="success"
           loading={loading}
           onClick={assingUserToRole}
         />
@@ -289,6 +310,7 @@ const UserSetting = () => {
         <Button
           label="Close"
           icon="pi pi-times"
+          severity="help"
           text
           onClick={closeDeleteModal}
         />
@@ -296,6 +318,7 @@ const UserSetting = () => {
           label="Delete"
           outlined
           icon="pi pi-trash"
+          severity="danger"
           loading={loading}
           onClick={dispatchRemoveUser}
         />

@@ -104,6 +104,16 @@
   border-color: var(--surface-400);
 }
 
+.p-inputtext:enabled:hover, .custom-input:enabled:hover {
+  border-color: #061a2b;
+}
+.p-inputtext:enabled:focus, .custom-input:enabled:focus {
+  outline: 0 none;
+  outline-offset: 0;
+  box-shadow: 0 0 0 0.1rem #5a5a9b;
+  border-color: #061a2b;
+}
+
 @media (max-width: 768px) {
   .p-inputotp-input {
     width: 36px;

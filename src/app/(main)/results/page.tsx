@@ -29,6 +29,7 @@ import Link from "next/link";
 import { getCookie } from "@/app/utils/cookies";
 import { withAuth } from "@/app/hoc/WithAuth";
 import Loading from "../loading";
+import { useRouter, usePathname } from "next/navigation";
 
 interface UploadError {
   row: number;
@@ -53,6 +54,9 @@ const Results = () => {
   const dt = useRef<DataTable<any>>(null);
   const [currentUser, setCurrentUser] = useState<Demo.TokenModel | null>(null);
 
+  const router = useRouter()
+  const pathName = usePathname()
+
   useEffect(() => {
     const user = getCookie("currentUser");
     if (user) {
@@ -74,7 +78,14 @@ const Results = () => {
       (error: any) => {
         setFetching(false);
         if (error.response) {
-          toast.error(`Error: ${error.response.data.message}`)
+          if (error.response?.status === 401) {
+            router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+          }
+          if (error.response?.status === 403) {
+            router.push("/403");
+          } else {
+            toast.error(`Error: ${error.response.data.message}`)
+          }
         } else if (error.message) {
           toast.error(`Error: ${error.message}`)
         } else {
@@ -109,7 +120,14 @@ const Results = () => {
     } catch (error: any) {
       setDownloading(false);
       if (error.response) {
-        toast.error(`Error: ${error.response.data.message}`)
+        if (error.response?.status === 401) {
+          router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+        }
+        if (error.response?.status === 403) {
+          router.push("/403");
+        } else {
+          toast.error(`Error: ${error.response.data.message}`)
+        }
       } else if (error.message) {
         toast.error(`Error: ${error.message}`)
       } else {
@@ -134,7 +152,14 @@ const Results = () => {
       setLoading(false);
       console.log("delete-error", error);
       if (error.response) {
-        toast.error(`Error: ${error.response.data.message}`)
+        if (error.response?.status === 401) {
+          router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+        }
+        if (error.response?.status === 403) {
+          router.push("/403");
+        } else {
+          toast.error(`Error: ${error.response.data.message}`)
+        }
       } else if (error.message) {
         toast.error(`Error: ${error.message}`)
       } else {

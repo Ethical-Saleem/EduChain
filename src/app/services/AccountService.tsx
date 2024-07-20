@@ -49,6 +49,12 @@ async function removeFromRole(roleId: string, userId: string) {
   return model;
 }
 
+async function changePassword(input: Demo.ChangePasswordModel) {
+  const response = await api.post(`/auth/change-password`, input);
+  const model = response.data;
+  return model;
+}
+
 export const AccountService = {
   fetchUsers,
   updateUser,
@@ -57,4 +63,5 @@ export const AccountService = {
   addRole,
   addUserToRole,
   removeFromRole,
+  changePassword,
 };

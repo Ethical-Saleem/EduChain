@@ -39,7 +39,7 @@ async function register(input: Demo.NewSchool) {
       }
     }
   });
-  const response = await api.post<Demo.School>('/School', formData);
+  const response = await api.post('/School', formData);
   const model = response.data;
 
   return model
@@ -86,6 +86,30 @@ async function verifyEmail(email: string, code: string | number | null | undefin
   return model;
 }
 
+async function forgotPassword(email: string) {
+  const response = await api.post(`/auth/forgot-password`, { email });
+  const model = response.data;
+  return model;
+}
+
+async function resetPassword(input: Demo.ResetPassword) {
+  const response = await api.post(`/auth/reset-password`, input);
+  const model = response.data;
+  return model;
+}
+
+async function requestResetPassword(email: string) {
+  const response = await api.post(`/auth/request-reset-password`, { email });
+  const model = response.data;
+  return model;
+}
+
+async function resetPasswordByToken(input: Demo.TokenResetPassword) {
+  const response = await api.post(`/auth/reset-password-by-token`, input);
+  const model = response.data;
+  return model;
+}
+
 async function logout() {
   Cookies.remove("currentUser");
   currentUserSubject.next(null);
@@ -100,6 +124,10 @@ export const AuthenticationService = {
   sendVerificationMail,
   resendVerificationMail,
   verifyEmail,
+  forgotPassword,
+  resetPassword,
+  requestResetPassword,
+  resetPasswordByToken,
   currentUser: currentUserSubject.asObservable(),
   get currentUserValue() {
     return currentUserSubject.value;

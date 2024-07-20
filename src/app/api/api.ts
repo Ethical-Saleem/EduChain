@@ -41,14 +41,6 @@ const api = axios.create({
     //   }
     // }
   
-    // if (error.response?.status === 403) {
-    //   redirect('/403');
-    // }
-  
-    // if (error.response?.status === 404) {
-    //   redirect('/401');
-    // }
-  
     return Promise.reject(error);
   };
 
@@ -57,52 +49,17 @@ const api = axios.create({
       return response;
     },
     async (error) => {
-      // if (typeof window !== 'undefined') {
-      //   const originalRequest = error.config;
-      //   if (originalRequest.method.toLowerCase() === 'get' && error.response?.status === 403) {
-      //     Router.push('/403');
-      //   } else if (originalRequest.url.includes('/auth/login') && error.response?.status === 401) {
-      //     return Promise.reject(error);
-      //   } else {
-      //     return await handleClientSideRedirects(error);
-      //   }
-      // }
+      console.log('api-error', error);
+
+      if (error.response) {
+        if (error.response?.status === 401) {
+          AuthenticationService.logout();
+        }
+        return Promise.reject(error);
+      }
+      
       return Promise.reject(error);
     }
   );
-  
-  // Response interceptor to handle token refresh
-  // api.interceptors.response.use(
-  //   (response: AxiosResponse) => {
-  //     return response;
-  //   },
-  //   async (error) => {
-  //       const originalRequest = error.config;
-    
-  //       if (!originalRequest._retry) {
-  //         originalRequest._retry = true;
-  //         try {
-  //           const refreshedTokens = await AuthenticationService.refreshToken();
-  //           axios.defaults.headers.common['Authorization'] = 'Bearer ' + refreshedTokens.accessToken;
-  //           originalRequest.headers['Authorization'] = 'Bearer ' + refreshedTokens.accessToken;
-  //           return api(originalRequest);
-  //         } catch (refreshError) {
-  //           AuthenticationService.logout();
-  //           Router.push('/login');
-  //           return Promise.reject(refreshError);
-  //         }
-  //       }
-    
-  //       if (error.response.status === 403) {
-  //         Router.push('/403');
-  //       }
-    
-  //       if (error.response.status === 404) {
-  //         Router.push('/404');
-  //       }
-    
-  //       return Promise.reject(error);
-  //     }
-  // );
   
   export default api;
