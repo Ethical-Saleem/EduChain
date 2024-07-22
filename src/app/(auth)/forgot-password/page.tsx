@@ -434,7 +434,7 @@ const ForgorPassword = () => {
                     type="submit"
                   ></Button>
                   <div className="flex items-center justify-center">
-                  <p className="text-sm">Didn&apos;t receive a code? <Button label="Resend" disabled={!resendEnabled} text onClick={dispatchSendResetCode} loading={loading} className="text-semibold underline text-[#245763]" /></p>
+                  <p className="text-sm flex items-center">Didn&apos;t receive a code? <Button label="Resend" disabled={!resendEnabled} text onClick={dispatchSendResetCode} loading={loading} className="text-semibold underline text-[#245763]" /></p>
                   {!resendEnabled && (
                       <span className="text-[#5a5a9b] text-sm md:text-base ml-1 md:ml-3">
                         {Math.floor(countdown / 60)}:
