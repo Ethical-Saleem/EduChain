@@ -30,7 +30,7 @@ const AppMenu = () => {
       label: "SETTINGS",
       items: [
         { label: "Users", icon: "pi pi-fw pi-users", to: "/settings/users" },
-        { label: "App", icon: "pi pi-fw pi-cog", to: "/settings/result" }
+        // { label: "App", icon: "pi pi-fw pi-cog", to: "/settings/result" }
       ],
     },
     {
