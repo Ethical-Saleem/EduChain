@@ -78,7 +78,14 @@ const ResultCheckPage = () => {
         }
       } catch (error: any) {
         console.log("search-error", error);
-        showError(error);
+        if (error.response) {
+          showError(error.response.data.message);
+  
+        } else if (error.message) {
+          showError(error.message)
+        } else {
+          showError(error)
+        }
         setLoading(false);
       }
     }
