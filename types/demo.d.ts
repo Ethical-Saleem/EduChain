@@ -245,9 +245,9 @@ declare namespace Demo {
     nin?: string;
     grade?: string;
     degree?: string;
-    yearOfGrad?: Date | null | undefined;
+    yearOfGrad?: number;
     school?: School;
-    [key: string]: string | number | null | undefined | Date | School
+    [key: string]: string | number | Date | School
   }
 
   //ProductService

@@ -49,7 +49,7 @@ async function dispatchRemoveRecord(id: number) {
   return model;
 }
 
-async function dispatchFetchStudentResultRecord(studentNo: string, year: string) {
+async function dispatchFetchStudentResultRecord(studentNo: string, year: number) {
   const response = await api.get(`/Result/ResultRecordByStudent?studentNumber=${studentNo}&year=${year}`);
   const model = response.data;
   return model;

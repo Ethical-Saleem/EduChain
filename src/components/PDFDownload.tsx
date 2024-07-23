@@ -256,7 +256,7 @@ const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
               <View style={styles.gridItem}>
                 <Text style={styles.label}>Year of Graduation:</Text>
                 <Text style={styles.value}>
-                  {record.yearOfGrad ? formatYear(record.yearOfGrad) : "-"}
+                  {record.yearOfGrad ? record.yearOfGrad : "-"}
                 </Text>
               </View>
             </View>

@@ -8,7 +8,7 @@ import { Button } from "primereact/button";
 
 interface DownloadSearchParams {
   studentNo: string;
-  year: string;
+  year: number;
 }
 
 const DownloadPDFButton: React.FC<DownloadSearchParams> = ({

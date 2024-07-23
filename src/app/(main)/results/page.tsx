@@ -485,7 +485,7 @@ const Results = () => {
     return (
       <>
         <span className="p-column-title">Year of Graduation</span>
-        {rowData.yearOfGrad ? formatYear(rowData.yearOfGrad) : "N/A"}
+        {rowData.yearOfGrad ? rowData.yearOfGrad : "N/A"}
       </>
     );
   };
