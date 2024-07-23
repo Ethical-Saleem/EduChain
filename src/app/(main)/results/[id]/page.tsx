@@ -16,6 +16,7 @@ import Loading from "./loading";
 
 import { inter } from "@/app/ui/fonts";
 import { InputText } from "primereact/inputtext";
+import { InputNumber } from "primereact/inputnumber";
 
 const ResultRecord = ({ params }: { params: { id: number } }) => {
   const router = useRouter();
@@ -92,14 +93,6 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
     _data[`${name}`] = val;
 
     setRecord(_data);
-  };
-
-  const onDateChange = (e: { value: Date | null | undefined }) => {
-    console.log("date", e.value);
-    setRecord((prevData) => ({
-      ...prevData,
-      yearOfGrad: e.value,
-    }));
   };
 
   const updateData = async () => {
@@ -324,7 +317,7 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
                   <div className="col-span-3 md:col-span-1">
                     <span className="text-sm">Year of Graduation:</span>
                     <p className="font-bold">
-                      {record.yearOfGrad ? formatYear(record.yearOfGrad) : "-"}
+                      {record.yearOfGrad ? record.yearOfGrad : "-"}
                     </p>
                   </div>
                 </div>
@@ -363,19 +356,17 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
                   onChange={(e) => onInputChange(e, "grade")}
                 />
               </div>
-              <div className="field">
+              {/* <div className="field">
                 <label htmlFor="year" className="block text-900">
                   Year of Graduation
                 </label>
-                <Calendar
+                <InputNumber
                   className="w-full date-search-input"
                   required
                   value={record.yearOfGrad}
-                  onChange={(e) => onDateChange(e)}
-                  dateFormat="yy"
-                  view="year"
+                  onChange={(e) => onInputChange(e, "yearOfGrad")}
                 />
-              </div>
+              </div> */}
             </div>
           </Dialog>
         </div>
