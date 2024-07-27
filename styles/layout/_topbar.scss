@@ -7,8 +7,9 @@
     width: 100%;
     padding: 0 2rem;
     // background-color: var(--surface-card);
-    background-color: #2e2e2e;
-    color: #ffffff;
+    // background-color: #2e2e2e;
+    background-color: #ffffff;
+    color: #072b4a;
     transition: left $transitionDuration;
     display: flex;
     align-items: center;
@@ -17,16 +18,16 @@
     .layout-topbar-logo {
         display: flex;
         align-items: center;
-        color: var(--surface-900);
+        color: #072b4a;
         font-size: 1.5rem;
         font-weight: 500;
         width: 300px;
         border-radius: 12px;
 
-        img {
-            height: 2.5rem;
-            margin-right: .5rem;
-        }
+        // img {
+        //     height: 2.5rem;
+        //     margin-right: .5rem;
+        // }
 
         &:focus {
             @include focused();
@@ -38,7 +39,7 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        color: var(--text-color-secondary);
+        color: #0a4470;
         border-radius: 50%;
         width: 3rem;
         height: 3rem;
@@ -81,6 +82,7 @@
         padding: 0;
         list-style: none;
         display: flex;
+        align-items: center;
 
         .layout-topbar-button {
             margin-left: 1rem;
@@ -91,6 +93,7 @@
 @media (max-width: 991px) {
     .layout-topbar {
         justify-content: space-between;
+        padding: 0 1rem;
 
         .layout-topbar-logo {
             width: auto;

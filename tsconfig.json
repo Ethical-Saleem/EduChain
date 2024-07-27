@@ -18,9 +18,10 @@
       }
     ],
     "paths": {
+      "@/hoc/*": ["./src/hoc/*"],
       "@/*": ["./src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "next-auth.d.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "src/app/(auth)/email-verification/*.tsx"]
 }

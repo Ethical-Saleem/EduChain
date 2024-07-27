@@ -1,40 +1,42 @@
 import Layout from "../../../layout/layout";
 import React, { Suspense } from "react";
 import { Metadata } from "next";
+import Loading from "./loading";
+// import withAuth from "@/hoc/withAuth";
 
 export const metadata: Metadata = {
-  title: 'EduChain',
-  description: 'Access your school record on the go.',
+  title: {
+    template: "%s | EduChain",
+    default: "EduChain"
+  },
+  description: "Access your school record on the go.",
   robots: { index: false, follow: false },
-  viewport: { initialScale: 1, width: 'device-width' },
   openGraph: {
-      type: 'website',
-      title: 'EduChain',
-      url: 'https://edu-chain-one.vercel.app/login',
-      description: 'Access your past school record on the go with relative ease.',
-      ttl: 604800
+    type: "website",
+    title: {
+      template: "%s | EduChain",
+      default: "EduChain"
+    },
+    url: "https://edu-chain-one.vercel.app",
+    description: "Access your past school record on the go with relative ease.",
+    ttl: 604800,
   },
   icons: {
-      icon: '/favicon.ico'
-  }
+    icon: "/favicon.ico",
+  },
 };
 
-export default function MainLayout({
-  children,
-}: {
+interface MainLayoutProps {
   children: React.ReactNode;
-}) {
+}
+
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+
   return (
-    <Suspense>
+    <Suspense fallback={<Loading />}>
       <Layout>{children}</Layout>
     </Suspense>
   );
-  // return (
-  //   <div className="flex h-screen flex-col md:flex-row md:overflow-hidden">
-  //     <div className="w-full flex-none md:w-64">
-  //       <SideNav />
-  //     </div
-  //     <div className="flex-grow p-6 md:overflow-y-auto md:p-12">{children}</div>
-  //   </div>
-  // );
-}
+};
+
+export default MainLayout;

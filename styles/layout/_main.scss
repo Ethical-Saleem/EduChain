@@ -24,7 +24,12 @@ a {
 
 .layout-wrapper {
   min-height: 100vh;
-  margin-left: -4rem;
+  background-color: #fdf8ef;
+}
+
+.p-chart canvas {
+  width: 100% !important;
+  height: 100& !important;
 }
 
 .vertical-tabmenu .p-tabmenu-nav {
@@ -40,7 +45,11 @@ a {
   justify-content: flex-start;
 }
 
-.vertical-tabmenu .p-tabmenu-nav .p-tabmenuitem .p-menuitem-link .p-menuitem-text {
+.vertical-tabmenu
+  .p-tabmenu-nav
+  .p-tabmenuitem
+  .p-menuitem-link
+  .p-menuitem-text {
   margin-left: 1rem;
 }
 

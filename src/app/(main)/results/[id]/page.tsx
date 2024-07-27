@@ -10,18 +10,24 @@ import { Dialog } from "primereact/dialog";
 import { Calendar } from "primereact/calendar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import { withAuth } from "@/app/hoc/WithAuth";
+import Loading from "./loading";
 
 import { inter } from "@/app/ui/fonts";
 import { InputText } from "primereact/inputtext";
+import { InputNumber } from "primereact/inputnumber";
 
 const ResultRecord = ({ params }: { params: { id: number } }) => {
   const router = useRouter();
+  const pathName = usePathname();
 
   const [record, setRecord] = useState({} as Demo.Result);
-  const [fetching, setFetching] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [loading, setLoading] = useState(false);
   const [recordDialog, setRecordDialog] = useState(false);
+
+  const keysToExcludeForUpdate = ['createdAt', 'lastMofidiedOn', 'school'];
 
   useEffect(() => {
     fetchData();
@@ -39,7 +45,13 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
     } catch (error: any) {
       console.log("fetch-error", error);
       setFetching(false);
-      toast.error(`Error: ${error}`);
+      if (error.response) {
+        toast.error(`Error: ${error.response.data.message}`)
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
     }
   };
 
@@ -48,6 +60,15 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
   };
   const closeRecordDialog = () => {
     setRecordDialog(false);
+  };
+
+  const excludeKeys = (obj: Demo.Result, keysToExclude: string[]): Partial<Demo.Result> => {
+    return Object.keys(obj)
+      .filter(key => !keysToExclude.includes(key))
+      .reduce((acc, key) => {
+        acc[key] = obj[key];
+        return acc;
+      }, {} as Partial<Demo.Result>);
   };
 
   const formatYear = (date: Date) => {
@@ -74,29 +95,38 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
     setRecord(_data);
   };
 
-  const onDateChange = (e: { value: Date | null | undefined }) => {
-    console.log("date", e.value);
-    setRecord((prevData) => ({
-      ...prevData,
-      yearOfGrad: e.value,
-    }));
-  };
-
   const updateData = async () => {
     setLoading(true);
 
     try {
-        // record.yearOfGrad = convertToISO(record.yearOfGrad)
-      const result = await SchoolService.dispatchUpdateRecord(record);
+      const sanitizedRecord = excludeKeys(record, keysToExcludeForUpdate);
+      const updateRecord: Demo.Result = {
+        id: record.id,
+        ...sanitizedRecord
+      };
+      const result = await SchoolService.dispatchUpdateRecord(updateRecord);
       if (result) {
         setLoading(false);
-        toast.success("Record update successfully");
+        toast.success("Record updated successfully");
         closeRecordDialog();
         fetchData();
       }
     } catch (error: any) {
       console.log("update-error", error);
-      toast.error(`Error: ${error}`);
+      if (error.response) {
+        if (error.response?.status === 401) {
+          router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+        }
+        if (error.response?.status === 403) {
+          router.push("/403");
+        } else {
+          toast.error(`Error: ${error.response.data.message}`)
+        }
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
       setLoading(false);
     }
   };
@@ -158,15 +188,13 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
   };
 
   return (
+    <>
     <div className="grid">
       <div className="col-12">
         <div className="card bg-gray-200 text-gray-700">
           <ToastContainer />
           {fetching ? (
-            <ProgressBar
-              mode="indeterminate"
-              style={{ height: "6px" }}
-            ></ProgressBar>
+            <Loading />
           ) : (
             <div className="">
               <Toolbar
@@ -289,7 +317,7 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
                   <div className="col-span-3 md:col-span-1">
                     <span className="text-sm">Year of Graduation:</span>
                     <p className="font-bold">
-                      {record.yearOfGrad ? formatYear(record.yearOfGrad) : "-"}
+                      {record.yearOfGrad ? record.yearOfGrad : "-"}
                     </p>
                   </div>
                 </div>
@@ -328,25 +356,24 @@ const ResultRecord = ({ params }: { params: { id: number } }) => {
                   onChange={(e) => onInputChange(e, "grade")}
                 />
               </div>
-              <div className="field">
+              {/* <div className="field">
                 <label htmlFor="year" className="block text-900">
                   Year of Graduation
                 </label>
-                <Calendar
+                <InputNumber
                   className="w-full date-search-input"
                   required
                   value={record.yearOfGrad}
-                  onChange={(e) => onDateChange(e)}
-                  dateFormat="yy"
-                  view="year"
+                  onChange={(e) => onInputChange(e, "yearOfGrad")}
                 />
-              </div>
+              </div> */}
             </div>
           </Dialog>
         </div>
       </div>
     </div>
+    </>
   );
 };
 
-export default ResultRecord;
+export default withAuth(ResultRecord);

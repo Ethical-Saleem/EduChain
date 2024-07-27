@@ -4,74 +4,54 @@ import handleResponse from "../helpers/HandleResponses";
 import handleBlobResponse from "../helpers/HandleBlobResponses";
 import { Demo } from "../../../types";
 import { Nullable } from "primereact/ts-helpers";
+import api from "../api/api";
 
 async function uploadResults(id: number | undefined, file: File) {
   const formData = new FormData();
   formData.append("File", file);
-  const response = await fetch(
-    `${config.apiUrl}/Result/UploadResultRecords/${id}`,
-    await requestOptions.postForm(formData)
-  );
+  const response = await api.postForm(`/Result/UploadResultRecords/${id}`, formData);
 
-  const model = await handleResponse(response);
+  const model = response.data;
 
   return model;
 }
 
 async function downloadTemplate() {
-  const response = await fetch(
-    `${config.apiUrl}/Result/DownloadResultTemplate`,
-    await requestOptions.get()
-  );
+  const response = await api.get(`/Result/DownloadResultTemplate`, { responseType: 'blob' });
 
-  const model = await handleBlobResponse(response);
+  const model = response;
 
   return model;
 }
 
 async function dispatchFetchResults(schoolId: number | undefined) {
-  const response = await fetch(
-    `${config.apiUrl}/Result/All/${schoolId}`,
-    await requestOptions.get()
-  );
+  const response = await api.get(`/Result/All/${schoolId}`);
   console.log('test-response', response);
-  const model = await handleResponse(response);
+  const model = response.data;
   return model;
 }
 
 async function dispatchFetchResult(id: number | undefined) {
-  const response = await fetch(
-    `${config.apiUrl}/Result/${id}`,
-    await requestOptions.get()
-  );
-  const model = await handleResponse(response);
+  const response = await api.get(`/Result/${id}`)
+  const model = response.data;
   return model;
 }
 
 async function dispatchUpdateRecord(data: Demo.Result) {
-  const response = await fetch(
-    `${config.apiUrl}/School/UpdateResultRecord`,
-    await requestOptions.put(data)
-  );
-  const model = await handleResponse(response);
+  const response = await api.put(`/Result/${data.id}`, data);
+  const model = response.data;
   return model;
 }
 
 async function dispatchRemoveRecord(id: number) {
-  const response = await fetch(
-    `${config.apiUrl}/School/RemoveResultRecord/${id}`,
-    await requestOptions.delete()
-  );
-  const model = await handleResponse(response);
+  const response = await api.delete(`/Result/${id}`);
+  const model = response.data;
   return model;
 }
 
-async function dispatchFetchStudentResultRecord(studentNo: string, year: string) {
-  const response = await fetch(
-    `${config.apiUrl}/Result/ResultRecordByStudent?studentNumber=${studentNo}&year=${year}`,
-    await requestOptions.get()
-  );
-  const model = await handleResponse(response);
+async function dispatchFetchStudentResultRecord(studentNo: string, year: number) {
+  const response = await api.get(`/Result/ResultRecordByStudent?studentNumber=${studentNo}&year=${year}`);
+  const model = response.data;
   return model;
 }
 

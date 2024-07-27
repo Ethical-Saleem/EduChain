@@ -123,34 +123,56 @@ declare namespace Demo {
     email?: string;
     dateFounded: Date | null;
     schoolType?: number;
-    logoUrl?: string | StaticImport;
+    logoUrl?: string | StaticImport | SourceObject;
     [key: string]: string | number | null | Date | StaticImport
   };
 
   type NewSchool = {
-    name?: string;
-    address?: string;
-    city?: string;
-    region?: string;
+    name: string;
+    address: string;
+    city: string;
+    region: string;
     postalCode?: string;
     contactName?: string;
-    country?: string;
-    telephone?: string;
-    email?: string;
+    country: string;
+    telephone: string;
+    email: string;
     dateFounded: Date | null | undefined;
     // SchoolType?: number;
-    logoUrl?: File | null;
+    logoUrl: File | null;
     [key: string]: string | number | null | undefined | Date | File
   };
 
   type TokenModel = {
     accessToken: string;
     hasVerifiedEmail: boolean;
-    roles: [string];
+    role: RoleClaim;
     school: School;
     user: User;
     userId: string;
-    [key: string]: string | boolean | School | User
+    [key: string]: string | boolean | School | User | RoleClaim
+  }
+
+  interface ResetPassword {
+    email: string;
+    code: string;
+    newPassword: string;
+    confirmPassword: string;
+    [key: string]
+  }
+
+  interface TokenResetPassword {
+    token: string;
+    newPassword: string;
+    confirmPassword: string;
+    [key: string]: string
+  }
+
+  interface ChangePasswordModel {
+    userId: string;
+    currentPassword: string;
+    newPassword: string;
+    confirmPassword: string;
   }
 
   type FileDetail = {
@@ -169,7 +191,23 @@ declare namespace Demo {
     telephone: string | null | undefined;
     hasVerifiedEmail: boolean;
     userId: string;
-    [key: string]: string | number | null | undefined
+    roleClaim: RoleClaim;
+    [key: string]: string | number | null | undefined | RoleClaim
+  }
+
+  type Role = {
+    id: number;
+    roleId: string;
+    name: string;
+    roles: RoleClaim[]
+  }
+
+  type RoleClaim = {
+    id: number;
+    roleId: string;
+    userId: string;
+    schoolId: string;
+    role: Role
   }
 
   type NewUser = {
@@ -177,8 +215,14 @@ declare namespace Demo {
     email: string;
     telephone: string;
     password: string;
-    schoolId: number;
-    [key: string]: string | number
+    schoolId?: number | null;
+    isNewSuper: boolean;
+    [key: string]: string | number | boolean | undefined | null
+  }
+
+  type EmailVerifyModel = {
+    email: string;
+    code: string;
   }
 
   type Result = {
@@ -201,9 +245,9 @@ declare namespace Demo {
     nin?: string;
     grade?: string;
     degree?: string;
-    yearOfGrad?: Date | null | undefined;
+    yearOfGrad?: number;
     school?: School;
-    [key: string]: string | number | null | undefined | Date | School
+    [key: string]: string | number | Date | School
   }
 
   //ProductService

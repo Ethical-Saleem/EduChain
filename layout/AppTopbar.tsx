@@ -14,6 +14,7 @@ import { AppTopbarRef } from "../types";
 import { LayoutContext } from "./context/layoutcontext";
 import { AuthenticationService } from "@/app/services/AuthenticationService";
 import { Demo } from "../types";
+import { Avatar } from "primereact/avatar";
 import Image from "next/image";
 import DefaultLogo from "@/app/ui/default-logo";
 import NavLogo from "@/app/ui/nav-educhain-logo";
@@ -41,8 +42,9 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
 
   return (
     <div className="layout-topbar">
-      <Link href="/dashboard" className="layout-topbar-logo text-white">
-        <NavLogo />
+      <Link href="/dashboard" className="layout-topbar-logo">
+        <Image src="/educhain_1.png" alt="Logo" width={80} height={80} />
+        <span className="mr-2">EDUCHAIN</span>
       </Link>
 
       <button
@@ -60,7 +62,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
             src={currentUser?.school?.logoUrl}
             width={60}
             height={60}
-            className="hidden md:block mr-2"
+            className="mr-2"
             alt="Sch. Logo"
           />
         ) : (
@@ -86,20 +88,29 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
           "layout-topbar-menu-mobile-active": layoutState.profileSidebarVisible,
         })}
       >
-        <button type="button" className="p-link layout-topbar-button">
+        {/* <button type="button" className="p-link px-2 layout-topbar-button">
           <i className="pi pi-calendar"></i>
           <span>Calendar</span>
         </button>
-        <button type="button" className="p-link layout-topbar-button">
+        <button type="button" className="p-link px-2 layout-topbar-button">
           <i className="pi pi-user"></i>
           <span>Profile</span>
+        </button> */}
+        <button
+          className={
+            "w-full p-link flex align-items-center text-color hover:text-color p-2 hover:surface-200 border-noround"
+          }
+        >
+          <Avatar
+            image="https://primefaces.org/cdn/primereact/images/avatar/amyelsner.png"
+            className="mr-2"
+            shape="circle"
+          />
+          <div className="flex flex-column align">
+            <span className="font-bold">{currentUser?.user.name}</span>
+            <span className="text-sm">{currentUser?.role?.role?.name}</span>
+          </div>
         </button>
-        <Link href="/documentation">
-          <button type="button" className="p-link layout-topbar-button">
-            <i className="pi pi-cog"></i>
-            <span>Settings</span>
-          </button>
-        </Link>
       </div>
     </div>
   );

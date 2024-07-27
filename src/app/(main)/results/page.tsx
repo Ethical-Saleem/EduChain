@@ -27,21 +27,35 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { getCookie } from "@/app/utils/cookies";
+import { withAuth } from "@/app/hoc/WithAuth";
+import Loading from "../loading";
+import { useRouter, usePathname } from "next/navigation";
+
+interface UploadError {
+  row: number;
+  error: string;
+}
 
 const Results = () => {
   const toastPrime = useRef<Toast>(null);
   const [results, setResults] = useState([] as Demo.Result[]);
   const [resultRecord, setResult] = useState({} as Demo.Result);
   const [selectedResults, setSelectedResults] = useState([]);
+  const [uploadErrors, setUploadErrors] = useState([] as UploadError[]);
   const [globalFilter, setGlobalFilter] = useState("");
   const [importDialog, setImportDialog] = useState(false);
   const [downloadDialog, setDownloadDialog] = useState(false);
   const [deleteDialog, setDeleteDialog] = useState(false);
+  const [errorDialog, setErrorDialog] = useState(false);
+  const [fetching, setFetching] = useState(true);
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [downloading, setDownloading] = useState(false);
   const dt = useRef<DataTable<any>>(null);
   const [currentUser, setCurrentUser] = useState<Demo.TokenModel | null>(null);
+
+  const router = useRouter()
+  const pathName = usePathname()
 
   useEffect(() => {
     const user = getCookie("currentUser");
@@ -54,16 +68,29 @@ const Results = () => {
     }
   }, []);
 
-  const fetchRecords = (id: number | undefined) => {
-    setLoading(true);
-    SchoolService.dispatchFetchResults(id).then(
+  const fetchRecords = async (id: number | undefined) => {
+    setFetching(true);
+    await SchoolService.dispatchFetchResults(id).then(
       (data) => {
         setResults(data);
-        setLoading(false);
+        setFetching(false);
       },
-      (error) => {
-        setLoading(false);
-        console.log("fetch-error", error);
+      (error: any) => {
+        setFetching(false);
+        if (error.response) {
+          if (error.response?.status === 401) {
+            router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+          }
+          if (error.response?.status === 403) {
+            router.push("/403");
+          } else {
+            toast.error(`Error: ${error.response.data.message}`)
+          }
+        } else if (error.message) {
+          toast.error(`Error: ${error.message}`)
+        } else {
+          toast.error(`Error: ${error}`)
+        }
       }
     );
   };
@@ -90,9 +117,22 @@ const Results = () => {
       }
       setDownloading(false);
       setDownloadDialog(false);
-    } catch (error) {
+    } catch (error: any) {
       setDownloading(false);
-      toast.error(`Error ${error}`);
+      if (error.response) {
+        if (error.response?.status === 401) {
+          router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+        }
+        if (error.response?.status === 403) {
+          router.push("/403");
+        } else {
+          toast.error(`Error: ${error.response.data.message}`)
+        }
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
     }
   };
 
@@ -108,10 +148,23 @@ const Results = () => {
         fetchRecords(currentUser?.school.id);
         setDeleteDialog(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       setLoading(false);
       console.log("delete-error", error);
-      toast.error(`Error: ${error}`);
+      if (error.response) {
+        if (error.response?.status === 401) {
+          router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+        }
+        if (error.response?.status === 403) {
+          router.push("/403");
+        } else {
+          toast.error(`Error: ${error.response.data.message}`)
+        }
+      } else if (error.message) {
+        toast.error(`Error: ${error.message}`)
+      } else {
+        toast.error(`Error: ${error}`)
+      }
     }
   };
 
@@ -135,6 +188,15 @@ const Results = () => {
   };
   const closeDeleteDialog = () => {
     setDeleteDialog(false);
+  };
+
+  const openErrorDialog = (data: any) => {
+    setUploadErrors(data);
+    setErrorDialog(true);
+  };
+  const closeErrorDialog = () => {
+    setErrorDialog(false);
+    setUploadErrors([] as UploadError[]);
   };
 
   const formatYear = (date: Date) => {
@@ -197,6 +259,20 @@ const Results = () => {
     );
   };
 
+  const ErrorDialogFooter = () => {
+    return (
+      <>
+        <Button
+          label="Dismiss"
+          icon="pi pi-times"
+          text
+          severity="danger"
+          onClick={closeErrorDialog}
+        />
+      </>
+    );
+  };
+
   const UploadTemplate = () => {
     const [totalSize, setTotalSize] = useState(0);
     const fileUploadRef = useRef<FileUpload>(null);
@@ -232,6 +308,18 @@ const Results = () => {
         },
         (error) => {
           console.log(error);
+          if (error.response) {
+            if (error.response.data.errors) {
+              console.log(error.response.data.errors);
+              openErrorDialog(error.response.data.errors);
+            } else {
+              toast.error(`${error.response.data.message}`);
+            }
+          } else if (error.message) {
+            toast.error(`Error: ${error.message}`)
+          } else {
+            toast.error(`Error: ${error}`)
+          }
         }
       );
     };
@@ -426,7 +514,7 @@ const Results = () => {
     return (
       <>
         <span className="p-column-title">Year of Graduation</span>
-        <span className="text-xl">{rowData.yearOfGrad ? formatYear(rowData.yearOfGrad) : "N/A"}</span>
+        {rowData.yearOfGrad ? rowData.yearOfGrad : "N/A"}
       </>
     );
   };

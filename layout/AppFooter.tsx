@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import { GlobeAltIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image';
 
 import React, { useContext } from 'react';
 import { LayoutContext } from './context/layoutcontext';
@@ -9,9 +9,9 @@ const AppFooter = () => {
 
     return (
         <div className="layout-footer">
-            <GlobeAltIcon className="h-1 w-1 rotate-[15deg]" mr-2 />
+            <Image src="/educhain_1.png" alt="Logo" width={80} height={80} />
             by
-            <span className="font-medium ml-2">EduChain</span>
+            <span className="font-bold text-2xl ml-2">EduChain</span>
         </div>
     );
 };
