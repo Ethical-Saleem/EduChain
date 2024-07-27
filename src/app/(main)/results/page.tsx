@@ -543,6 +543,7 @@ const Results = () => {
               globalFilter={globalFilter}
               emptyMessage="No records found."
               header={header}
+              size="small"
               loading={fetching}
               responsiveLayout="scroll"
             >

@@ -9,6 +9,7 @@ import { Button } from "primereact/button";
 import { Password } from "primereact/password";
 import { InputText } from "primereact/inputtext";
 import { lusitana } from "../../ui/fonts";
+import Image from "next/image";
 
 import { AuthenticationService } from "../../services/AuthenticationService";
 
@@ -90,92 +91,81 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">
+    <div className="flex h-screen w-full flex-col md:flex-row items-center bg-gray-100">
       <Toast ref={toast} />
-      <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-[#5a5a95] to-[#245763] text-white p-8 items-center justify-center flex-col">
-        <div className="overlay-panel text-center">
-          <h1 className="text-2xl font-bold mb-4">
-            Welcome to <span className="text-white">EduChain</span>
-          </h1>
-          <p className="text-sm mb-8">
-            Enter your login credentials to access the platform
-          </p>
+      <div className="bg-uimuted-500 dark:bg-muted-900 hidden h-screen w-full md:w-1/2 lg:block xl:w-2/3">
+        <div className="mx-auto flex size-full max-w-4xl items-center justify-center">
+          <Image src="/educhain_1.png" className="mx-auto max-w-xl" alt="EduChain Logo" width={400} height={400} />
         </div>
       </div>
-      <div className="container bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-lg flex flex-col md:flex-row">
-        <div className="form-container sign-in-container py-8 px-4 p-md-8 w-full">
-          <form onSubmit={login} className="flex flex-col items-center">
-            <h1
-              className="text-2xl font-bold mb-4"
-              style={{ color: "#245763" }}
-            >
-              Sign in
+      <div className="bg-uiyellow-50 flex h-screen w-full items-center justify-center px-6 md:mx-auto md:w-1/2 md:max-w-sm lg:max-w-full lg:px-16 xl:w-1/3 xl:px-12">
+        <div className="mx-auto flex size-full max-w-sm flex-col items-center justify-between py-[2rem]">
+          <Image
+            src="/educhain_1.png"
+            className="mx-auto max-w-xl"
+            alt="EduChain Logo"
+            width={120}
+            height={120}
+          />
+          <div className="w-full">
+            <h1 className="text-2xl text-uiyellow-900 font-semibold">
+              Welcome
             </h1>
-            <div className="social-container flex space-x-4 mb-4">
-              <a
-                href="#"
-                className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
-              >
-                <i className="fab fa-facebook-f"></i>
-              </a>
-              <a
-                href="#"
-                className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
-              >
-                <i className="fab fa-google-plus-g"></i>
-              </a>
-              <a
-                href="#"
-                className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
-              >
-                <i className="fab fa-linkedin-in"></i>
-              </a>
-            </div>
-            <span className="text-sm mb-4 text-[#061a2b]">
-              or use your account
-            </span>
-            <InputText
-              type="email"
-              placeholder="Email"
-              className="w-full mb-4 p-2 bg-gray-200"
-              value={email}
-              required
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Password
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              toggleMask
-              required
-              placeholder="Password"
-              inputClassName="w-full p-2 bg-gray-200"
-              className="w-full mb-4 bg-gray-200"
-            />
-            <div className="w-full text-right mb-4">
-              <Link
-                href="/forgot-password"
-                className="text-sm text-[#5a5a95] hover:text-[#061a2b]"
-              >
-                Forgot your password?
-              </Link>
-            </div>
-            <Button
-              label="Sign In"
-              type="submit"
-              loading={loading}
-              className="w-full bg-[#245763] text-white p-3 hover:bg-[#061a2b]"
-            />
-          </form>
-          <div className="text-center mt-2">
-            <p
-              className={`${lusitana.className} text-sm md:text-lg text-[#061a2b]`}
-            >
-              New to the platform? Kindly{" "}
-              <Link href="/register">
-                <strong className="text-[#5a5a95]">register</strong>
-              </Link>{" "}
-              your school.
+            <p className="text-base mb-4 font-normal text-[#061a2b]">
+              Enter your credentials to sign in
             </p>
+            <form onSubmit={login} className="flex flex-col items-center">
+              <div className="space-y-4 w-full">
+                <InputText
+                  type="email"
+                  placeholder="Email"
+                  className="w-full mb-3 p-2 bg-uiyellow-100 ring-1 ring-uisky-400"
+                  value={email}
+                  required
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <Password
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  toggleMask
+                  required
+                  placeholder="Password"
+                  inputClassName="w-full p-2 bg-uiyellow-100 ring-1 ring-uisky-400"
+                  className="w-full mb-3 bg-uiyellow-200"
+                />
+              </div>
+              <div className="w-full text-right">
+                <Link
+                  href="/forgot-password"
+                  className="text-sm font-bold text-[#5a5a95] hover:text-[#061a2b]"
+                >
+                  Forgot your password?
+                </Link>
+              </div>
+              <div className="mt-2 w-full">
+                <div className="block w-full rounded-md shadow-sm">
+                  <Button
+                    label="Sign In"
+                    type="submit"
+                    loading={loading}
+                    className="w-full bg-uiyellow-800 text-white px-3 py-2 hover:bg-[#061a2b]"
+                  />
+                </div>
+              </div>
+            </form>
+            <div className="text-center mt-3">
+              <p
+                className={`${lusitana.className} text-sm md:text-sm text-[#061a2b]`}
+              >
+                New to the platform?{" "}
+                <Link href="/register">
+                  <strong className="text-[#5a5a95] font-semibold">Register your school.</strong>
+                </Link>
+              </p>
+            </div>
+          </div>
+          <div className="text-center">
+            <span>2024. All Rights Reserved</span>
           </div>
         </div>
       </div>

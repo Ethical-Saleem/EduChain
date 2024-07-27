@@ -42,8 +42,9 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
 
   return (
     <div className="layout-topbar">
-      <Link href="/dashboard" className="layout-topbar-logo text-white">
-        <NavLogo />
+      <Link href="/dashboard" className="layout-topbar-logo">
+        <Image src="/educhain_1.png" alt="Logo" width={80} height={80} />
+        <span className="mr-2">EDUCHAIN</span>
       </Link>
 
       <button
@@ -97,7 +98,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
         </button> */}
         <button
           className={
-            "w-full p-link flex align-items-center text-color lg:text-white hover:text-color p-2 hover:surface-200 border-noround"
+            "w-full p-link flex align-items-center text-color hover:text-color p-2 hover:surface-200 border-noround"
           }
         >
           <Avatar

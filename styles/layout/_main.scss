@@ -24,6 +24,12 @@ a {
 
 .layout-wrapper {
   min-height: 100vh;
+  background-color: #fdf8ef;
+}
+
+.p-chart canvas {
+  width: 100% !important;
+  height: 100& !important;
 }
 
 .vertical-tabmenu .p-tabmenu-nav {

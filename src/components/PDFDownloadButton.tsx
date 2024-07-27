@@ -11,6 +11,8 @@ interface DownloadSearchParams {
   year: number;
 }
 
+// #FEDE57, #005B9A, #75C1E1
+
 const DownloadPDFButton: React.FC<DownloadSearchParams> = ({
   studentNo,
   year,

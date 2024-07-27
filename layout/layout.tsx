@@ -126,13 +126,13 @@ const Layout = ({ children }: ChildContainerProps) => {
 
     return (
         <React.Fragment>
-            <div className={containerClass}>
+            <div className={`bg-uicream-50 ${containerClass}`}>
                 <AppTopbar ref={topbarRef} />
                 <div ref={sidebarRef} className="layout-sidebar">
                     <AppSidebar />
                 </div>
                 <div className="layout-main-container">
-                    <div className="layout-main bg-gray-200 text-gray-700">
+                    <div className="layout-main bg-uicream-50 text-gray-700">
                         <Suspense fallback={<Loading />}>
                             { children }
                         </Suspense>

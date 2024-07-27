@@ -4,7 +4,7 @@ import RingLoader from "react-spinners/RingLoader";
 const override: CSSProperties = {
   display: "block",
   margin: "0 auto",
-  borderColor: "#5a5a95",
+  borderColor: "#072b4a",
 }
 
 const containerStyle: CSSProperties = {
@@ -19,13 +19,13 @@ export default function Loading () {
   return (
     <div style={containerStyle}>
       <RingLoader
-      color="#245763"
+      color="#421e06"
       cssOverride={override}
       size={80}
       aria-label="Loading Spinner"
       data-testid="loader"
       />
-      <p className="mt-4">Please wait while we fetch data...</p>
+      <p className="mt-4 text-uiblue-600">Please wait while we fetch data...</p>
     </div>
   )
 }
