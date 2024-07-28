@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 import React, {
   useContext,
   useState,
@@ -9,7 +8,8 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { Checkbox } from "primereact/checkbox";
+import Link from "next/link";
+import Image from "next/image";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
@@ -139,10 +139,12 @@ const UserForm = ({ newUserData }: any) => {
 
   return (
     <>
-      <div className="items-center flex flex-col">
-        <h1 className="text-2xl font-bold mb-4">Sign up</h1>
-      </div>
-      <form onSubmit={handleSubmit(onUserSubmit)} className="flex flex-col">
+      <form onSubmit={handleSubmit(onUserSubmit)} className="mx-auto w-full max-w-xs">
+        <h1 className="text-2xl text-uiyellow-900 font-semibold">Next Step</h1>
+        <p className="text-base mb-4 font-normal text-[#061a2b]">
+          Create an Admin user to login into your dashboard
+        </p>
+        <div className="flex flex-col mb-2 space-y-2">
         <div className="formgrid grid form-inputs md:overflow-y-auto md:max-h-[50vh] mb-2">
           <div className="field col-12">
             <label
@@ -160,7 +162,7 @@ const UserForm = ({ newUserData }: any) => {
                   {...field}
                   id="name"
                   placeholder="Username"
-                  className={`w-full mb-2 p-2 bg-gray-100 ${
+                  className={`w-full bg-gray-100 px-2 py-1 ring-1 ring-uisky-400 ${
                     errors.name ? "p-invalid" : ""
                   }`}
                 />
@@ -183,14 +185,14 @@ const UserForm = ({ newUserData }: any) => {
                   {...field}
                   id="email"
                   placeholder="Email Address"
-                  className={`w-full mb-2 p-2 bg-gray-100 ${
+                  className={`w-full px-2 py-1 bg-gray-100 ring-1 ring-uisky-400 ${
                     errors.email ? "p-invalid" : ""
                   }`}
                 />
               )}
             />
           </div>
-          <div className="field col-12 md:col-6">
+          <div className="field col-12">
             <label
               htmlFor="telephone"
               className="block text-900 text-basebase font-medium mb-2"
@@ -206,7 +208,7 @@ const UserForm = ({ newUserData }: any) => {
                   {...field}
                   id="telephone"
                   placeholder="Telephone"
-                  className={`w-full mb-2 p-2 bg-gray-100 ${
+                  className={`w-full px-2 py-1 bg-gray-100 ring-1 ring-uisky-400 ${
                     errors.telephone ? "p-invalid" : ""
                   }`}
                 />
@@ -228,7 +230,7 @@ const UserForm = ({ newUserData }: any) => {
                 <CustomPasswordInput
                   {...field}
                   placeholder="Enter your new password"
-                  className={`w-full mb-2 p-2 bg-gray-100 ${
+                  className={`w-full px-2 py-1 bg-gray-100 ring-1 ring-uisky-400 ${
                     errors.password ? "p-invalid" : ""
                   }`}
                 />
@@ -244,7 +246,8 @@ const UserForm = ({ newUserData }: any) => {
             </ul>
           </div>
         </div>
-        <div className="md:mt-3 text-center">
+        </div>
+        <div className="text-center">
           <Button
             label="Continue"
             className="w-full bg-[#245763] text-white p-2 md:p-3 hover:bg-[#061a2b]"
@@ -370,50 +373,62 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">
+    <div className="h-screen md:flex">
       <Toast ref={toast} />
-      <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-[#5a5a95] to-[#245763] text-white p-8 items-center justify-center flex-col">
-        <div className="overlay-panel text-center">
-          {activeViewIndex === 0 && (
-            <>
-              <h1 className="text-2xl font-bold mb-4">
-                Welcome to <span className="text-white">EduChain</span>
-              </h1>
-              <p className="text-sm mb-2">
-                Please fill in the spaces to register your school
-              </p>
-              <p className="text-sm">
-                Marked <span className="text-rose-600 text-bold">( * )</span>{" "}
-                inputs are required
-              </p>
-            </>
-          )}
-          {activeViewIndex === 1 && (
-            <>
-              <h1 className="text-2xl font-bold mb-4">
-                Thank you for creating an account with us.
-              </h1>
-              <p className="text-sm mb-8">
-                Please create an Admin user to login into your dashboard
-              </p>
-            </>
-          )}
+      <div className="from-uicream-900 to-uicream-500 i group relative hidden w-1/2 items-center justify-around overflow-hidden bg-gradient-to-tr md:flex">
+        <div className="mx-auto max-w-xs text-center">
+        <Image
+          src="/educhain_1.png"
+          className="mx-auto max-w-xl"
+          alt="EduChain Logo"
+          width={180}
+          height={180}
+        />
+          <h2 className="text-3xl font-medium lead-normal text-white">
+            Have an Account?
+          </h2>
+          <p className="text-uisky-200 font-normal lead-normal mb-4">
+            No need to waste time on this page. Let&apos;s take you back to your
+            account.
+          </p>
+          <Link
+            href="/"
+            className="ring-1 ring-uiyellow-800 text-white bg-uimuted-700 p-3 rounded-lg w-full"
+          >
+            Login to your account
+          </Link>
         </div>
+        <div className="bg-uimuted-200/20 absolute -start-6 -top-6 h-14 w-0 origin-top-left rotate-45 rounded-full transition-all delay-[25ms] duration-300 group-hover:w-72"></div>
+        <div className="bg-uimuted-200/20 absolute -top-12 start-20 h-14 w-0 origin-top-left rotate-45 rounded-full transition-all delay-75 duration-300 group-hover:w-48"></div>
+        <div className="bg-uimuted-200/20 absolute -start-7 top-24 h-14 w-0 origin-top-left rotate-45 rounded-full transition-all delay-150 duration-300 group-hover:w-40"></div>
+        <div className="bg-uimuted-200/20 absolute -bottom-6 -end-6 h-14 w-0 origin-bottom-right rotate-45 rounded-full transition-all delay-150 duration-300 group-hover:w-72"></div>
+        <div className="bg-uimuted-200/20 absolute -bottom-12 end-20 h-14 w-0 origin-bottom-right rotate-45 rounded-full transition-all delay-75 duration-300 group-hover:w-48"></div>
+        <div className="bg-uimuted-200/20 absolute -end-7 bottom-24 h-14 w-0 origin-bottom-right rotate-45 rounded-full transition-all delay-[25ms] duration-300 group-hover:w-40"></div>
       </div>
-      <div className="container bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-md">
-        <div className="form-container sign-in-container py-8 px-4 p-md-8 w-full">
-          {activeViewIndex === 0 && (
+      <div className="bg-uicream-100 flex flex-col items-center justify-between pt-2 py-10 md:w-1/2">
+        <Image
+          src="/educhain_1.png"
+          className="mx-auto max-w-xl block md:hidden"
+          alt="EduChain Logo"
+          width={120}
+          height={120}
+        />
+        <div className="mb-4"></div>
+        {activeViewIndex === 0 && (
+          <form onSubmit={register} className="mx-auto w-full max-w-xs">
             <>
-              {" "}
-              <div className="items-center flex flex-col">
-                <h1 className="text-2xl font-bold mb-4">Sign up</h1>
-              </div>
-              <form onSubmit={register} className="flex flex-col">
+              <h1 className="text-2xl text-uiyellow-900 font-semibold">
+                Welcome to EduChain
+              </h1>
+              <p className="text-base mb-4 font-normal text-[#061a2b]">
+                Let&apos;s start by creating your account
+              </p>
+              <div className="flex flex-col mb-2 space-y-2">
                 <div className="formgrid grid form-inputs md:overflow-y-auto md:max-h-[50vh] mb-2">
                   <div className="field col-12">
                     <label
                       htmlFor="name"
-                      className="block text-900 text-base font-medium mb-2"
+                      className="block text-900 text-base font-medium "
                     >
                       School Name
                       <span className="ml-1 text-rose-400">*</span>
@@ -422,7 +437,7 @@ const RegisterPage = () => {
                       id="name"
                       placeholder="School Name"
                       required
-                      className="w-full mb-2 p-2 bg-gray-200"
+                      className="w-full px-2 py-1 bg-gray-200 ring-1 ring-uisky-400"
                       onChange={(e) => onInputChange(e, "name")}
                       value={registerData.name}
                     />
@@ -439,7 +454,7 @@ const RegisterPage = () => {
                       id="address"
                       placeholder="Address"
                       required
-                      className="w-full p-2 bg-gray-200 mb-2"
+                      className="w-full px-2 py-1 bg-gray-200 ring-1 ring-uisky-400"
                       onChange={(e) => onInputChange(e, "address")}
                       value={registerData.address}
                     />
@@ -457,7 +472,7 @@ const RegisterPage = () => {
                       type="text"
                       required
                       placeholder="Email address"
-                      className="w-full p-2 bg-gray-200 mb-2"
+                      className="w-full px-2 py-1 bg-gray-200 ring-1 ring-uisky-400"
                       onChange={(e) => onInputChange(e, "email")}
                       value={registerData.email}
                     />
@@ -472,7 +487,7 @@ const RegisterPage = () => {
                     <InputText
                       id="contactPerson"
                       placeholder="Contact Person"
-                      className="w-full p-2 bg-gray-200 mb-2"
+                      className="w-full px-2 py-1 bg-gray-200 ring-1 ring-uisky-400"
                       onChange={(e) => onInputChange(e, "contactName")}
                       value={registerData.contactName}
                     />
@@ -489,7 +504,7 @@ const RegisterPage = () => {
                       id="telephone"
                       placeholder="Telephone"
                       required
-                      className="w-full p-2 bg-gray-200 mb-2"
+                      className="w-full px-2 py-1 bg-gray-200 ring-1 ring-uisky-400"
                       onChange={(e) => onInputChange(e, "telephone")}
                       value={registerData.telephone}
                     />
@@ -506,7 +521,7 @@ const RegisterPage = () => {
                       id="city"
                       placeholder="City"
                       required
-                      className="w-full p-2 bg-gray-200 mb-2"
+                      className="w-full px-2 py-1 bg-gray-200 ring-1 ring-uisky-400"
                       onChange={(e) => onInputChange(e, "city")}
                       value={registerData.city}
                     />
@@ -523,7 +538,7 @@ const RegisterPage = () => {
                       id="region"
                       placeholder="Region/State"
                       required
-                      className="w-full p-2 bg-gray-200 mb-2"
+                      className="w-full px-2 py-1 bg-gray-200 ring-1 ring-uisky-400"
                       onChange={(e) => onInputChange(e, "region")}
                       value={registerData.region}
                     />
@@ -540,7 +555,7 @@ const RegisterPage = () => {
                       id="country"
                       placeholder="Country"
                       required
-                      className="w-full p-2 bg-gray-200 mb-2"
+                      className="w-full px-2 py-1 bg-gray-200 ring-1 ring-uisky-400"
                       onChange={(e) => onInputChange(e, "country")}
                       value={registerData.country}
                     />
@@ -555,7 +570,7 @@ const RegisterPage = () => {
                     </label>
                     <Calendar
                       id="date"
-                      className="w-full p-2 bg-gray-200 mb-2"
+                      className="w-full px-2 py-1 bg-gray-200 ring-1 ring-uisky-400"
                       dateFormat="dd/mm/yy"
                       showIcon
                       required
@@ -580,28 +595,27 @@ const RegisterPage = () => {
                     />
                   </div>
                 </div>
-                <div className="md:mt-3 text-center">
-                  <Button
-                    label="Continue"
-                    className="w-full bg-[#245763] text-white p-2 md:p-3 hover:bg-[#061a2b]"
-                    loading={loading}
-                    type="submit"
-                  ></Button>
-                  <p
-                    className={`${lusitana.className} text-base md:text-lg mt-2 text-[#061a2b]`}
-                  >
-                    Already registered? Click{" "}
-                    <Link href="/login">
-                      <strong className="text-[#5a5a95]">here</strong>
-                    </Link>{" "}
-                    to login.
-                  </p>
-                </div>
-              </form>{" "}
+              </div>
+              <Button
+                label="Continue"
+                className="w-full bg-[#245763] text-white p-2 md:p-3 hover:bg-[#061a2b]"
+                loading={loading}
+                type="submit"
+              ></Button>
+              <p
+                className={`${lusitana.className} text-base md:text-lg mt-2 flex justify-between items-center text-[#061a2b]`}
+              >
+                <span>Already registered?</span>
+                <Link href="/login">
+                  <strong className="text-[#5a5a95]">Login here</strong>
+                </Link>
+              </p>
             </>
-          )}
-
-          {activeViewIndex === 1 && <UserForm newUserData={newUserData} />}
+          </form>
+        )}
+        {activeViewIndex === 1 && <UserForm newUserData={newUserData} />}
+        <div className="text-center">
+          <span> © 2024 EduChain. All rights reserved. </span>
         </div>
       </div>
     </div>

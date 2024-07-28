@@ -3,7 +3,7 @@
   flex-direction: column;
   min-height: 100vh;
   justify-content: space-between;
-  padding: 7rem 2rem 2rem 4rem;
+  padding: 5.5rem 2rem 2rem 4rem;
   transition: margin-left $transitionDuration;
 }
 
@@ -93,13 +93,13 @@
   text-align: center;
   transition: all 0.2s;
   border-radius: 0;
-  border: 1px solid var(--surface-400);
+  border: 2px solid #005b9a;
   background: transparent;
   outline-offset: -2px;
   outline-color: transparent;
   border-right: 0 none;
   transition: outline-color 0.3s;
-  color: var(--text-color);
+  color: #a25d06;
 }
 
 .p-inputotp-input:focus {
@@ -126,7 +126,7 @@
   border-bottom-right-radius: 12px;
   border-right-width: 1px;
   border-right-style: solid;
-  border-color: var(--surface-400);
+  border-color: #005b9a;
 }
 
 .p-inputtext:enabled:hover, .custom-input:enabled:hover {

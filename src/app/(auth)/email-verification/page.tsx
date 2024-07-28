@@ -206,147 +206,110 @@ const VerificationPage = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">
+    <div className="relative min-h-screen w-full overflow-hidden px-4">
       <Toast ref={toast} />
-      <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-[#5a5a95] to-[#245763] text-white p-8 items-center justify-center flex-col">
-        <div className="overlay-panel text-center">
-          <h1 className="text-2xl font-bold mb-4">
-            Verify your <span className="text-white">Account</span>
-          </h1>
-          {activeViewIndex === 0 && (
-            <p className="text-sm mb-8">
-              Please confirm the email associated with your account.
-            </p>
-          )}
-          {activeViewIndex === 1 && (
-            <p className="text-sm mb-8">
-              Provide the code sent to your mailbox to verify your account.
-            </p>
-          )}
-        </div>
+      <div className="absolute inset-0 bg-uisky-200 flex items-center justify-center">
+        <div
+          className="for-bg bg-center bg-no-repeat bg-cover"
+          style={{width: "500px", height: "500px", opacity: 0.2}}
+        ></div>
       </div>
-      <div className="container bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-lg flex flex-col md:flex-row">
-        <div className="form-container sign-in-container py-6 px-4 p-md-6 w-full">
-          {activeViewIndex === 0 && (
-            <>
-              <div className="mb-3">
-                <Button
-                  label="Back"
-                  icon="pi pi-arrow-left"
-                  link
-                  onClick={() => router.push("/login")}
-                  className="text-xl"
-                ></Button>
-              </div>
-              <form
-                onSubmit={dispatchSendVerification}
-                className="flex flex-col items-center"
-              >
-                {/* <Image
-                  src="/educhain-chrome-two.png"
-                  alt="Logo"
-                  width={120}
-                  height={100}
-                /> */}
-                <h1
-                  className="text-xl md:text-2xl font-bold mb-4"
-                  style={{ color: "#245763" }}
-                >
-                  Verify Your Account
+      <div className="mx-auto relative z-1 flex w-full max-w-6xl items-center justify-center px-4">
+        <Image
+          src="/educhain_1.png"
+          className="mx-auto max-w-xl"
+          alt="EduChain Logo"
+          width={150}
+          height={150}
+        />
+      </div>
+      <div className="flex w-full z-1 relative items-center justify-center">
+        <div className="relative mx-auto w-full max-w-2xl">
+          <div className="me-auto ms-auto mt-4 w-full">
+            <div className="me-auto ms-auto mt-4 w-full max-w-md">
+              <div className="text-center">
+                <h1 className="text-3xl text-uiyellow-900 font-bold">
+                  Verify your Account
                 </h1>
-                <div className="social-container flex space-x-4 mb-4">
-                  <a
-                    href="#"
-                    className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
-                  >
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                  <a
-                    href="#"
-                    className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
-                  >
-                    <i className="fab fa-google-plus-g"></i>
-                  </a>
-                  <a
-                    href="#"
-                    className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
-                  >
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </div>
-                <p className="text-color-secondary text-sm md:text-base block md:hidden mb-5">
-                  Please confirm the email associated with your account
+                <p className="text-base mb-4 font-medium text-[#061a2b]">
+                  An email containing instructions will be sent to your inbox
                 </p>
-                <div className="field w-full">
-                  <label
-                    htmlFor="email"
-                    className="block text-900 text-base font-medium mb-2"
-                  >
-                    Email
-                  </label>
-                  <InputText
-                    type="email"
-                    className="w-full mb-4 p-2 bg-gray-200"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="w-full text-right">
-                  <Button
-                    label="Send Code"
-                    type="submit"
-                    loading={loading}
-                    className="bg-[#245763] text-white p-2 md:p-3 hover:bg-[#061a2b]"
-                  />
-                </div>
-              </form>
-            </>
-          )}
-          {activeViewIndex === 1 && (
-            <div className="card flex justify-content-center">
-              <div className="flex flex-column align-items-center">
-                <p className="font-bold md:text-xl mb-2 md:mb-5">
-                  Authenticate Your Account
-                </p>
-                <p className="text-color-secondary text-sm md:text-base block md:hidden mb-5">
-                  Please enter the code sent to your mail.
-                </p>
-                <InputOtp
-                  value={token}
-                  onChange={(e) => setToken(e.value?.toString().toUpperCase())}
-                  length={6}
-                  className="custom-otp-input-sample"
-                  style={{ gap: 1 }}
-                />
-                <div className="flex justify-content-between mt-5 align-self-stretch">
-                  <div className="flex items-center px-2">
-                    <Button
-                      label="Resend Code"
-                      icon="pi pi-refresh"
-                      link
-                      onClick={dispatchResendVerification}
-                      loading={resending}
-                      disabled={!resendEnabled}
-                      className="text-[#245763] text-sm md:text-lg p-0 hover:bg-white"
-                    />
-                    {!resendEnabled && (
-                      <span className="text-[#061a2b] text-sm md:text-base ml-1 md:ml-3">
-                        {Math.floor(countdown / 60)}:
-                        {(countdown % 60).toString().padStart(2, "0")}
-                      </span>
-                    )}
-                  </div>
-                  <Button
-                    label="Validate"
-                    onClick={dispatchVerifyEmail}
-                    loading={loading}
-                    className="bg-[#245763] text-white text-sm md:text-lg p-2 md:p-3 hover:bg-[#061a2b]"
-                  />
-                </div>
               </div>
+              {activeViewIndex === 0 && (
+                <form onSubmit={dispatchSendVerification} className="px-4 py-4">
+                  <div className="mb-4 space-y-4">
+                    <div className="field w-full">
+                      <label
+                        htmlFor="email"
+                        className="block text-900 text-base font-medium mb-2"
+                      >
+                        Email
+                      </label>
+                      <InputText
+                        type="email"
+                        className="w-full p-2 bg-gray-200 ring-1 ring-uisky-400"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </div>
+                  <div className="mb-6">
+                    <Button
+                      label="Send Code"
+                      type="submit"
+                      loading={loading}
+                      className="bg-[#245763] text-white p-2 md:p-3 w-full hover:bg-[#061a2b]"
+                    />
+                  </div>
+                </form>
+              )}
+              {activeViewIndex === 1 && (
+                <div className="flex flex-column align-items-center">
+                  <p className="font-bold md:text-xl mb-2 md:mb-5">
+                    Authenticate Your Account
+                  </p>
+                  <p className="text-color-secondary text-sm md:text-base block md:hidden mb-5">
+                    Please enter the code sent to your mail.
+                  </p>
+                  <InputOtp
+                    value={token}
+                    onChange={(e) =>
+                      setToken(e.value?.toString().toUpperCase())
+                    }
+                    length={6}
+                    className="custom-otp-input-sample"
+                    style={{ gap: 1 }}
+                  />
+                  <div className="flex justify-content-between mt-5 align-self-stretch">
+                    <div className="flex items-center px-2">
+                      <Button
+                        label="Resend Code"
+                        icon="pi pi-refresh"
+                        link
+                        onClick={dispatchResendVerification}
+                        loading={resending}
+                        disabled={!resendEnabled}
+                        className="text-[#245763] text-sm md:text-lg p-0 hover:bg-white"
+                      />
+                      {!resendEnabled && (
+                        <span className="text-uiyellow-700 font-medium text-sm md:text-base ml-1 md:ml-3">
+                          {Math.floor(countdown / 60)}:
+                          {(countdown % 60).toString().padStart(2, "0")}
+                        </span>
+                      )}
+                    </div>
+                    <Button
+                      label="Validate"
+                      onClick={dispatchVerifyEmail}
+                      loading={loading}
+                      className="bg-[#245763] text-white text-sm md:text-lg p-2 md:p-3 hover:bg-[#061a2b]"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

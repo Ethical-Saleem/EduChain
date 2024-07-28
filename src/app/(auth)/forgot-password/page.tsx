@@ -14,7 +14,7 @@ import CustomPasswordInput from "@/components/CustomPasswordInput";
 import { AuthenticationService } from "@/app/services/AuthenticationService";
 import { Demo } from "../../../../types";
 import Link from "next/link";
-// import { watch } from "fs";
+import Image from "next/image";
 
 const ForgorPassword = () => {
   const emptyData: Demo.ResetPassword = {
@@ -206,247 +206,236 @@ const ForgorPassword = () => {
   };
 
   return (
-    <div className="min-h-screen w-screen flex justify-center items-center bg-gray-100">
+    <div className="relative min-h-screen w-full overflow-hidden px-4 pb-6">
       <Toast ref={toast} />
-      <div className="overlay-container hidden md:flex md:w-1/2 bg-gradient-to-r from-[#5a5a95] to-[#245763] text-white p-8 items-center justify-center flex-col">
-        <div className="overlay-panel text-center">
-          <h1 className="text-2xl font-bold mb-4">
-            Forgot your <span className="text-white">Password?</span>
-          </h1>
-          {activeViewIndex === 0 && (
-            <p className="text-sm mb-8">
-              Please provide the email associated with your account.
-            </p>
-          )}
-          {activeViewIndex === 1 && (
-            <p className="text-sm mb-8">
-              Provide the code sent to your mailbox to reset your password.
-            </p>
-          )}
-          <p className="text-sm hidden md:block">Return to <Link href="/login" className="text-base text-[#061a2b] font-semibold">Login</Link></p>
-        </div>
+      <div className="absolute inset-0 bg-uisky-200 flex items-center justify-center">
+        <div
+          className="for-bg bg-center bg-no-repeat bg-cover"
+          style={{ width: "500px", height: "500px", opacity: 0.2 }}
+        ></div>
       </div>
-      <div className="container bg-white shadow-lg rounded-lg overflow-hidden w-full max-w-lg flex flex-col md:flex-row">
-        <div className="form-container sign-in-container py-6 px-4 p-md-6 w-full">
-          {activeViewIndex === 0 && (
-            <>
-              <div className="mb-3">
-                <Button
-                  label="Back"
-                  icon="pi pi-arrow-left"
-                  link
-                  onClick={() => router.push("/login")}
-                  className="text-xl"
-                ></Button>
-              </div>
-              <form
-                className="flex flex-col items-center"
-                onSubmit={dispatchSendResetCode}
-              >
-                {/* <Image
-                  src="/educhain-chrome-two.png"
-                  alt="Logo"
-                  width={120}
-                  height={100}
-                /> */}
-                <h1
-                  className="text-xl md:text-2xl font-bold mb-4"
-                  style={{ color: "#245763" }}
-                >
-                  Forgot Password
+      <div className="mx-auto relative z-1 flex w-full max-w-6xl items-center justify-center px-4">
+        <Image
+          src="/educhain_1.png"
+          className="mx-auto max-w-xl"
+          alt="EduChain Logo"
+          width={150}
+          height={150}
+        />
+      </div>
+      <div className="flex w-full z-1 relative items-center justify-center">
+        <div className="relative mx-auto w-full max-w-2xl">
+          <div className="me-auto ms-auto mt-2 w-full">
+            <div className="me-auto ms-auto mt-4 w-full max-w-md">
+              {activeViewIndex === 0 && (<div className="text-center">
+                <h1 className="text-3xl text-uiyellow-900 font-bold">
+                  Forgot your password?
                 </h1>
-                <div className="social-container flex space-x-4 mb-4">
-                  <a
-                    href="#"
-                    className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
-                  >
-                    <i className="fab fa-facebook-f"></i>
-                  </a>
-                  <a
-                    href="#"
-                    className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
-                  >
-                    <i className="fab fa-google-plus-g"></i>
-                  </a>
-                  <a
-                    href="#"
-                    className="social bg-gray-200 rounded-full p-2 text-[#5a5a95]"
-                  >
-                    <i className="fab fa-linkedin-in"></i>
-                  </a>
-                </div>
-                <p className="text-color-secondary text-sm md:text-base block md:hidden mb-5">
-                  Please confirm the email associated with your account
+                <p className="text-base mb-4 font-medium text-[#061a2b]">
+                  An email containing instructions will be sent to your inbox
                 </p>
-                <div className="field w-full">
-                  <label
-                    htmlFor="email"
-                    className="block text-900 text-base font-medium mb-2"
-                  >
-                    Email
-                  </label>
-                  <InputText
-                    type="email"
-                    className="w-full mb-4 p-2 bg-gray-200"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="w-full text-right">
-                  <Button
-                    label="Send Code"
-                    type="submit"
-                    loading={loading}
-                    className="bg-[#245763] text-white p-2 md:p-3 hover:bg-[#061a2b]"
-                  />
-                </div>
-              </form>
-            </>
-          )}
-          {activeViewIndex === 1 && (
-            <div className="card flex p-2">
-              <form
-                onSubmit={handleSubmit(onResetSubmit)}
-                className="flex flex-column w-full align-items-center"
-              >
-                <p className="font-bold md:text-xl mb-2 md:mb-5">
-                  Reset Your Password
+              </div>)}
+              {activeViewIndex === 1 && (
+                <div className="text-center">
+                <h1 className="text-2xl text-uiyellow-900 font-bold">
+                  Recover Password
+                </h1>
+                <p className="text-base mb-3 font-medium text-[#061a2b]">
+                  Create a new password
                 </p>
-                <p className="text-color-secondary text-sm md:text-base block md:hidden mb-5">
-                  Please enter the code sent to your mail.
-                </p>
-                <div className="w-full md:overflow-y-auto md:max-h-[50vh]">
-                  <div className="field w-full md:px-2">
-                    <label
-                      className="block text-900 text-sm md:text-base font-medium mb-2"
-                      htmlFor="email"
-                    >
-                      Email
-                    </label>
-                    <Controller
-                      name="email"
-                      control={control}
-                      render={({ field }) => (
-                        <InputText
-                          {...field}
-                          id="email"
-                          placeholder="Email Address"
-                          className={`w-full mb-2 p-2 bg-gray-100 ${
-                            errors.email ? "p-invalid" : ""
-                          }`}
-                        />
-                      )}
-                    />
-                    {errors.email && (
-                      <small className="p-error">{errors.email.message}</small>
-                    )}
+              </div>
+              )}
+              {activeViewIndex === 0 && (
+                <form className="px-4 py-4" onSubmit={dispatchSendResetCode}>
+                  <div className="mb-4 space-y-4">
+                    <div className="field w-full">
+                      <label
+                        htmlFor="email"
+                        className="block text-900 text-base font-medium mb-2"
+                      >
+                        Email
+                      </label>
+                      <InputText
+                        type="email"
+                        className="w-full p-2 bg-gray-200 ring-1 ring-uisky-400"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
                   </div>
-                  <div className="field w-full md:px-2">
-                    <label
-                      className="block text-900 text-sm md:text-base font-medium mb-2"
-                      htmlFor="code"
-                    >
-                      Code
-                    </label>
-                    <Controller
-                      name="code"
-                      control={control}
-                      render={({ field }) => (
-                        <InputText
-                          {...field}
-                          id="code"
-                          placeholder="Enter Code"
-                          className={`w-full mb-2 p-2 bg-gray-100 ${
-                            errors.code ? "p-invalid" : ""
-                          }`}
-                        />
-                      )}
+                  <div className="mb-6">
+                    <Button
+                      label="Send Code"
+                      type="submit"
+                      loading={loading}
+                      className="bg-[#245763] w-full text-white p-2 md:p-3 hover:bg-[#061a2b]"
                     />
-                    {errors.code && (
-                      <small className="p-error">{errors.code.message}</small>
-                    )}
                   </div>
-                  <div className="field w-full md:px-2">
-                    <label
-                      className="block text-900 text-sm md:text-base font-medium mb-2"
-                      htmlFor="newPassword"
-                    >
-                      New Password
-                    </label>
-                    <Controller
-                      name="newPassword"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomPasswordInput
-                          {...field}
-                          placeholder="Enter your new password"
-                          className={`w-full mb-2 p-2 bg-gray-100 ${
-                            errors.newPassword ? "p-invalid" : ""
-                          }`}
-                        />
-                      )}
-                    />
-                    <ul className="list-none p-0 m-0 mt-2">
-                      {passwordCriteria.map((criteria, index) => (
-                        <li
-                          key={index}
-                          className="flex items-center gap-2 text-sm"
+                </form>
+              )}
+              {activeViewIndex === 1 && (
+                // <div className="card flex p-2">
+                  <form
+                    onSubmit={handleSubmit(onResetSubmit)}
+                    className="flex flex-column w-full align-items-center"
+                  >
+                    <div className="w-full md:overflow-y-auto md:max-h-[50vh]">
+                      <div className="field w-full md:px-2">
+                        <label
+                          className="block text-900 text-sm md:text-base font-medium mb-2"
+                          htmlFor="email"
                         >
-                          {renderCriteriaIcon(criteria.regex.test(newPassword))}
-                          <span>{criteria.text}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="field w-full md:px-2">
-                    <label
-                      className="block text-900 text-sm md:text-base font-medium mb-2"
-                      htmlFor="confirmPassword"
-                    >
-                      Confirm Password
-                    </label>
-                    <Controller
-                      name="confirmPassword"
-                      control={control}
-                      render={({ field }) => (
-                        <CustomPasswordInput
-                          {...field}
-                          placeholder="Enter your password again"
-                          className={`w-full mb-2 p-2 bg-gray-100 ${
-                            errors.confirmPassword ? "p-invalid" : ""
-                          }`}
+                          Email
+                        </label>
+                        <Controller
+                          name="email"
+                          control={control}
+                          render={({ field }) => (
+                            <InputText
+                              {...field}
+                              id="email"
+                              placeholder="Email Address"
+                              className={`w-full px-2 py-1 bg-gray-100 ring-1 ring-uisky-400 ${
+                                errors.email ? "p-invalid" : ""
+                              }`}
+                            />
+                          )}
                         />
-                      )}
-                    />
-                    {errors.confirmPassword && (
-                      <small className="p-error">
-                        {errors.confirmPassword.message}
-                      </small>
-                    )}
-                  </div>
-                </div>
-                <div className="w-full text-center mt-2">
-                  <Button
-                    label="Continue"
-                    className="w-full bg-[#245763] text-white mb-2 p-2 md:p-2 hover:bg-[#061a2b]"
-                    loading={loading}
-                    type="submit"
-                  ></Button>
-                  <div className="flex items-center justify-center">
-                  <p className="text-sm flex items-center">Didn&apos;t receive a code? <Button label="Resend" disabled={!resendEnabled} text onClick={dispatchSendResetCode} loading={loading} className="text-semibold underline text-[#245763]" /></p>
-                  {!resendEnabled && (
-                      <span className="text-[#5a5a9b] text-sm md:text-base ml-1 md:ml-3">
-                        {Math.floor(countdown / 60)}:
-                        {(countdown % 60).toString().padStart(2, "0")}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm block md:hidden mt-2">Return to <Link href="/" className="text-base text-[#061a2b] font-semibold">Login</Link></p>
-                </div>
-              </form>
+                        {errors.email && (
+                          <small className="p-error">
+                            {errors.email.message}
+                          </small>
+                        )}
+                      </div>
+                      <div className="field w-full md:px-2">
+                        <label
+                          className="block text-900 text-sm md:text-base font-medium mb-2"
+                          htmlFor="code"
+                        >
+                          Code
+                        </label>
+                        <Controller
+                          name="code"
+                          control={control}
+                          render={({ field }) => (
+                            <InputText
+                              {...field}
+                              id="code"
+                              placeholder="Enter Code"
+                              className={`w-full px-2 py-1 bg-gray-100 ring-1 ring-uisky-400 ${
+                                errors.code ? "p-invalid" : ""
+                              }`}
+                            />
+                          )}
+                        />
+                        {errors.code && (
+                          <small className="p-error">
+                            {errors.code.message}
+                          </small>
+                        )}
+                      </div>
+                      <div className="field w-full md:px-2">
+                        <label
+                          className="block text-900 text-sm md:text-base font-medium mb-2"
+                          htmlFor="newPassword"
+                        >
+                          New Password
+                        </label>
+                        <Controller
+                          name="newPassword"
+                          control={control}
+                          render={({ field }) => (
+                            <CustomPasswordInput
+                              {...field}
+                              placeholder="Enter your new password"
+                              className={`w-full px-2 py-1 bg-gray-100 ring-1 ring-uisky-400 ${
+                                errors.newPassword ? "p-invalid" : ""
+                              }`}
+                            />
+                          )}
+                        />
+                        <ul className="list-none p-0 m-0 mt-2">
+                          {passwordCriteria.map((criteria, index) => (
+                            <li
+                              key={index}
+                              className="flex items-center gap-2 text-sm"
+                            >
+                              {renderCriteriaIcon(
+                                criteria.regex.test(newPassword)
+                              )}
+                              <span>{criteria.text}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div className="field w-full md:px-2">
+                        <label
+                          className="block text-900 text-sm md:text-base font-medium mb-2"
+                          htmlFor="confirmPassword"
+                        >
+                          Confirm Password
+                        </label>
+                        <Controller
+                          name="confirmPassword"
+                          control={control}
+                          render={({ field }) => (
+                            <CustomPasswordInput
+                              {...field}
+                              placeholder="Enter your password again"
+                              className={`w-full px-2 py-1 bg-gray-100 ring-1 ring-uisky-400 ${
+                                errors.confirmPassword ? "p-invalid" : ""
+                              }`}
+                            />
+                          )}
+                        />
+                        {errors.confirmPassword && (
+                          <small className="p-error">
+                            {errors.confirmPassword.message}
+                          </small>
+                        )}
+                      </div>
+                    </div>
+                    <div className="w-full text-center mt-2">
+                      <Button
+                        label="Continue"
+                        className="w-full bg-[#245763] text-white mb-2 p-2 md:p-2 hover:bg-[#061a2b]"
+                        loading={loading}
+                        type="submit"
+                      ></Button>
+                      <div className="flex items-center justify-center">
+                        <p className="text-sm flex items-center">
+                          Didn&apos;t receive a code?{" "}
+                          <Button
+                            label="Resend"
+                            disabled={!resendEnabled}
+                            text
+                            onClick={dispatchSendResetCode}
+                            loading={loading}
+                            className="text-semibold underline text-[#245763]"
+                          />
+                        </p>
+                        {!resendEnabled && (
+                          <span className="text-uiyellow-700 font-medium text-sm md:text-base ml-1 md:ml-3">
+                            {Math.floor(countdown / 60)}:
+                            {(countdown % 60).toString().padStart(2, "0")}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-sm block md:hidden mt-2">
+                        Return to{" "}
+                        <Link
+                          href="/"
+                          className="text-base text-[#061a2b] font-semibold"
+                        >
+                          Login
+                        </Link>
+                      </p>
+                    </div>
+                  </form>
+              )}
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>

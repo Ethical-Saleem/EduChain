@@ -8,10 +8,10 @@ import Image from "next/image";
 import { withAuth } from "@/app/hoc/WithAuth";
 import { Chart } from "primereact/chart";
 import { ChartData, ChartOptions } from "chart.js";
-import { Card } from "primereact/card";
+import LineChart from "@/components/LineChartCard";
 
 const lineData: ChartData = {
-  labels: ["January", "February", "March", "April", "May", "June", "July"],
+  labels: [2016, 2017, 2018, 2019, 2020, 2021, 2022],
   datasets: [
     {
       label: "",
@@ -119,6 +119,9 @@ const Dashboard = () => {
           <div className="card">
             <Chart type="bar" data={lineData} options={lineOptions} />
           </div>
+        </div>
+        <div className="col-12 xl:col-6">
+          <LineChart />
         </div>
       </div>
     </main>

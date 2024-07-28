@@ -219,7 +219,7 @@ const Results = () => {
   const rightToolbarTemplate = () => {
     return (
       <React.Fragment>
-        <div className="my-2">
+        <div className="">
           <Button
             label="Upload"
             icon="pi pi-upload"

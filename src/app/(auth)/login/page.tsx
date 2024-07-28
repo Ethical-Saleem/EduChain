@@ -165,7 +165,7 @@ const LoginPage = () => {
             </div>
           </div>
           <div className="text-center">
-            <span>2024. All Rights Reserved</span>
+            <span> © 2024 EduChain. All rights reserved. </span>
           </div>
         </div>
       </div>
