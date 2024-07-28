@@ -96,10 +96,12 @@ const LoginPage = () => {
       <div className="bg-uimuted-500 dark:bg-muted-900 hidden h-screen w-full md:w-1/2 lg:block xl:w-2/3">
         <div className="mx-auto flex size-full max-w-4xl items-center justify-center">
           <Image src="/educhain_1.png" className="mx-auto max-w-xl" alt="EduChain Logo" width={400} height={400} />
+          
         </div>
       </div>
       <div className="bg-uiyellow-50 flex h-screen w-full items-center justify-center px-6 md:mx-auto md:w-1/2 md:max-w-sm lg:max-w-full lg:px-16 xl:w-1/3 xl:px-12">
         <div className="mx-auto flex size-full max-w-sm flex-col items-center justify-between py-[2rem]">
+          <div className="text-center">
           <Image
             src="/educhain_1.png"
             className="mx-auto max-w-xl"
@@ -107,6 +109,8 @@ const LoginPage = () => {
             width={120}
             height={120}
           />
+          <h1 className="mt-2 text-xl font-semibold text-uiyellow-800">EDUCHAIN</h1>
+          </div>
           <div className="w-full">
             <h1 className="text-2xl text-uiyellow-900 font-semibold">
               Welcome
