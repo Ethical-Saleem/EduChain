@@ -49,6 +49,24 @@ async function dispatchRemoveRecord(id: number) {
   return model;
 }
 
+async function dispatchFetchRecordSummaryByYear(schoolId: number) {
+  const response = await api.get(`/Result/record-summary-by-year/${schoolId}`);
+  const model = response.data;
+  return model;
+}
+
+async function dispatchFetchRecordSummaryByGrade(schoolId: number, year: number) {
+  const response = await api.get(`/Result/record-summary-by-grade/${schoolId}?year=${year}`);
+  const model = response.data;
+  return model;
+}
+
+async function dispatchFetchUploadedRecordYears(schoolId: number) {
+  const response = await api.get(`/Result/record-uploaded-years/${schoolId}`);
+  const model = response.data;
+  return model;
+}
+
 async function dispatchFetchStudentResultRecord(studentNo: string, year: number) {
   const response = await api.get(`/Result/ResultRecordByStudent?studentNumber=${studentNo}&year=${year}`);
   const model = response.data;
@@ -62,5 +80,8 @@ export const SchoolService = {
   dispatchFetchResult,
   dispatchUpdateRecord,
   dispatchRemoveRecord,
+  dispatchFetchRecordSummaryByYear,
+  dispatchFetchUploadedRecordYears,
+  dispatchFetchRecordSummaryByGrade,
   dispatchFetchStudentResultRecord
 };

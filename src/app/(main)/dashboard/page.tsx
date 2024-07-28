@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ArrowRightIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { lusitana } from "@/app/ui/fonts";
@@ -9,55 +9,26 @@ import { withAuth } from "@/app/hoc/WithAuth";
 import { Chart } from "primereact/chart";
 import { ChartData, ChartOptions } from "chart.js";
 import LineChart from "@/components/LineChartCard";
-
-const lineData: ChartData = {
-  labels: [2016, 2017, 2018, 2019, 2020, 2021, 2022],
-  datasets: [
-    {
-      label: "",
-      data: [65, 59, 80, 81, 56, 55, 40],
-      fill: false,
-      backgroundColor: "#86490d",
-      borderColor: "#fede57",
-      borderRadius: 6,
-      borderWidth: 2,
-      hoverBackgroundColor: "#421e06",
-      tension: 0.4,
-      maxBarThickness: 30,
-    }
-  ],
-};
+import { SchoolService } from "@/app/services/SchoolService";
+import { getCookie } from "@/app/utils/cookies";
+import { Demo } from "../../../../types";
+import { useRouter, usePathname } from "next/navigation";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import BarChart from "@/components/BarChartCard";
 
 const Dashboard = () => {
-  const defaultLineOptions: ChartOptions = {
-    plugins: {
-      legend: {
-        labels: {
-          color: "#495057",
-        },
-      },
-    },
-    scales: {
-      x: {
-        ticks: {
-          color: "#495057",
-        },
-        grid: {
-          color: "#ebedef",
-        },
-      },
-      y: {
-        ticks: {
-          color: "#495057",
-        },
-        grid: {
-          color: "#ebedef",
-        },
-      },
-    },
-  };
-  const [lineOptions, setLineOptions] =
-    useState<ChartOptions>(defaultLineOptions);
+  const [currentUser, setCurrentUser] = useState<Demo.TokenModel | null>(null);
+
+  useEffect(() => {
+    const user = getCookie("currentUser");
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      if (parsedUser) {
+        setCurrentUser(parsedUser);
+      }
+    }
+  }, []);
 
   return (
     <main className="px-3 lg:px-0">
@@ -116,14 +87,13 @@ const Dashboard = () => {
           </div>
         </div>
         <div className="col-12 xl:col-6">
-          <div className="card">
-            <Chart type="bar" data={lineData} options={lineOptions} />
-          </div>
+          <BarChart />
         </div>
         <div className="col-12 xl:col-6">
           <LineChart />
         </div>
       </div>
+      <ToastContainer />
     </main>
   );
 };

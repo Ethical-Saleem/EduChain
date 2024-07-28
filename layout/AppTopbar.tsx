@@ -44,7 +44,7 @@ const AppTopbar = forwardRef<AppTopbarRef>((props, ref) => {
     <div className="layout-topbar">
       <Link href="/dashboard" className="layout-topbar-logo">
         <Image src="/educhain_1.png" alt="Logo" width={80} height={80} />
-        <span className="mr-2">EDUCHAIN</span>
+        <span className="mr-2 hidden md:block">EDUCHAIN</span>
       </Link>
 
       <button
