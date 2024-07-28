@@ -346,7 +346,7 @@ const UserSetting = () => {
       {fetching && <Loading />}
       {!fetching && (<div className="grid">
         <div className="col-12">
-          <div className="card">
+          {/* <div className="card"> */}
             <ToastContainer />
             <Toolbar className="mb-4" end={rightToolbarTemplate} />
             <DataTable
@@ -357,6 +357,7 @@ const UserSetting = () => {
               dataKey="id"
               paginator
               rows={10}
+              size="small"
               rowsPerPageOptions={[5, 10, 25]}
               className="datatable-responsive"
               paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
@@ -547,7 +548,7 @@ const UserSetting = () => {
                 )}
               </div>
             </Dialog>
-          </div>
+          {/* </div> */}
         </div>
       </div>)}
     </>

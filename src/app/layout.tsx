@@ -25,7 +25,7 @@ export const metadata: Metadata = {
       template: "%s | EduChain",
       default: "EduChain"
     },
-    url: "https://edu-chain-one.vercel.app",
+    url: "https://edu-chain-fawn.vercel.app",
     description: "Access your past school record on the go with relative ease.",
     ttl: 604800,
   },

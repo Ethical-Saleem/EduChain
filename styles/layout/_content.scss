@@ -60,6 +60,31 @@
   font-size: 1.5rem;
 }
 
+.p-datatable.p-datatable-sm {
+  border: 1px solid #ebad07;
+  border-radius: 6px;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-header {
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid #ebad07;
+}
+
+.p-datatable-header .p-inputtext.p-component {
+  border: 1px solid #57b49d;
+  padding: 0.5rem 10px 0.5rem 35px;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-wrapper .p-datatable-table thead {
+  white-space: nowrap;
+}
+.p-datatable.p-datatable-sm .p-datatable-thead > tr > th {
+  padding: 0.75rem 0.5rem;
+}
+.p-datatable.p-datatable-sm .p-datatable-wrapper .p-datatable-table tbody tr td {
+  white-space: nowrap;
+}
+
 .p-inputotp-input {
   width: 48px;
   height: 48px;
@@ -112,6 +137,11 @@
   outline-offset: 0;
   box-shadow: 0 0 0 0.1rem #5a5a9b;
   border-color: #061a2b;
+}
+
+.p-datatable.p-datatable-sm .p-datatable-tbody > tr > td {
+  padding: 0.5rem 0.5rem;
+  line-height: 1;
 }
 
 @media (max-width: 768px) {

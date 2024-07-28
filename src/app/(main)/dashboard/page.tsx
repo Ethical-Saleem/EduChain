@@ -60,7 +60,7 @@ const Dashboard = () => {
     useState<ChartOptions>(defaultLineOptions);
 
   return (
-    <main className="px-3 lg:px-4">
+    <main className="px-3 lg:px-0">
       <p
         className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}
       >
@@ -72,10 +72,10 @@ const Dashboard = () => {
             <div className="flex justify-content-between mb-3">
               <div>
                 <span className="block text-500 font-medium mb-3">Records Published</span>
-                <div className="text-900 font-medium text-xl">152</div>
+                <div className="font-semibold text-uiyellow-700 text-2xl">152</div>
               </div>
               <div
-                className="flex align-items-center justify-content-center bg-blue-100 border-round"
+                className="flex align-items-center justify-content-center bg-uisky-200 border-round"
                 style={{ width: "2.5rem", height: "2.5rem" }}
               >
                 <i className="pi pi-shopping-cart text-blue-500 text-xl" />
@@ -88,10 +88,10 @@ const Dashboard = () => {
             <div className="flex justify-content-between mb-3">
               <div>
                 <span className="block text-500 font-medium mb-3">Orders</span>
-                <div className="font-medium text-uiyellow-950 text-xl">152</div>
+                <div className="font-semibold text-uiyellow-700 text-2xl">152</div>
               </div>
               <div
-                className="flex align-items-center justify-content-center bg-blue-100 border-round"
+                className="flex align-items-center justify-content-center bg-uisky-200 ring-2 ring-uisky-800 border-round"
                 style={{ width: "2.5rem", height: "2.5rem" }}
               >
                 <i className="pi pi-shopping-cart text-blue-500 text-xl" />
@@ -104,10 +104,10 @@ const Dashboard = () => {
             <div className="flex justify-content-between mb-3">
               <div>
                 <span className="block text-500 font-medium mb-3">Orders</span>
-                <div className="text-900 font-medium text-xl">152</div>
+                <div className="font-semibold text-uiyellow-700 text-2xl">152</div>
               </div>
               <div
-                className="flex align-items-center justify-content-center bg-blue-100 border-round"
+                className="flex align-items-center justify-content-center bg-uisky-200 border-round"
                 style={{ width: "2.5rem", height: "2.5rem" }}
               >
                 <i className="pi pi-shopping-cart text-uisky-500 text-xl" />

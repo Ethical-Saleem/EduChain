@@ -54,8 +54,8 @@ const Results = () => {
   const dt = useRef<DataTable<any>>(null);
   const [currentUser, setCurrentUser] = useState<Demo.TokenModel | null>(null);
 
-  const router = useRouter()
-  const pathName = usePathname()
+  const router = useRouter();
+  const pathName = usePathname();
 
   useEffect(() => {
     const user = getCookie("currentUser");
@@ -79,17 +79,21 @@ const Results = () => {
         setFetching(false);
         if (error.response) {
           if (error.response?.status === 401) {
-            router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+            router.replace(
+              `/login?redirect=${encodeURIComponent(
+                pathName
+              )}&message=${`Session expired. Please sign in again.`}`
+            );
           }
           if (error.response?.status === 403) {
             router.push("/403");
           } else {
-            toast.error(`Error: ${error.response.data.message}`)
+            toast.error(`Error: ${error.response.data.message}`);
           }
         } else if (error.message) {
-          toast.error(`Error: ${error.message}`)
+          toast.error(`Error: ${error.message}`);
         } else {
-          toast.error(`Error: ${error}`)
+          toast.error(`Error: ${error}`);
         }
       }
     );
@@ -121,17 +125,21 @@ const Results = () => {
       setDownloading(false);
       if (error.response) {
         if (error.response?.status === 401) {
-          router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+          router.replace(
+            `/login?redirect=${encodeURIComponent(
+              pathName
+            )}&message=${`Session expired. Please sign in again.`}`
+          );
         }
         if (error.response?.status === 403) {
           router.push("/403");
         } else {
-          toast.error(`Error: ${error.response.data.message}`)
+          toast.error(`Error: ${error.response.data.message}`);
         }
       } else if (error.message) {
-        toast.error(`Error: ${error.message}`)
+        toast.error(`Error: ${error.message}`);
       } else {
-        toast.error(`Error: ${error}`)
+        toast.error(`Error: ${error}`);
       }
     }
   };
@@ -153,17 +161,21 @@ const Results = () => {
       console.log("delete-error", error);
       if (error.response) {
         if (error.response?.status === 401) {
-          router.replace(`/login?redirect=${encodeURIComponent(pathName)}&message=${`Session expired. Please sign in again.`}`);
+          router.replace(
+            `/login?redirect=${encodeURIComponent(
+              pathName
+            )}&message=${`Session expired. Please sign in again.`}`
+          );
         }
         if (error.response?.status === 403) {
           router.push("/403");
         } else {
-          toast.error(`Error: ${error.response.data.message}`)
+          toast.error(`Error: ${error.response.data.message}`);
         }
       } else if (error.message) {
-        toast.error(`Error: ${error.message}`)
+        toast.error(`Error: ${error.message}`);
       } else {
-        toast.error(`Error: ${error}`)
+        toast.error(`Error: ${error}`);
       }
     }
   };
@@ -316,9 +328,9 @@ const Results = () => {
               toast.error(`${error.response.data.message}`);
             }
           } else if (error.message) {
-            toast.error(`Error: ${error.message}`)
+            toast.error(`Error: ${error.message}`);
           } else {
-            toast.error(`Error: ${error}`)
+            toast.error(`Error: ${error}`);
           }
         }
       );
@@ -465,7 +477,10 @@ const Results = () => {
     return (
       <>
         <span className="p-column-title">Student Number</span>
-        <Link href={`/results/${rowData.id}`} className="uppercase">
+        <Link
+          href={`/results/${rowData.id}`}
+          className="uppercase text-uiyellow-900"
+        >
           {rowData.studentNumber}
         </Link>
       </>
@@ -476,7 +491,7 @@ const Results = () => {
     return (
       <>
         <span className="p-column-title">Surname</span>
-        <span className="uppercase text-xl">{rowData.surname}</span>
+        <span className="uppercase text-medium">{rowData.surname}</span>
       </>
     );
   };
@@ -485,7 +500,7 @@ const Results = () => {
     return (
       <>
         <span className="p-column-title">Surname</span>
-        <span className="text-xl">{rowData.otherNames}</span>
+        <span className="text-base">{rowData.otherNames}</span>
       </>
     );
   };
@@ -494,7 +509,7 @@ const Results = () => {
     return (
       <>
         <span className="p-column-title">Email</span>
-        <span className="text-xl font-italic">{rowData.email}</span>
+        <span className="text-base font-italic">{rowData.email}</span>
       </>
     );
   };
@@ -503,12 +518,10 @@ const Results = () => {
     return (
       <>
         <span className="p-column-title">Email</span>
-        <span className="text-xl">{rowData.phoneNumberOne}</span>
+        <span className="text-base">{rowData.phoneNumberOne}</span>
       </>
     );
   };
-
-
 
   const YearOfGradTemplate = (rowData: Demo.Result) => {
     return (
@@ -535,166 +548,178 @@ const Results = () => {
 
   const header = (
     <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-      <h5 className="m-0">Manage Result Records</h5>
+      <h5 className="m-0 text-xl">Manage Result Records</h5>
 
-      <span className="block mt-2 md:mt-0 p-input-icon-left">
-        <i className="pi pi-search" />
+      <div className="p-icon-field p-icon-field-left">
+        <span className="pi pi-search p-input-icon"></span>
         <InputText
           type="search"
           onInput={(e) => setGlobalFilter(e.currentTarget.value)}
           placeholder="Search..."
         />
-      </span>
+      {/* <span className="block mt-2 md:mt-0 p-input-icon-left">
+        <i className="pi pi-search" />
+        
+      </span> */}
+      </div>
     </div>
   );
 
-  const rowClassName = () => 'h-4';
+  const rowClassName = () => "h-2";
 
   return (
-    <div className="grid">
-      <div className="col-12">
-        <div className="card bg-gray-200 text-gray-700">
-          <Toast />
-          <ToastContainer />
-          <Toolbar className="mb-4" end={rightToolbarTemplate} />
-          <DataTable
-            ref={dt}
-            value={results}
-            selection={selectedResults}
-            onSelectionChange={(e) => setSelectedResults(e.value as any)}
-            dataKey="id"
-            paginator
-            rowClassName={rowClassName}
-            rows={10}
-            size="small"
-            rowsPerPageOptions={[5, 10, 25]}
-            className="datatable-responsive"
-            paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Records"
-            globalFilter={globalFilter}
-            emptyMessage="No records found."
-            header={header}
-            loading={loading}
-            responsiveLayout="scroll"
-          >
-            <Column
-              selectionMode="multiple"
-              headerStyle={{ width: "4rem" }}
-            ></Column>
-            <Column
-              field="studentNumber"
-              sortable
-              header="STUDENT NUNMBER"
-              body={studentNumberTemplate}
-              headerStyle={{ minWidth: "10rem" }}
-            ></Column>
-            <Column
-              field="surname"
-              sortable
-              header="SURNAME"
-              body={SurnameBodyTemplate}
-              headerStyle={{ minWidth: "10rem" }}
-            ></Column>
-            <Column
-              field="otherNames"
-              sortable
-              header="OTHER NAMES"
-              body={otherBodyTemplate}
-              headerStyle={{ minWidth: "10rem" }}
-            ></Column>
-            <Column
-              field="email"
-              sortable
-              header="EMAIL"
-              body={emailBodyTemplate}
-              headerStyle={{ minWidth: "10rem" }}
-            ></Column>
-            <Column
-              field="phoneNumberOne"
-              sortable
-              header="PHONE NUMBER"
-              body={phoneBodyTemplate}
-              headerStyle={{ minWidth: "10rem" }}
-            ></Column>
-            <Column
-              field="grade"
-              sortable
-              header="GRADE"
-              headerStyle={{ minWidth: "10rem" }}
-            ></Column>
-            <Column
-              field="yearOfGrad"
-              sortable
-              header="YEAR OF GRADUATION"
-              body={YearOfGradTemplate}
-              headerStyle={{ width: "4rem" }}
-            ></Column>
-            <Column
-              headerStyle={{ minWidth: "4rem" }}
-              body={tableActionsTemplate}
-            />
-          </DataTable>
+    <>
+      {fetching && <Loading />}
 
-          <Dialog
-            visible={downloadDialog}
-            style={{ width: "450px" }}
-            header="Result Upload Template"
-            modal
-            className="p-fluid"
-            onHide={closeDownloadDialog}
-          >
-            <div className="">
-              <p className={`${lusitana.className}`}>
-                Download the upload template and fill in the respective fields
-              </p>
-              <Button
-                label="Download"
-                className="w-full"
-                severity="success"
-                loading={downloading}
-                onClick={downloadTemplate}
-              />
-            </div>
-          </Dialog>
+      {!fetching && (
+        <div className="grid">
+          <div className="col-12">
+            {/* <div className="card bg-uisky-100 text-gray-700"> */}
+              <Toast />
+              <ToastContainer />
+              <Toolbar className="mb-4" end={rightToolbarTemplate} />
+              <DataTable
+                ref={dt}
+                value={results}
+                selection={selectedResults}
+                onSelectionChange={(e) => setSelectedResults(e.value as any)}
+                dataKey="id"
+                paginator
+                rowClassName={rowClassName}
+                rows={10}
+                size="small"
+                rowsPerPageOptions={[5, 10, 25]}
+                className="datatable-responsive bg-uisky-100 custom-datatable"
+                paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Records"
+                globalFilter={globalFilter}
+                emptyMessage="No records found."
+                header={header}
+                loading={loading}
+                responsiveLayout="scroll"
+              >
+                <Column
+                  selectionMode="multiple"
+                  headerStyle={{ width: "4rem" }}
+                ></Column>
+                <Column
+                  field="studentNumber"
+                  sortable
+                  header="STUDENT NUNMBER"
+                  body={studentNumberTemplate}
+                  headerStyle={{ minWidth: "10rem" }}
+                ></Column>
+                <Column
+                  field="surname"
+                  sortable
+                  header="SURNAME"
+                  body={SurnameBodyTemplate}
+                  headerStyle={{ minWidth: "10rem" }}
+                ></Column>
+                <Column
+                  field="otherNames"
+                  sortable
+                  header="OTHER NAMES"
+                  body={otherBodyTemplate}
+                  headerStyle={{ minWidth: "10rem" }}
+                ></Column>
+                <Column
+                  field="email"
+                  sortable
+                  header="EMAIL"
+                  body={emailBodyTemplate}
+                  headerStyle={{ minWidth: "10rem" }}
+                ></Column>
+                <Column
+                  field="phoneNumberOne"
+                  sortable
+                  header="PHONE NUMBER"
+                  body={phoneBodyTemplate}
+                  bodyClassName={""}
+                  headerStyle={{ minWidth: "10rem" }}
+                ></Column>
+                <Column
+                  field="grade"
+                  sortable
+                  header="GRADE"
+                  headerStyle={{ minWidth: "10rem" }}
+                ></Column>
+                <Column
+                  field="yearOfGrad"
+                  sortable
+                  header="YEAR OF GRADUATION"
+                  body={YearOfGradTemplate}
+                  headerStyle={{ width: "4rem" }}
+                ></Column>
+                <Column
+                  headerStyle={{ minWidth: "4rem" }}
+                  body={tableActionsTemplate}
+                />
+              </DataTable>
 
-          <Dialog
-            visible={importDialog}
-            style={{ width: "700px" }}
-            header="Result Upload"
-            modal
-            className="p-fluid"
-            footer={ImportDialogFooter}
-            onHide={closeImportDialog}
-          >
-            <div className="">
-              <UploadTemplate />
-            </div>
-          </Dialog>
+              <Dialog
+                visible={downloadDialog}
+                style={{ width: "450px" }}
+                header="Result Upload Template"
+                modal
+                className="p-fluid"
+                onHide={closeDownloadDialog}
+              >
+                <div className="">
+                  <p className={`${lusitana.className}`}>
+                    Download the upload template and fill in the respective
+                    fields
+                  </p>
+                  <Button
+                    label="Download"
+                    className="w-full"
+                    severity="success"
+                    loading={downloading}
+                    onClick={downloadTemplate}
+                  />
+                </div>
+              </Dialog>
 
-          <Dialog
-            visible={deleteDialog}
-            style={{ width: "450px" }}
-            header="Confirm"
-            modal
-            footer={DeleteDialogFooter}
-            onHide={closeDeleteDialog}
-          >
-            <div className="flex align-items-center justify-content-center">
-              <i
-                className="pi pi-exclamation-triangle mr-3"
-                style={{ fontSize: "2rem" }}
-              />
-              {resultRecord && (
-                <span>
-                  Are you sure you want to delete{" "}
-                  <b>{resultRecord.studentNumber}</b>?
-                </span>
-              )}
+              <Dialog
+                visible={importDialog}
+                style={{ width: "700px" }}
+                header="Result Upload"
+                modal
+                className="p-fluid"
+                footer={ImportDialogFooter}
+                onHide={closeImportDialog}
+              >
+                <div className="">
+                  <UploadTemplate />
+                </div>
+              </Dialog>
+
+              <Dialog
+                visible={deleteDialog}
+                style={{ width: "450px" }}
+                header="Confirm"
+                modal
+                footer={DeleteDialogFooter}
+                onHide={closeDeleteDialog}
+              >
+                <div className="flex align-items-center justify-content-center">
+                  <i
+                    className="pi pi-exclamation-triangle mr-3"
+                    style={{ fontSize: "2rem" }}
+                  />
+                  {resultRecord && (
+                    <span>
+                      Are you sure you want to delete{" "}
+                      <b>{resultRecord.studentNumber}</b>?
+                    </span>
+                  )}
+                </div>
+              </Dialog>
             </div>
-          </Dialog>
+          {/* </div> */}
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

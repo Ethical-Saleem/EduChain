@@ -40,18 +40,8 @@ const Settings = ({ children }: { children: React.ReactNode}) => {
     ];
 
     return (
-        <div className="grid h-screen">
-            <div className="col-12 md:col-3">
-                <div className="card vertical-tabmenu">
-                    <h5>App Settings</h5>
-                    <TabMenu model={wizardItems} activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)} />
-                </div>
-            </div>
-            <div className="col-12 md:col-9 h-full">
-                <div className="card h-full">
+        <div className="">
                     <Suspense>{children}</Suspense>
-                </div>
-            </div>
         </div>
     )
 }
