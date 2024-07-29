@@ -181,7 +181,7 @@ const ResultCheckPage = () => {
                                 Search for a Record
                               </h2>
                               <p className="font-normal lead-normal text-uiblue-400">
-                                Select the search params to filter with.
+                                Select the search parameters to filter with.
                               </p>
                               <div className="flex flex-wrap gap-3 mb-5">
                                 <div className="flex align-items-center">
