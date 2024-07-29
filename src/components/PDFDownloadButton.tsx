@@ -8,7 +8,8 @@ import { Button } from "primereact/button";
 
 interface DownloadSearchParams {
   studentNo: string;
-  year: number;
+  year?: number | null;
+  nin?: string | null;
 }
 
 // #FEDE57, #005B9A, #75C1E1
@@ -16,6 +17,7 @@ interface DownloadSearchParams {
 const DownloadPDFButton: React.FC<DownloadSearchParams> = ({
   studentNo,
   year,
+  nin,
 }) => {
   const [record, setRecord] = useState<Demo.Result | null>(null);
   const [loading, setLoading] = useState(false);
@@ -24,13 +26,26 @@ const DownloadPDFButton: React.FC<DownloadSearchParams> = ({
   const fetchData = async () => {
     setLoading(true);
     try {
-      const response = await SchoolService.dispatchFetchStudentResultRecord(
-        studentNo,
-        year
-      );
-      if (response) {
-        setRecord(response);
-        setLoading(false);
+      if (year) {
+        const response = await SchoolService.dispatchFetchStudentResultRecord(
+          studentNo,
+          year
+        );
+        if (response) {
+          setRecord(response);
+          setLoading(false);
+        }
+      }
+      if (nin && !year) {
+        const response = await SchoolService.dispatchFetchStudentResultRecord(
+          studentNo,
+          null,
+          nin
+        );
+        if (response) {
+          setRecord(response);
+          setLoading(false);
+        }
       }
     } catch (error: any) {
       setLoading(false);

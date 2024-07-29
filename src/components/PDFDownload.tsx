@@ -39,12 +39,19 @@ const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
       left: 0,
       width: "100%",
       height: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      inset: "0px",
       zIndex: -1,
     },
     backgroundImage: {
-      width: "100%",
-      height: "100%",
-      opacity: 0.1,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      backgroundRepeat: "no-repeat",
+      opacity: 0.2,
+      width: "450px",
+      height: "450px"
     },
     watermarkContainer: {
       position: "absolute",
@@ -84,7 +91,8 @@ const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
     section: {
       marginBottom: 20,
       padding: 10,
-      border: "1px solid #ccc",
+      border: "1px solid #ebad07",
+      borderRadius: "6px",
       backgroundColor: "transparent", // No background color
     },
     sectionTitle: {
@@ -145,7 +153,7 @@ const ResultDocument: React.FC<ResultDocumentProps> = ({ record }) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.backgroundContainer}>
-          <Image src="/educhain-one.jpg" style={styles.backgroundImage} />
+          <Image src="/educhain_3.png" style={styles.backgroundImage} />
         </View>
         <Watermark />
         <View style={styles.content}>

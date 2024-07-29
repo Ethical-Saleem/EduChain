@@ -19,6 +19,8 @@ import BarChart from "@/components/BarChartCard";
 
 const Dashboard = () => {
   const [currentUser, setCurrentUser] = useState<Demo.TokenModel | null>(null);
+  const [years, setYears] = useState([]);
+  const [totalCount, setTotalCount] = useState(0);
 
   useEffect(() => {
     const user = getCookie("currentUser");
@@ -26,9 +28,35 @@ const Dashboard = () => {
       const parsedUser = JSON.parse(user);
       if (parsedUser) {
         setCurrentUser(parsedUser);
+        getYearsUploaded(parsedUser.school.id);
+        getTotalCount(parsedUser.school.id);
       }
     }
   }, []);
+
+  const getYearsUploaded = async (id: number) => {
+    try {
+      const res = await SchoolService.dispatchFetchUploadedRecordYears(id);
+      if (res) {
+        setYears(res);
+        console.log("years-res", res);
+      }
+    } catch (error) {
+      console.log("years-error", error);
+    }
+  };
+
+  const getTotalCount = async (id: number) => {
+    try {
+      const res = await SchoolService.dispatchFetchRecordUploadedCount(id);
+      if (res) {
+        setTotalCount(res);
+        console.log("years-res", res);
+      }
+    } catch (error) {
+      console.log("years-error", error);
+    }
+  };
 
   return (
     <main className="px-3 lg:px-0">
@@ -42,8 +70,8 @@ const Dashboard = () => {
           <div className="card">
             <div className="flex justify-content-between mb-3">
               <div>
-                <span className="block text-500 font-medium mb-3">Records Published</span>
-                <div className="font-semibold text-uiyellow-700 text-2xl">152</div>
+                <span className="block text-500 font-medium mb-3">Total Records Published</span>
+                <div className="font-semibold text-uiyellow-700 text-2xl">{ totalCount }</div>
               </div>
               <div
                 className="flex align-items-center justify-content-center bg-uisky-200 border-round"
@@ -58,30 +86,14 @@ const Dashboard = () => {
           <div className="card">
             <div className="flex justify-content-between mb-3">
               <div>
-                <span className="block text-500 font-medium mb-3">Orders</span>
-                <div className="font-semibold text-uiyellow-700 text-2xl">152</div>
+                <span className="block text-500 font-medium mb-3">No. of Years Published</span>
+                <div className="font-semibold text-uiyellow-700 text-2xl">{ years.length }</div>
               </div>
               <div
                 className="flex align-items-center justify-content-center bg-uisky-200 ring-2 ring-uisky-800 border-round"
                 style={{ width: "2.5rem", height: "2.5rem" }}
               >
                 <i className="pi pi-shopping-cart text-blue-500 text-xl" />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-12 l:col-6 xl:col-4">
-          <div className="card rounded-md ring-2 ring-uiyellow-400">
-            <div className="flex justify-content-between mb-3">
-              <div>
-                <span className="block text-500 font-medium mb-3">Orders</span>
-                <div className="font-semibold text-uiyellow-700 text-2xl">152</div>
-              </div>
-              <div
-                className="flex align-items-center justify-content-center bg-uisky-200 border-round"
-                style={{ width: "2.5rem", height: "2.5rem" }}
-              >
-                <i className="pi pi-shopping-cart text-uisky-500 text-xl" />
               </div>
             </div>
           </div>
