@@ -139,8 +139,8 @@ const ResultCheckPage = () => {
   };
 
   return (
-    <div className="bg-uimuted-100 dark:bg-uimuted-900 pb-20">
-      <div className="bg-muted-100 dark:bg-muted-900 relative min-h-screen w-full overflow-x-hidden px-4 transition-all duration-300 xl:px-10 xl:max-w-[100%]">
+    <div className="bg-uimuted-900 dark:bg-uimuted-900 pb-20">
+      <div className="bg-muted-900 dark:bg-muted-900 relative min-h-screen w-full overflow-x-hidden px-4 transition-all duration-300 xl:px-10 xl:max-w-[100%]">
         {!record && (
           <div className="mx-auto w-full max-w-7xl md:overflow-hidden">
             <div>
